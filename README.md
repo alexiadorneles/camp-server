@@ -10,3 +10,4 @@ yarn sequelize db:migrate
 - First you need to use `yarn sequelize migration:create --name=migration-name` to create your migration
 - Go to the migration file in the migrations folder and add the data structure
   - don't forget to type the createTable with the corresponding model
+- Go to the associations file and add any association your model needs there
