@@ -1,0 +1,15 @@
+export enum Divinity {
+	ATHENA = 'Atena',
+	ARES = 'Ares',
+	APOLLO = 'Apolo',
+	ARTEMIS = 'Ártemis',
+	APHRODITE = 'Afrodite',
+	HERA = 'Hera',
+	DEMETER = 'Demeter',
+	ZEUS = 'Zeus',
+	POSEIDON = 'Poseidon',
+	HADES = 'Hades',
+	HEPHAESTUS = 'Hefesto',
+	HERMES = 'Hermes',
+	DIONYSUS = 'Dionísio',
+}

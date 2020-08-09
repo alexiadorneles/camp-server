@@ -2,17 +2,17 @@ import SequelizeStatic, { Association, Model, Optional } from 'sequelize'
 import database from '../database'
 import { CamperModel } from './CamperModel'
 
-interface CabinAttributes {
-	idCabin: string
+export interface CabinAttributes {
+	idCabin: number
 	dsName: string
 	tpDivinityRelated: string
 	dsImageURL: string
 }
 
-interface CabinCreationAttributes extends Optional<CabinAttributes, 'idCabin'> {}
+export interface CabinCreationAttributes extends Optional<CabinAttributes, 'idCabin'> {}
 
 export class CabinModel extends Model<CabinAttributes, CabinCreationAttributes> implements CabinAttributes {
-	public idCabin!: string
+	public idCabin!: number
 	public dsName!: string
 	public tpDivinityRelated: string
 	public dsImageURL!: string
@@ -40,7 +40,7 @@ CabinModel.init(
 		},
 		dsImageURL: {
 			allowNull: false,
-			type: SequelizeStatic.INTEGER,
+			type: SequelizeStatic.STRING,
 		},
 		dsName: {
 			allowNull: false,

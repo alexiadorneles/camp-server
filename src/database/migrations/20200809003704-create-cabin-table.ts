@@ -12,7 +12,7 @@ export = {
 			},
 			dsImageURL: {
 				allowNull: false,
-				type: SequelizeStatic.INTEGER,
+				type: SequelizeStatic.STRING,
 			},
 			dsName: {
 				allowNull: false,
