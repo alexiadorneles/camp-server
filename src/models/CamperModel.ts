@@ -1,4 +1,13 @@
-import { Model, Sequelize, DataTypes, ModelStatic, ModelAttributes, InitOptions, Optional } from 'sequelize'
+import {
+	Association,
+	DataTypes,
+	HasOneCreateAssociationMixin,
+	HasOneGetAssociationMixin,
+	Model,
+	Optional,
+} from 'sequelize'
+import database from '../database'
+import { CabinModel } from './CabinModel'
 
 interface CamperAttributes {
 	idCamper: string
@@ -32,4 +41,63 @@ export class CamperModel extends Model<CamperAttributes, CamperCreationAttribute
 	// timestamps!
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
+
+	public getCabin!: HasOneGetAssociationMixin<CabinModel> // Note the null assertions!
+	public createCabin!: HasOneCreateAssociationMixin<CabinModel>
+
+	public static associations: {
+		cabin: Association<CamperModel, CabinModel>
+	}
+
+	public static associate(): void {
+		this.hasOne(CabinModel, { foreignKey: 'idCabin', as: 'cabin' })
+	}
 }
+
+CamperModel.init(
+	{
+		idCamper: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+			allowNull: false,
+		},
+		idCabin: {
+			type: DataTypes.INTEGER,
+		},
+		dsDescription: {
+			type: DataTypes.STRING,
+		},
+		dsImageURL: {
+			type: DataTypes.STRING,
+		},
+		dsInstagramNick: {
+			type: DataTypes.STRING,
+		},
+		dsName: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		dsPronouns: {
+			type: DataTypes.STRING,
+		},
+		dtBirth: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
+		nrDiscordID: {
+			type: DataTypes.INTEGER,
+		},
+		tpCountry: {
+			type: DataTypes.STRING,
+		},
+		tpState: {
+			type: DataTypes.STRING,
+		},
+	},
+	{
+		sequelize: database.connection,
+	},
+)
+
+CamperModel.associate()
