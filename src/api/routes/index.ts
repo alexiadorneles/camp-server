@@ -1,6 +1,8 @@
 import express from 'express'
 import { CabinController } from '../controllers/CabinController'
 
+import '../../database/associations'
+
 const routes = express.Router()
 
 routes.get('/', (req, res) => {
@@ -10,6 +12,7 @@ routes.get('/', (req, res) => {
 function generateCabinRoutes() {
 	const controller = new CabinController()
 	routes.get('/cabin', controller.findAll)
+	routes.get('/cabin/included', controller.findAllIncludingCampers)
 }
 
 generateCabinRoutes()
