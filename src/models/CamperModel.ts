@@ -7,12 +7,12 @@ import {
 	Optional,
 } from 'sequelize'
 import database from '../database'
-import { Cabin } from './CabinModel'
 import { TimestampDependant } from '../types/Data'
+import { Cabin, CabinAttributes } from './CabinModel'
 
-interface CamperAttributes extends TimestampDependant {
+export interface CamperAttributes extends TimestampDependant {
 	idCamper: string
-	idCabin: string
+	idCabin: number
 	dsName: string
 	nrDiscordID: number
 	dsInstagramNick: string
@@ -22,13 +22,14 @@ interface CamperAttributes extends TimestampDependant {
 	dsPronouns: string
 	dsDescription: string
 	dsImageURL: string
+	cabin?: CabinAttributes
 }
 
-interface CamperCreationAttributes extends Optional<CamperAttributes, 'idCamper'> {}
+export interface CamperCreationAttributes extends Optional<CamperAttributes, 'idCamper' | 'createdAt' | 'updatedAt'> {}
 
 export class Camper extends Model<CamperAttributes, CamperCreationAttributes> implements CamperAttributes {
 	public idCamper!: string
-	public idCabin!: string
+	public idCabin!: number
 	public dsName!: string
 	public nrDiscordID!: number
 	public dsInstagramNick!: string
@@ -51,10 +52,7 @@ export class Camper extends Model<CamperAttributes, CamperCreationAttributes> im
 	public static associations: {
 		cabin: Association<Camper, Cabin>
 	}
-
-	public static associate(): void {
-		this.hasOne(Cabin, { foreignKey: 'idCabin', as: 'cabin' })
-	}
+	static associate: () => void
 }
 
 Camper.init(
@@ -72,7 +70,10 @@ Camper.init(
 			type: DataTypes.STRING,
 		},
 		dsImageURL: {
-			type: DataTypes.STRING,
+			type: DataTypes.BLOB,
+			get() {
+				return this.getDataValue('dsImageURL').toString('utf8') // or whatever encoding is right
+			},
 		},
 		dsInstagramNick: {
 			type: DataTypes.STRING,
@@ -110,5 +111,3 @@ Camper.init(
 		sequelize: database.connection,
 	},
 )
-
-// CamperModel.associate()

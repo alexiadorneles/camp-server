@@ -1,13 +1,14 @@
-import SequelizeStatic, { Association, Model, Optional } from 'sequelize'
+import SequelizeStatic, { Association, HasManyAddAssociationMixin, Model, Optional } from 'sequelize'
 import database from '../database'
-import { Camper } from './CamperModel'
 import { TimestampDependant } from '../types/Data'
+import { Camper } from './CamperModel'
 
 export interface CabinAttributes extends TimestampDependant {
 	idCabin: number
 	dsName: string
 	tpDivinityRelated: string
 	dsImageURL: string
+	campers?: Camper[]
 }
 
 export interface CabinCreationAttributes extends Optional<CabinAttributes, 'idCabin'> {}
@@ -22,15 +23,14 @@ export class Cabin extends Model<CabinAttributes, CabinCreationAttributes> imple
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
+	public getCampers: HasManyAddAssociationMixin<Camper, number>
+
 	public static tableName = 'cabins'
 
 	public static associations: {
 		campers: Association<Cabin, Camper>
 	}
-
-	public static associate(): void {
-		this.belongsToMany(Camper, { foreignKey: 'idCabin', through: 'cabin' })
-	}
+  static associate: () => void
 }
 
 Cabin.init(
@@ -66,5 +66,3 @@ Cabin.init(
 		sequelize: database.connection,
 	},
 )
-
-Cabin.associate()
