@@ -7,9 +7,10 @@ import {
 	Optional,
 } from 'sequelize'
 import database from '../database'
-import { CabinModel } from './CabinModel'
+import { Cabin } from './CabinModel'
+import { TimestampDependant } from '../types/Data'
 
-interface CamperAttributes {
+interface CamperAttributes extends TimestampDependant {
 	idCamper: string
 	idCabin: string
 	dsName: string
@@ -25,7 +26,7 @@ interface CamperAttributes {
 
 interface CamperCreationAttributes extends Optional<CamperAttributes, 'idCamper'> {}
 
-export class CamperModel extends Model<CamperAttributes, CamperCreationAttributes> implements CamperAttributes {
+export class Camper extends Model<CamperAttributes, CamperCreationAttributes> implements CamperAttributes {
 	public idCamper!: string
 	public idCabin!: string
 	public dsName!: string
@@ -42,19 +43,21 @@ export class CamperModel extends Model<CamperAttributes, CamperCreationAttribute
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public getCabin!: HasOneGetAssociationMixin<CabinModel> // Note the null assertions!
-	public createCabin!: HasOneCreateAssociationMixin<CabinModel>
+	public getCabin!: HasOneGetAssociationMixin<Cabin> // Note the null assertions!
+	public createCabin!: HasOneCreateAssociationMixin<Cabin>
+
+	public static tableName = 'campers'
 
 	public static associations: {
-		cabin: Association<CamperModel, CabinModel>
+		cabin: Association<Camper, Cabin>
 	}
 
 	public static associate(): void {
-		this.hasOne(CabinModel, { foreignKey: 'idCabin', as: 'cabin' })
+		this.hasOne(Cabin, { foreignKey: 'idCabin', as: 'cabin' })
 	}
 }
 
-CamperModel.init(
+Camper.init(
 	{
 		idCamper: {
 			type: DataTypes.INTEGER,
@@ -94,10 +97,18 @@ CamperModel.init(
 		tpState: {
 			type: DataTypes.STRING,
 		},
+		createdAt: {
+			type: DataTypes.DATE,
+			defaultValue: new Date(),
+		},
+		updatedAt: {
+			type: DataTypes.DATE,
+			defaultValue: new Date(),
+		},
 	},
 	{
 		sequelize: database.connection,
 	},
 )
 
-CamperModel.associate()
+// CamperModel.associate()

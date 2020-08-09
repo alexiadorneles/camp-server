@@ -1,9 +1,9 @@
 import { DataTypes, QueryInterface, Sequelize } from 'sequelize'
-import { CamperModel } from '../../models/CamperModel'
+import { Camper } from '../../models/CamperModel'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable<CamperModel>('campers', {
+		return queryInterface.createTable<Camper>('campers', {
 			idCamper: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
@@ -41,6 +41,14 @@ export = {
 			},
 			tpState: {
 				type: DataTypes.STRING,
+			},
+			createdAt: {
+				type: DataTypes.DATE,
+				defaultValue: new Date(),
+			},
+			updatedAt: {
+				type: DataTypes.DATE,
+				defaultValue: new Date(),
 			},
 		})
 	},

@@ -1,9 +1,9 @@
 import SequelizeStatic, { QueryInterface } from 'sequelize'
-import { CabinModel } from '../../models/CabinModel'
+import { Cabin } from '../../models/CabinModel'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable<CabinModel>('cabins', {
+		return queryInterface.createTable<Cabin>('cabins', {
 			idCabin: {
 				primaryKey: true,
 				allowNull: false,
@@ -21,6 +21,14 @@ export = {
 			tpDivinityRelated: {
 				allowNull: false,
 				type: SequelizeStatic.STRING,
+			},
+			createdAt: {
+				type: SequelizeStatic.DATE,
+				defaultValue: new Date(),
+			},
+			updatedAt: {
+				type: SequelizeStatic.DATE,
+				defaultValue: new Date(),
 			},
 		})
 	},

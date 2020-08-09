@@ -1,8 +1,9 @@
 import SequelizeStatic, { Association, Model, Optional } from 'sequelize'
 import database from '../database'
-import { CamperModel } from './CamperModel'
+import { Camper } from './CamperModel'
+import { TimestampDependant } from '../types/Data'
 
-export interface CabinAttributes {
+export interface CabinAttributes extends TimestampDependant {
 	idCabin: number
 	dsName: string
 	tpDivinityRelated: string
@@ -11,7 +12,7 @@ export interface CabinAttributes {
 
 export interface CabinCreationAttributes extends Optional<CabinAttributes, 'idCabin'> {}
 
-export class CabinModel extends Model<CabinAttributes, CabinCreationAttributes> implements CabinAttributes {
+export class Cabin extends Model<CabinAttributes, CabinCreationAttributes> implements CabinAttributes {
 	public idCabin!: number
 	public dsName!: string
 	public tpDivinityRelated: string
@@ -21,16 +22,18 @@ export class CabinModel extends Model<CabinAttributes, CabinCreationAttributes> 
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
+	public static tableName = 'cabins'
+
 	public static associations: {
-		campers: Association<CabinModel, CamperModel>
+		campers: Association<Cabin, Camper>
 	}
 
 	public static associate(): void {
-		this.belongsToMany(CamperModel, { foreignKey: 'idCabin', through: 'cabin' })
+		this.belongsToMany(Camper, { foreignKey: 'idCabin', through: 'cabin' })
 	}
 }
 
-CabinModel.init(
+Cabin.init(
 	{
 		idCabin: {
 			primaryKey: true,
@@ -50,10 +53,18 @@ CabinModel.init(
 			allowNull: false,
 			type: SequelizeStatic.STRING,
 		},
+		createdAt: {
+			type: SequelizeStatic.DATE,
+			defaultValue: new Date(),
+		},
+		updatedAt: {
+			type: SequelizeStatic.DATE,
+			defaultValue: new Date(),
+		},
 	},
 	{
 		sequelize: database.connection,
 	},
 )
 
-CabinModel.associate()
+Cabin.associate()

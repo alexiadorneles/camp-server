@@ -4,7 +4,7 @@ import { Divinity } from '../../types/Mythology'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		const cabins: CabinCreationAttributes[] = [
+		const cabins: Partial<CabinCreationAttributes>[] = [
 			{
 				dsName: 'Chalé 1 - Zeus',
 				idCabin: 1,
