@@ -17,7 +17,7 @@ export = {
 				type: DataTypes.STRING,
 			},
 			dsImageURL: {
-				type: DataTypes.STRING,
+				type: DataTypes.BLOB,
 			},
 			dsInstagramNick: {
 				type: DataTypes.STRING,
