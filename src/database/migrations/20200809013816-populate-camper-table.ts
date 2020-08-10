@@ -1,6 +1,6 @@
 import { QueryInterface } from 'sequelize'
-import { CamperCreationAttributes } from '../../models/CamperModel'
-import { Country, BrazilianState } from '../../types/Places'
+import { CamperCreationAttributes } from '../../models'
+import { BrazilianState, Country } from '../../types/Places'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {

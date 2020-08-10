@@ -1,8 +1,9 @@
-import { QueryInterface, DataTypes } from 'sequelize'
+import { DataTypes, QueryInterface } from 'sequelize'
+import { CabinRequest } from '../../models'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable('cabinRequest', {
+		return queryInterface.createTable<CabinRequest>(CabinRequest.tableName, {
 			idCabinRequest: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,

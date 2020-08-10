@@ -1,6 +1,5 @@
-import { Camper } from '../models/CamperModel'
-import { Cabin } from '../models/CabinModel'
 import { Includeable } from 'sequelize/types'
+import { Cabin, Camper } from '../models'
 
 Camper.associate = function() {
 	this.belongsTo(Cabin, { foreignKey: 'idCabin', as: 'cabin' })

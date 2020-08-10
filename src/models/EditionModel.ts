@@ -3,7 +3,7 @@ import database from '../database'
 import { TimestampDependant } from '../types/Data'
 
 export interface EditionAttributes extends TimestampDependant {
-	idEdition: string
+	idEdition: number
 	dtBegin: Date | null
 	dtEnd: Date | null
 	dsName: string
@@ -18,7 +18,7 @@ export interface EditionCreationAttributes
 	extends Optional<EditionAttributes, 'idEdition' | 'createdAt' | 'updatedAt'> {}
 
 export class Edition extends Model<EditionAttributes, EditionCreationAttributes> implements EditionAttributes {
-	idEdition: string
+	idEdition: number
 	dtBegin: Date
 	dtEnd: Date
 	dsName: string

@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize'
-import { CabinCreationAttributes } from '../../models/CabinModel'
+import { CabinCreationAttributes } from '../../models'
 import { Divinity } from '../../types/Mythology'
 
 export = {

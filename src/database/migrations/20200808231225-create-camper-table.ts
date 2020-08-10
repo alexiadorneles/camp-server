@@ -1,9 +1,9 @@
 import { DataTypes, QueryInterface, Sequelize } from 'sequelize'
-import { Camper } from '../../models/CamperModel'
+import { Camper } from '../../models'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable<Camper>('campers', {
+		return queryInterface.createTable<Camper>(Camper.tableName, {
 			idCamper: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,

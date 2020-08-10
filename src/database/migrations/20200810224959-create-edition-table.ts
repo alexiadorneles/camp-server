@@ -1,5 +1,5 @@
-import { QueryInterface, DataTypes } from 'sequelize'
-import { Edition } from '../../models/EditionModel'
+import { DataTypes, QueryInterface } from 'sequelize'
+import { Edition } from '../../models'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {

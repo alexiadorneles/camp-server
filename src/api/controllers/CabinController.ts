@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { INCLUDE_CAMPER } from '../../database/associations'
-import { Cabin } from '../../models/CabinModel'
+import { Cabin } from '../../models'
 
 export class CabinController {
 	public async findAll(req: Request, res: Response): Promise<any> {

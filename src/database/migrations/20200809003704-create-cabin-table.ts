@@ -1,9 +1,9 @@
 import SequelizeStatic, { QueryInterface } from 'sequelize'
-import { Cabin } from '../../models/CabinModel'
+import { Cabin } from '../../models'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable<Cabin>('cabins', {
+		return queryInterface.createTable<Cabin>(Cabin.tableName, {
 			idCabin: {
 				primaryKey: true,
 				allowNull: false,
