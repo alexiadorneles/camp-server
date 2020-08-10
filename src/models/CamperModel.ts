@@ -72,7 +72,7 @@ Camper.init(
 		dsImageURL: {
 			type: DataTypes.BLOB,
 			get() {
-				return this.getDataValue('dsImageURL').toString('utf8') // or whatever encoding is right
+				return (this.getDataValue('dsImageURL') as any).toString('utf8')
 			},
 		},
 		dsInstagramNick: {
