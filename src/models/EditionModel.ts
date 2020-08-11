@@ -57,7 +57,6 @@ Edition.init(
 		},
 		dtEnd: {
 			type: DataTypes.DATE,
-			defaultValue: new Date(),
 		},
 		createdAt: {
 			type: DataTypes.DATE,
