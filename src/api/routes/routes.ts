@@ -3,12 +3,12 @@ import '../../database/associations'
 import { CabinController, CabinRequestController } from '../controllers'
 import { CamperController } from '../controllers/CamperController'
 import { EditionController } from '../controllers/EditionController'
+import { EditionService } from '../services'
 
 const routes = express.Router()
 
-routes.get('/', (req, res) => {
-	res.send('OK WORKING')
-})
+// services
+const editionService = new EditionService()
 
 function generateCabinRoutes(): void {
 	const controller = new CabinController()
@@ -16,8 +16,9 @@ function generateCabinRoutes(): void {
 }
 
 function generateCabinRequestRoutes(): void {
-	const controller = new CabinRequestController()
+	const controller = new CabinRequestController(editionService)
 	routes.post('/cabin-requests', controller.create)
+	routes.get('/cabin-requests/check/:idCamper', controller.camperHasRequestedCabin)
 }
 
 function generateCamperRequestRoutes(): void {
@@ -27,7 +28,7 @@ function generateCamperRequestRoutes(): void {
 }
 
 function generateEditionRoutes(): void {
-	const controller = new EditionController()
+	const controller = new EditionController(editionService)
 	routes.get('/editions/current', controller.findCurrent)
 }
 
