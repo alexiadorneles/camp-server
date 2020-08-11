@@ -22,6 +22,7 @@ function generateCabinRequestRoutes(): void {
 function generateCamperRequestRoutes(): void {
 	const controller = new CamperController()
 	routes.get('/campers/:idCamper', controller.findOne)
+	routes.put('/campers/:idCamper', controller.update)
 }
 
 generateCabinRoutes()
