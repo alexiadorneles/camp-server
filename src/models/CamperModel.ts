@@ -11,7 +11,7 @@ import { TimestampDependant } from '../types/Data'
 import { Cabin, CabinAttributes } from './CabinModel'
 
 export interface CamperAttributes extends TimestampDependant {
-	idCamper: string
+	idCamper: number
 	idCabin: number
 	dsName: string
 	nrDiscordID: number
@@ -28,7 +28,7 @@ export interface CamperAttributes extends TimestampDependant {
 export interface CamperCreationAttributes extends Optional<CamperAttributes, 'idCamper' | 'createdAt' | 'updatedAt'> {}
 
 export class Camper extends Model<CamperAttributes, CamperCreationAttributes> implements CamperAttributes {
-	public idCamper!: string
+	public idCamper!: number
 	public idCabin!: number
 	public dsName!: string
 	public nrDiscordID!: number
@@ -72,7 +72,7 @@ Camper.init(
 		dsImageURL: {
 			type: DataTypes.BLOB,
 			get() {
-				return (this.getDataValue('dsImageURL') as any).toString('utf8')
+				return this.getDataValue('dsImageURL') && (this.getDataValue('dsImageURL') as any).toString('utf8')
 			},
 		},
 		dsInstagramNick: {

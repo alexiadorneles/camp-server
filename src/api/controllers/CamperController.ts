@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Camper, CamperCreationAttributes } from '../../models'
+import { Camper, CamperCreationAttributes, CamperAttributes } from '../../models'
 import { Country } from '../../types/Places'
 
 export class CamperController {
@@ -24,6 +24,13 @@ export class CamperController {
 			},
 		})
 
+		res.json(data ? data[0] : rows)
+	}
+
+	public async setCabin(req: Request, res: Response): Promise<void> {
+		const { idCabin } = req.body as Partial<CamperAttributes>
+		const { idCamper } = req.params
+		const [rows, data] = await Camper.update({ idCabin }, { where: { idCamper } })
 		res.json(data ? data[0] : rows)
 	}
 }

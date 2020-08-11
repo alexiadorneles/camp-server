@@ -25,8 +25,6 @@ export class CabinRequestController {
 			},
 		})
 
-		console.log(number)
-
 		res.json(Boolean(number))
 	}
 }
