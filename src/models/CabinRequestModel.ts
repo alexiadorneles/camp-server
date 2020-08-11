@@ -2,6 +2,11 @@ import { DataTypes, Model, Optional } from 'sequelize'
 import database from '../database'
 import { TimestampDependant } from '../types/Data'
 
+export enum Status {
+	RESOLVED = 'resolved',
+	UNRESOLVED = 'unresolved',
+}
+
 export interface CabinRequestAttributes extends TimestampDependant {
 	idCabinRequest: number
 	idCamper: number
@@ -9,6 +14,7 @@ export interface CabinRequestAttributes extends TimestampDependant {
 	idFirstOptionCabin: number
 	idSecondOptionCabin: number
 	idThirdOptionCabin: number
+	status: Status
 }
 
 export interface CabinRequestCreationAttributes
@@ -22,6 +28,7 @@ export class CabinRequest extends Model<CabinRequestAttributes, CabinRequestCrea
 	idFirstOptionCabin: number
 	idSecondOptionCabin: number
 	idThirdOptionCabin: number
+	status: Status
 	// timestamps!
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
@@ -59,6 +66,11 @@ CabinRequest.init(
 		idThirdOptionCabin: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
+		},
+		status: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			defaultValue: Status.UNRESOLVED,
 		},
 		createdAt: {
 			type: DataTypes.DATE,

@@ -1,5 +1,5 @@
 import { DataTypes, QueryInterface } from 'sequelize'
-import { CabinRequest } from '../../models'
+import { CabinRequest, Status } from '../../models'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
@@ -29,6 +29,11 @@ export = {
 			idThirdOptionCabin: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
+			},
+			status: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: Status.UNRESOLVED,
 			},
 			createdAt: {
 				type: DataTypes.DATE,
