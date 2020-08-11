@@ -1,6 +1,7 @@
 import express from 'express'
 import '../../database/associations'
 import { CabinController, CabinRequestController } from '../controllers'
+import { CamperController } from '../controllers/CamperController'
 
 const routes = express.Router()
 
@@ -10,17 +11,22 @@ routes.get('/', (req, res) => {
 
 function generateCabinRoutes(): void {
 	const controller = new CabinController()
-	routes.get('/cabin', controller.findAll)
-	routes.get('/cabin/included', controller.findAllIncludingCampers)
+	routes.get('/cabins', controller.findAllIncludingCampers)
 }
 
 function generateCabinRequestRoutes(): void {
 	const controller = new CabinRequestController()
-	routes.post('/cabin-request', controller.create)
+	routes.post('/cabin-requests', controller.create)
+}
+
+function generateCamperRequestRoutes(): void {
+	const controller = new CamperController()
+	routes.get('/campers/:idCamper', controller.findOne)
 }
 
 generateCabinRoutes()
 generateCabinRequestRoutes()
+generateCamperRequestRoutes()
 
 // tslint:disable-next-line: no-default-export
 export default routes
