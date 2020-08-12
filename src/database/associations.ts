@@ -6,6 +6,7 @@ import { ActivityOption } from '../models/ActivityOptionModel'
 Camper.associate = function(): void {
 	Camper.belongsTo(Cabin, { foreignKey: 'idCabin', as: 'cabin' })
 	Camper.hasMany(CabinRequest, { foreignKey: 'idCamper', as: 'camper' })
+	Camper.belongsToMany(Activity, { foreignKey: 'idCamper', through: 'CamperActivities' })
 }
 
 Cabin.associate = function(): void {
@@ -38,6 +39,7 @@ CabinRequest.associate = function(): void {
 
 Activity.associate = function(): void {
 	Activity.hasMany(ActivityOption)
+	Activity.belongsToMany(Camper, { foreignKey: 'idActivity', through: 'CamperActivities' })
 }
 
 ActivityOption.associate = function(): void {
@@ -48,5 +50,7 @@ Camper.associate()
 Cabin.associate()
 Edition.associate()
 CabinRequest.associate()
+Activity.associate()
+ActivityOption.associate()
 
 export const INCLUDE_CAMPER = { model: Camper, as: 'campers' } as Includeable
