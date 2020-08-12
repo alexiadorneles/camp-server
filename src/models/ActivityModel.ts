@@ -1,60 +1,15 @@
 import {
-	Model,
-	Optional,
-	DataTypes,
 	Association,
+	DataTypes,
 	HasManyGetAssociationsMixin,
 	HasManySetAssociationsMixin,
+	Model,
+	Optional,
 } from 'sequelize'
-import { TimestampDependant } from '../types/Data'
 import database from '../database'
+import { TimestampDependant } from '../types/Data'
+import { ActivityType, Level } from '../types/Level'
 import { ActivityOption } from './ActivityOptionModel'
-
-export enum ActivityType {
-	QUIZ = 'Quiz',
-	MISSION = 'Missão',
-	WHO_SAID = 'Quem disse?',
-	DYSLEXIA = 'Dislexia',
-	PROPHECY = 'Profecy',
-}
-
-// export interface Round {
-// 	idRound: number
-// 	idEdition: number
-// 	dtBegin: Date
-// 	dtEnd: Date | null
-// 	blFinished: boolean
-// }
-
-// export interface RoundActivity {
-// 	idRound: number
-// 	idActivity: number
-// }
-
-export enum Level {
-	EASY,
-	MEDIUM,
-	HARD,
-}
-
-// export interface ObjectiveAnswer {
-// 	idAlternative: number
-// 	idQuestion: number
-// 	dsAlternative: string
-// 	blCorrect: boolean
-// }
-
-// export interface EssayActivity {
-// 	idQuestion: number
-// 	idActivity: number
-// 	dsQuestion: string
-// }
-
-// export interface CamperActivity {
-// 	idCamper: number
-// 	idActivity: number
-// 	blCorrect: boolean
-// }
 
 export interface ActivityAttributes extends TimestampDependant {
 	idActivity: number
