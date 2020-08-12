@@ -1,25 +1,29 @@
 import { QueryInterface, DataTypes } from 'sequelize'
+import { Round } from '../../models/RoundModel'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable('CamperActivities', {
-			idCamperActivity: {
+		return queryInterface.createTable(Round.tableName, {
+			idRound: {
 				type: DataTypes.INTEGER,
-				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true,
+				allowNull: false,
 			},
-			idCamper: {
+			idEdition: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
-			idActivity: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-			},
-			blCorrect: {
+			blFinished: {
 				type: DataTypes.BOOLEAN,
-				allowNull: false,
+				defaultValue: false,
+				allowNull: true,
+			},
+			dtBegin: {
+				type: DataTypes.DATE,
+			},
+			dtEnd: {
+				type: DataTypes.DATE,
 			},
 			createdAt: {
 				type: DataTypes.DATE,
@@ -33,6 +37,6 @@ export = {
 	},
 
 	down: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.dropTable('CamperActivities')
+		return queryInterface.dropTable(Round.tableName)
 	},
 }
