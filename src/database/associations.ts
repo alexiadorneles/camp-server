@@ -1,5 +1,7 @@
-import { Includeable, Model, ModelStatic } from 'sequelize/types'
-import { Cabin, Camper, CabinRequest, CabinAttributes, CabinCreationAttributes, Edition } from '../models'
+import { Includeable } from 'sequelize/types'
+import { Cabin, CabinRequest, Camper, Edition } from '../models'
+import { Activity } from '../models/ActivityModel'
+import { ActivityOption } from '../models/ActivityOptionModel'
 
 Camper.associate = function(): void {
 	Camper.belongsTo(Cabin, { foreignKey: 'idCabin', as: 'cabin' })
@@ -31,10 +33,15 @@ Edition.associate = function(): void {
 
 CabinRequest.associate = function(): void {
 	CabinRequest.hasOne(Edition, { foreignKey: 'idEdition' })
-	CabinRequest.hasOne(Cabin, { foreignKey: 'idFirstOptionCabin' })
-	CabinRequest.hasOne(Cabin, { foreignKey: 'idSecondOptionCabin' })
-	CabinRequest.hasOne(Cabin, { foreignKey: 'idThirdOptionCabin' })
 	CabinRequest.hasOne(Camper, { foreignKey: 'idCamper' })
+}
+
+Activity.associate = function(): void {
+	Activity.hasMany(ActivityOption)
+}
+
+ActivityOption.associate = function(): void {
+	ActivityOption.belongsTo(Activity, { foreignKey: 'idActivity' })
 }
 
 Camper.associate()

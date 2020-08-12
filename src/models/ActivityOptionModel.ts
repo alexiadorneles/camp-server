@@ -1,14 +1,6 @@
-import {
-	Model,
-	Optional,
-	DataTypes,
-	Association,
-	HasManyGetAssociationsMixin,
-	HasManySetAssociationsMixin,
-} from 'sequelize'
+import { Model, Optional, DataTypes } from 'sequelize'
 import { TimestampDependant } from '../types/Data'
 import database from '../database'
-import { ActivityOption } from './ActivityOptionModel'
 
 export enum ActivityType {
 	QUIZ = 'Quiz',
@@ -31,12 +23,6 @@ export enum ActivityType {
 // 	idActivity: number
 // }
 
-export enum Level {
-	EASY,
-	MEDIUM,
-	HARD,
-}
-
 // export interface ObjectiveAnswer {
 // 	idAlternative: number
 // 	idQuestion: number
@@ -56,54 +42,48 @@ export enum Level {
 // 	blCorrect: boolean
 // }
 
-export interface ActivityAttributes extends TimestampDependant {
+export interface ActivityOptionAttributes extends TimestampDependant {
+	idActivityOption: number
 	idActivity: number
-	dsQuestion: string
-	tpLevel: Level
-	tpActivity: ActivityType
-	options?: ActivityOption[]
+	dsOption: string
+	blCorrect: boolean
 }
 
-export interface ActivityCreationAttribute extends Optional<ActivityAttributes, 'idActivity'> {}
+export interface ActivityOptionCreationAttribute extends Optional<ActivityOptionAttributes, 'idActivityOption'> {}
 
-export class Activity extends Model<ActivityAttributes, ActivityCreationAttribute> implements ActivityAttributes {
-	idQuestion: number
+export class ActivityOption extends Model<ActivityOptionAttributes, ActivityOptionCreationAttribute>
+	implements ActivityOptionAttributes {
+	idActivityOption: number
 	idActivity: number
-	dsQuestion: string
-	tpLevel: Level
-	tpActivity: ActivityType
+	dsOption: string
+	blCorrect: boolean
 	// timestamps!
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'activities'
+	public static tableName = 'ActivityOptions'
 
-	public static associations: {
-		options: Association<Activity, ActivityOption>
-	}
+	public static associations: {}
 	static associate: () => void
-
-	public getOptions!: HasManyGetAssociationsMixin<ActivityOption>
-	public setOptions!: HasManySetAssociationsMixin<ActivityType, number>
 }
 
-Activity.init(
+ActivityOption.init(
 	{
-		idActivity: {
+		idActivityOption: {
 			primaryKey: true,
 			allowNull: false,
 			autoIncrement: true,
 			type: DataTypes.BIGINT,
 		},
-		dsQuestion: {
-			type: DataTypes.STRING,
+		idActivity: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		tpActivity: {
-			type: DataTypes.STRING,
+		blCorrect: {
+			type: DataTypes.BOOLEAN,
 			allowNull: false,
 		},
-		tpLevel: {
+		dsOption: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
