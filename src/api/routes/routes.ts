@@ -3,6 +3,7 @@ import { CabinController, CabinRequestController } from '../controllers'
 import { CamperController } from '../controllers/CamperController'
 import { EditionController } from '../controllers/EditionController'
 import { EditionService } from '../services'
+import { ActivityController } from '../controllers/ActivityController'
 
 const routes = express.Router()
 
@@ -32,10 +33,16 @@ function generateEditionRoutes(): void {
 	routes.get('/editions/current', controller.findCurrent)
 }
 
+function generateActivityRoutes(): void {
+	const controller = new ActivityController()
+	routes.post('/activities/generate', controller.generateFromCSV)
+}
+
 generateCabinRoutes()
 generateCabinRequestRoutes()
 generateCamperRequestRoutes()
 generateEditionRoutes()
+generateActivityRoutes()
 
 // tslint:disable-next-line: no-default-export
 export default routes

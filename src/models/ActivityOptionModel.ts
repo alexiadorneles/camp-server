@@ -1,4 +1,4 @@
-import { Model, Optional, DataTypes } from 'sequelize'
+import { Model, Optional, DataTypes, HasManySetAssociationsMixin } from 'sequelize'
 import { TimestampDependant } from '../types/Data'
 import database from '../database'
 
@@ -9,7 +9,8 @@ export interface ActivityOptionAttributes extends TimestampDependant {
 	blCorrect: boolean
 }
 
-export interface ActivityOptionCreationAttribute extends Optional<ActivityOptionAttributes, 'idActivityOption'> {}
+export interface ActivityOptionCreationAttribute
+	extends Optional<ActivityOptionAttributes, 'idActivityOption' | 'createdAt' | 'updatedAt' | 'idActivity'> {}
 
 export class ActivityOption extends Model<ActivityOptionAttributes, ActivityOptionCreationAttribute>
 	implements ActivityOptionAttributes {

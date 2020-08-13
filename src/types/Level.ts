@@ -4,6 +4,7 @@ export enum ActivityType {
 	WHO_SAID = 'Quem disse?',
 	DYSLEXIA = 'Dislexia',
 	PROPHECY = 'Profecy',
+	WHO_AM_I = 'Quem Sou Eu?',
 }
 
 export enum Level {

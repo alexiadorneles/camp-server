@@ -5,11 +5,13 @@ import {
 	HasManySetAssociationsMixin,
 	Model,
 	Optional,
+	HasManyAddAssociationMixin,
+	HasManyCreateAssociationMixin,
 } from 'sequelize'
 import database from '../database'
 import { TimestampDependant } from '../types/Data'
 import { ActivityType, Level } from '../types/Level'
-import { ActivityOption } from './ActivityOptionModel'
+import { ActivityOption, ActivityOptionCreationAttribute } from './ActivityOptionModel'
 
 export interface ActivityAttributes extends TimestampDependant {
 	idActivity: number
@@ -19,7 +21,8 @@ export interface ActivityAttributes extends TimestampDependant {
 	options?: ActivityOption[]
 }
 
-export interface ActivityCreationAttribute extends Optional<ActivityAttributes, 'idActivity'> {}
+export interface ActivityCreationAttribute
+	extends Optional<ActivityAttributes, 'idActivity' | 'createdAt' | 'updatedAt'> {}
 
 export class Activity extends Model<ActivityAttributes, ActivityCreationAttribute> implements ActivityAttributes {
 	idQuestion: number
@@ -39,7 +42,9 @@ export class Activity extends Model<ActivityAttributes, ActivityCreationAttribut
 	static associate: () => void
 
 	public getOptions!: HasManyGetAssociationsMixin<ActivityOption>
-	public setOptions!: HasManySetAssociationsMixin<ActivityType, number>
+	public setOptions!: HasManySetAssociationsMixin<ActivityOption, number>
+	public addOption!: HasManyAddAssociationMixin<ActivityOption, number>
+	public createOption!: HasManyCreateAssociationMixin<ActivityOptionCreationAttribute>
 }
 
 Activity.init(
