@@ -1,5 +1,4 @@
 import express from 'express'
-import '../../database/associations'
 import { CabinController, CabinRequestController } from '../controllers'
 import { CamperController } from '../controllers/CamperController'
 import { EditionController } from '../controllers/EditionController'

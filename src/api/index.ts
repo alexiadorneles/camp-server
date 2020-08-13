@@ -3,6 +3,7 @@ import routes from './routes/routes'
 import cors from 'cors'
 
 import '../database'
+import '../database/associations'
 
 const app = express()
 
