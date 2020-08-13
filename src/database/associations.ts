@@ -39,7 +39,7 @@ CabinRequest.associate = function(): void {
 }
 
 Activity.associate = function(): void {
-	Activity.hasMany(ActivityOption)
+	Activity.hasMany(ActivityOption, { foreignKey: 'idActivity', as: 'options' })
 	Activity.belongsToMany(Camper, { foreignKey: 'idActivity', through: 'CamperActivities' })
 	Activity.belongsToMany(Round, { through: 'RoundActivities' })
 }
@@ -61,3 +61,5 @@ ActivityOption.associate()
 Round.associate()
 
 export const INCLUDE_CAMPER = { model: Camper, as: 'campers' } as Includeable
+
+export type IndexedObject = { [key in string]: any }
