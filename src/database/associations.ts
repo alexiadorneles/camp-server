@@ -1,5 +1,5 @@
 import { Includeable } from 'sequelize/types'
-import { Cabin, CabinRequest, Camper, Edition } from '../models'
+import { Cabin, CabinRequest, Camper, Edition, CamperActivity } from '../models'
 import { Activity } from '../models/ActivityModel'
 import { ActivityOption } from '../models/ActivityOptionModel'
 import { Round } from '../models/RoundModel'
@@ -7,7 +7,7 @@ import { Round } from '../models/RoundModel'
 Camper.associate = function(): void {
 	Camper.belongsTo(Cabin, { foreignKey: 'idCabin', as: 'cabin' })
 	Camper.hasMany(CabinRequest, { foreignKey: 'idCamper', as: 'camper' })
-	Camper.belongsToMany(Activity, { foreignKey: 'idCamper', through: 'CamperActivities' })
+	Camper.hasMany(CamperActivity, { foreignKey: 'idCamper' })
 }
 
 Cabin.associate = function(): void {
@@ -40,7 +40,6 @@ CabinRequest.associate = function(): void {
 
 Activity.associate = function(): void {
 	Activity.hasMany(ActivityOption, { foreignKey: 'idActivity', as: 'options' })
-	Activity.belongsToMany(Camper, { foreignKey: 'idActivity', through: 'CamperActivities' })
 	Activity.belongsToMany(Round, { through: 'RoundActivities' })
 }
 
@@ -52,12 +51,19 @@ Round.associate = function(): void {
 	Round.belongsToMany(Activity, { through: 'RoundActivities' })
 }
 
+CamperActivity.associate = function(): void {
+	CamperActivity.hasOne(Camper, { foreignKey: 'idCamper' })
+	CamperActivity.hasOne(Activity, { foreignKey: 'idActivity' })
+	CamperActivity.hasOne(ActivityOption, { foreignKey: 'idActivityOption' })
+}
+
 Camper.associate()
 Cabin.associate()
 Edition.associate()
 CabinRequest.associate()
 Activity.associate()
 ActivityOption.associate()
+CamperActivity.associate()
 Round.associate()
 
 export const INCLUDE_CAMPER = { model: Camper, as: 'campers' } as Includeable

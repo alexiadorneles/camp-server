@@ -33,4 +33,15 @@ export class CamperController {
 		const [rows, data] = await Camper.update({ idCabin }, { where: { idCamper } })
 		res.json(data ? data[0] : rows)
 	}
+
+	public async answerActivity(req: Request, res: Response): Promise<void> {
+		const { activityInfo } = req.body
+		const { idCamper } = req.params
+		const camper = await Camper.findByPk(idCamper)
+		if (!camper) {
+			res.status(400).json({ error: 'Camper not found' })
+		}
+
+		const created = camper.createCamperActivity(activityInfo)
+	}
 }

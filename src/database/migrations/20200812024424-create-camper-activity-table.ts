@@ -1,8 +1,9 @@
 import { QueryInterface, DataTypes } from 'sequelize'
+import { CamperActivity } from '../../models'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable('CamperActivities', {
+		return queryInterface.createTable<CamperActivity>(CamperActivity.tableName, {
 			idCamperActivity: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
@@ -14,6 +15,10 @@ export = {
 				allowNull: false,
 			},
 			idActivity: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			idActivityOption: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},

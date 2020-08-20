@@ -1,6 +1,7 @@
 import {
 	Association,
 	DataTypes,
+	HasManyCreateAssociationMixin,
 	HasOneCreateAssociationMixin,
 	HasOneGetAssociationMixin,
 	Model,
@@ -8,7 +9,9 @@ import {
 } from 'sequelize'
 import database from '../database'
 import { TimestampDependant } from '../types/Data'
+import { Activity } from './ActivityModel'
 import { Cabin, CabinAttributes } from './CabinModel'
+import { CamperActivity } from './CamperActivityModel'
 
 export interface CamperAttributes extends TimestampDependant {
 	idCamper: number
@@ -46,11 +49,13 @@ export class Camper extends Model<CamperAttributes, CamperCreationAttributes> im
 
 	public getCabin!: HasOneGetAssociationMixin<Cabin> // Note the null assertions!
 	public createCabin!: HasOneCreateAssociationMixin<Cabin>
+	public createCamperActivity!: HasManyCreateAssociationMixin<CamperActivity>
 
 	public static tableName = 'campers'
 
 	public static associations: {
 		cabin: Association<Camper, Cabin>
+		activities: Association<Camper, Activity>
 	}
 	static associate: () => void
 }
