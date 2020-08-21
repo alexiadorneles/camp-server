@@ -40,7 +40,7 @@ CabinRequest.associate = function(): void {
 
 Activity.associate = function(): void {
 	Activity.hasMany(ActivityOption, { foreignKey: 'idActivity', as: 'options' })
-	Activity.belongsToMany(Round, { through: 'RoundActivities' })
+	Activity.belongsToMany(Round, { through: 'RoundActivities', foreignKey: 'idActivity', as: 'rounds' })
 }
 
 ActivityOption.associate = function(): void {
@@ -48,7 +48,7 @@ ActivityOption.associate = function(): void {
 }
 
 Round.associate = function(): void {
-	Round.belongsToMany(Activity, { through: 'RoundActivities' })
+	Round.belongsToMany(Activity, { through: 'RoundActivities', foreignKey: 'idRound', as: 'activities' })
 }
 
 CamperActivity.associate = function(): void {
