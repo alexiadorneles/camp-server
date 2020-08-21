@@ -1,6 +1,7 @@
-import { DataTypes, Model, Optional } from 'sequelize'
+import { DataTypes, Model, Optional, BelongsToManyAddAssociationMixin } from 'sequelize'
 import database from '../database'
 import { TimestampDependant } from '../types/Data'
+import { Activity } from './ActivityModel'
 
 export interface RoundAttributes extends TimestampDependant {
 	idRound: number
@@ -22,6 +23,8 @@ export class Round extends Model<RoundAttributes, RoundCreationAttributes> imple
 	// timestamps!
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
+
+	public addActivity!: BelongsToManyAddAssociationMixin<Activity, number>
 
 	public static tableName = 'rounds'
 
