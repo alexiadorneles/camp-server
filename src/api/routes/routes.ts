@@ -4,11 +4,14 @@ import { CamperController } from '../controllers/CamperController'
 import { EditionController } from '../controllers/EditionController'
 import { EditionService } from '../services'
 import { ActivityController } from '../controllers/ActivityController'
+import { RoundController } from '../controllers/RoundController'
+import { ActivityService } from '../services/ActivityService'
 
 const routes = express.Router()
 
 // services
 const editionService = new EditionService()
+const activityService = new ActivityService()
 
 function generateCabinRoutes(): void {
 	const controller = new CabinController()
@@ -38,11 +41,17 @@ function generateActivityRoutes(): void {
 	routes.post('/activities/generate', controller.generateFromCSV)
 }
 
+function generateRoundRoutes(): void {
+	const controller = new RoundController(editionService, activityService)
+	routes.post('/rounds/generate', controller.generateRoundFromConfig)
+}
+
 generateCabinRoutes()
 generateCabinRequestRoutes()
 generateCamperRequestRoutes()
 generateEditionRoutes()
 generateActivityRoutes()
+generateRoundRoutes()
 
 // tslint:disable-next-line: no-default-export
 export default routes
