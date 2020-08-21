@@ -8,7 +8,7 @@ export enum ActivityType {
 }
 
 export enum Level {
-	EASY,
-	MEDIUM,
-	HARD,
+	EASY = 'EASY',
+	MEDIUM = 'MEDIUM',
+	HARD = 'HARD',
 }
