@@ -49,6 +49,7 @@ ActivityOption.associate = function(): void {
 
 Round.associate = function(): void {
 	Round.belongsToMany(Activity, { through: 'RoundActivities', foreignKey: 'idRound', as: 'activities' })
+	Round.hasOne(Camper, { foreignKey: 'idCamper', as: 'camper' })
 }
 
 CamperActivity.associate = function(): void {

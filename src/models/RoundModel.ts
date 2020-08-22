@@ -6,6 +6,7 @@ import { Activity } from './ActivityModel'
 export interface RoundAttributes extends TimestampDependant {
 	idRound: number
 	idEdition: number
+	idCamper: number
 	dtBegin: Date
 	dtEnd: Date | null
 	blFinished: boolean
@@ -14,6 +15,7 @@ export interface RoundAttributes extends TimestampDependant {
 export interface RoundCreationAttributes extends Optional<RoundAttributes, 'idRound' | 'createdAt' | 'updatedAt'> {}
 
 export class Round extends Model<RoundAttributes, RoundCreationAttributes> implements RoundAttributes {
+	idCamper: number
 	idRound: number
 	idEdition: number
 	dtBegin: Date
@@ -41,6 +43,10 @@ Round.init(
 			allowNull: false,
 		},
 		idEdition: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		idCamper: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

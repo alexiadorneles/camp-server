@@ -22,6 +22,10 @@ export = {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
+			idEdition: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
 			blCorrect: {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,

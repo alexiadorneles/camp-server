@@ -7,6 +7,7 @@ export interface CamperActivityAttributes extends TimestampDependant {
 	idCamper: number
 	idActivity: number
 	idActivityOption: number
+	idEdition: number
 	blCorrect: boolean
 }
 
@@ -15,6 +16,7 @@ export interface CamperActivityCreationAttributes
 
 export class CamperActivity extends Model<CamperActivityAttributes, CamperActivityCreationAttributes>
 	implements CamperActivityAttributes {
+	idEdition: number
 	idCamperActivity: number
 	idCamper: number
 	idActivity: number
@@ -47,6 +49,10 @@ CamperActivity.init(
 			allowNull: false,
 		},
 		idActivityOption: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		idEdition: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
