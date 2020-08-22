@@ -3,11 +3,15 @@ import { Round } from '../../models/RoundModel'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.createTable(Round.tableName, {
+		return queryInterface.createTable<Round>(Round.tableName, {
 			idRound: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
+				allowNull: false,
+			},
+			idCamper: {
+				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
 			idEdition: {
