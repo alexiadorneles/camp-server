@@ -1,8 +1,15 @@
 import { Includeable } from 'sequelize/types'
-import { Cabin, CabinRequest, Camper, Edition, CamperActivity } from '../models'
-import { Activity } from '../models/ActivityModel'
-import { ActivityOption } from '../models/ActivityOptionModel'
-import { Round } from '../models/RoundModel'
+import {
+	Activity,
+	ActivityOption,
+	Cabin,
+	CabinRequest,
+	Camper,
+	CamperActivity,
+	CamperEdition,
+	Edition,
+	Round,
+} from '../models'
 
 Camper.associate = function(): void {
 	Camper.belongsTo(Cabin, { foreignKey: 'idCabin', as: 'cabin' })
@@ -58,6 +65,12 @@ CamperActivity.associate = function(): void {
 	CamperActivity.hasOne(ActivityOption, { foreignKey: 'idActivityOption' })
 }
 
+CamperEdition.associate = function(): void {
+	CamperEdition.hasOne(Camper, { foreignKey: 'idCamper', as: 'camper' })
+	CamperEdition.hasOne(Cabin, { foreignKey: 'idCabin', as: 'cabin' })
+	CamperEdition.hasOne(Edition, { foreignKey: 'idEdition', as: 'edition' })
+}
+
 Camper.associate()
 Cabin.associate()
 Edition.associate()
@@ -66,6 +79,7 @@ Activity.associate()
 ActivityOption.associate()
 CamperActivity.associate()
 Round.associate()
+CamperEdition.associate()
 
 export const INCLUDE_CAMPER = { model: Camper, as: 'campers' } as Includeable
 
