@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import _ from 'lodash'
-import { Round } from '../../models'
+import { Includeable } from 'sequelize'
+import { Camper, CamperEdition, Round, Activity } from '../../models'
 import { RoundConfig } from '../../types/RoundConfig'
 import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
@@ -13,24 +14,42 @@ export class RoundController {
 	public async generateRoundFromConfig(req: Request, res: Response): Promise<void> {
 		const config = req.body as RoundConfig
 		const { idEdition } = await this.editionService.findCurrent()
-		const activitiesPromises = await Promise.all(
-			config.activitiesConfig.map(activityConfig => this.activityService.findRandomWhere(activityConfig)),
-		)
-		const activities = _.flatMap(activitiesPromises)
-		const round = await Round.create({
-			blFinished: false,
-			dtBegin: new Date(),
-			dtEnd: null,
-			idEdition,
+		const allCampersFromThisEdition = await CamperEdition.findAll({
+			where: { idEdition },
+			include: { model: Camper, as: 'camper' } as Includeable,
 		})
 
-		await Promise.all(activities.map(activity => round.addActivity(activity)))
+		const idsCampers = allCampersFromThisEdition.map(ce => ce.idCamper)
+		const rounds: Round[] = []
 
-		const completeRound = await Round.findByPk(round.idRound, {
-			// include: [{ model: Activity, as: 'activities', include: ActivityOption } as Includeable],
-			include: { all: true, nested: true },
-		})
+		for (const idCamper of idsCampers) {
+			const activitiesPromises = await Promise.all(
+				config.activitiesConfig.map(activityConfig => this.activityService.findRandomWhere(activityConfig, idCamper)),
+			)
+			const activities = _.flatMap(activitiesPromises)
+			const round = await Round.create({
+				idCamper,
+				idEdition,
+				blFinished: false,
+				dtBegin: new Date(),
+				dtEnd: null,
+			})
 
-		res.json(completeRound)
+			await Promise.all(activities.map(activity => round.addActivity(activity)))
+			const createdRound = await Round.findByPk(round.idRound, {
+				include: [
+					{
+						model: Activity,
+						foreignKey: 'idActivity',
+						as: 'activities',
+						attributes: ['idActivity', 'dsQuestion', 'tpActivity', 'tpLevel'],
+					} as Includeable,
+				],
+			})
+
+			rounds.push(createdRound)
+		}
+
+		res.json(rounds)
 	}
 }
