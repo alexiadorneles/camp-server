@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import _ from 'lodash'
 import { Includeable } from 'sequelize'
-import { Camper, CamperEdition, Round, Activity } from '../../models'
+import { Camper, CamperEdition, Round, Activity, ActivityOption } from '../../models'
 import { RoundConfig } from '../../types/RoundConfig'
 import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
@@ -51,5 +51,30 @@ export class RoundController {
 		}
 
 		res.json(rounds)
+	}
+
+	public async loadRoundForCamper(req: Request, res: Response): Promise<void> {
+		const { idCamper } = req.params
+		const round = await Round.findOne({
+			where: {
+				idCamper,
+				blFinished: false,
+			},
+			include: [
+				{
+					model: Activity,
+					as: 'activities',
+					foreignKey: 'idActivity',
+					include: [
+						{
+							model: ActivityOption,
+							as: 'options',
+						} as Includeable,
+					],
+				} as Includeable,
+			],
+		})
+
+		res.json(round)
 	}
 }

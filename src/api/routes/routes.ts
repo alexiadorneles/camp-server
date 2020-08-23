@@ -44,6 +44,7 @@ function generateActivityRoutes(): void {
 function generateRoundRoutes(): void {
 	const controller = new RoundController(editionService, activityService)
 	routes.post('/rounds/generate', controller.generateRoundFromConfig)
+	routes.get('/rounds/:idCamper', controller.loadRoundForCamper)
 }
 
 generateCabinRoutes()
