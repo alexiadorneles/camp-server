@@ -77,4 +77,10 @@ export class RoundController {
 
 		res.json(round)
 	}
+
+	public async finish(req: Request, res: Response): Promise<void> {
+		const { idRound } = req.params
+		const [rows, data] = await Round.update({ blFinished: true, dtEnd: new Date() }, { where: { idRound } })
+		res.json(data ? data : rows)
+	}
 }
