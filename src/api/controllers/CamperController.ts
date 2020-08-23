@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Camper, CamperCreationAttributes, CamperAttributes } from '../../models'
+import { Camper, CamperActivityCreationAttributes, CamperAttributes, CamperCreationAttributes } from '../../models'
 import { Country } from '../../types/Places'
 
 export class CamperController {
@@ -35,13 +35,14 @@ export class CamperController {
 	}
 
 	public async answerActivity(req: Request, res: Response): Promise<void> {
-		const { activityInfo } = req.body
+		const activityInfo = req.body as CamperActivityCreationAttributes
 		const { idCamper } = req.params
 		const camper = await Camper.findByPk(idCamper)
 		if (!camper) {
 			res.status(400).json({ error: 'Camper not found' })
 		}
 
-		const created = camper.createCamperActivity(activityInfo)
+		const created = await camper.createCamperActivity(activityInfo)
+		res.json(created)
 	}
 }

@@ -29,6 +29,7 @@ function generateCamperRequestRoutes(): void {
 	routes.get('/campers/:idCamper', controller.findOne)
 	routes.put('/campers/:idCamper', controller.update)
 	routes.put('/campers/:idCamper/cabin', controller.setCabin)
+	routes.post('/campers/:idCamper/answer', controller.answerActivity)
 }
 
 function generateEditionRoutes(): void {
