@@ -50,7 +50,6 @@ CamperActivity.init(
 		},
 		idActivityOption: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
 		},
 		idEdition: {
 			type: DataTypes.INTEGER,
