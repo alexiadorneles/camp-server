@@ -43,6 +43,9 @@ Edition.associate = function(): void {
 CabinRequest.associate = function(): void {
 	CabinRequest.hasOne(Edition, { foreignKey: 'idEdition' })
 	CabinRequest.hasOne(Camper, { foreignKey: 'idCamper' })
+	CabinRequest.hasOne(Cabin, { foreignKey: 'idCabin', as: 'firstOptionCabin' })
+	CabinRequest.hasOne(Cabin, { foreignKey: 'idCabin', as: 'secondOptionCabin' })
+	CabinRequest.hasOne(Cabin, { foreignKey: 'idCabin', as: 'thirdOptionCabin' })
 }
 
 Activity.associate = function(): void {

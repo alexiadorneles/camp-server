@@ -22,6 +22,7 @@ function generateCabinRequestRoutes(): void {
 	const controller = new CabinRequestController(editionService)
 	routes.post('/cabin-requests', controller.create)
 	routes.get('/cabin-requests/check/:idCamper', controller.camperHasRequestedCabin)
+	routes.get('/cabin-requests/count', controller.countCabinRequests)
 }
 
 function generateCamperRequestRoutes(): void {
