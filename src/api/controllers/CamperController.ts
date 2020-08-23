@@ -1,5 +1,11 @@
 import { Request, Response } from 'express'
-import { Camper, CamperActivityCreationAttributes, CamperAttributes, CamperCreationAttributes } from '../../models'
+import {
+	Camper,
+	CamperActivityCreationAttributes,
+	CamperAttributes,
+	CamperCreationAttributes,
+	CamperActivityAttributes,
+} from '../../models'
 import { Country } from '../../types/Places'
 
 export class CamperController {
@@ -43,6 +49,26 @@ export class CamperController {
 		}
 
 		const created = await camper.createCamperActivity(activityInfo)
+		res.json(created)
+	}
+
+	public async answerTimedOut(req: Request, res: Response): Promise<void> {
+		const { idActivity, idEdition } = req.body
+		const { idCamper } = req.params
+		const camper = await Camper.findByPk(idCamper)
+		if (!camper) {
+			res.status(400).json({ error: 'Camper not found' })
+		}
+
+		const camperActivity: Partial<CamperActivityAttributes> = {
+			blCorrect: false,
+			idActivity,
+			idCamper: Number(idCamper),
+			idActivityOption: null,
+			idEdition,
+		}
+
+		const created = await camper.createCamperActivity(camperActivity)
 		res.json(created)
 	}
 }

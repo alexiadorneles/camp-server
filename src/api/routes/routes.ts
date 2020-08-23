@@ -30,6 +30,7 @@ function generateCamperRequestRoutes(): void {
 	routes.put('/campers/:idCamper', controller.update)
 	routes.put('/campers/:idCamper/cabin', controller.setCabin)
 	routes.post('/campers/:idCamper/answer', controller.answerActivity)
+	routes.post('/campers/:idCamper/answer-timed-out', controller.answerTimedOut)
 }
 
 function generateEditionRoutes(): void {
