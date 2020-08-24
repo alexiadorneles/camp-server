@@ -3,7 +3,7 @@ export enum ActivityType {
 	MISSION = 'Missão',
 	WHO_SAID = 'Quem disse?',
 	DYSLEXIA = 'Dislexia',
-	PROPHECY = 'Profecy',
+	PROPHECY = 'Profecia',
 	WHO_AM_I = 'Quem Sou Eu?',
 }
 
