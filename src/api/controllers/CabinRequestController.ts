@@ -1,9 +1,8 @@
 import { Request, Response } from 'express'
-import { CabinRequestAttributes, CabinRequest, Status, Cabin } from '../../models'
-import { EditionService } from '../services/EditionService'
-import { Includeable } from 'sequelize/types'
+import { CabinRequest, CabinRequestAttributes, Status } from '../../models'
 import { IndexedObject } from '../../types/Data'
 import { Divinity } from '../../types/Mythology'
+import { EditionService } from '../services/EditionService'
 
 export class CabinRequestController {
 	constructor(private editionService: EditionService) {
