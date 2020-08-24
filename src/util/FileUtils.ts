@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { pathToFileURL } from 'url'
 import csv from 'csv-parser'
-import { Level } from '../types/Level'
+import { Level } from '../types/Activity'
 
 export interface ActivityCSV {
 	dsQuestion: string

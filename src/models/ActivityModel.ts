@@ -10,7 +10,7 @@ import {
 } from 'sequelize'
 import database from '../database'
 import { TimestampDependant } from '../types/Data'
-import { ActivityType, Level } from '../types/Level'
+import { ActivityType, Level } from '../types/Activity'
 import { ActivityOption, ActivityOptionCreationAttribute } from './ActivityOptionModel'
 
 export interface ActivityAttributes extends TimestampDependant {

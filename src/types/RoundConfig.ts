@@ -1,4 +1,4 @@
-import { Level, ActivityType } from './Level'
+import { Level, ActivityType } from './Activity'
 
 export interface RoundConfig {
 	activitiesConfig: ActivityConfig[]
