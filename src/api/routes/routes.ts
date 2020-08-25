@@ -1,10 +1,11 @@
 import express from 'express'
 import { CabinController, CabinRequestController } from '../controllers'
+import { ActivityController } from '../controllers/ActivityController'
 import { CamperController } from '../controllers/CamperController'
 import { EditionController } from '../controllers/EditionController'
-import { EditionService } from '../services'
-import { ActivityController } from '../controllers/ActivityController'
+import { RankingController } from '../controllers/RankingController'
 import { RoundController } from '../controllers/RoundController'
+import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
 
 const routes = express.Router()
@@ -52,12 +53,18 @@ function generateRoundRoutes(): void {
 	routes.put('/rounds/finish/:idRound', controller.finish)
 }
 
+function generateRankingRoutes(): void {
+	const controller = new RankingController(editionService)
+	routes.post('/rankings/', controller.generateRanking)
+}
+
 generateCabinRoutes()
 generateCabinRequestRoutes()
 generateCamperRequestRoutes()
 generateEditionRoutes()
 generateActivityRoutes()
 generateRoundRoutes()
+generateRankingRoutes()
 
 // tslint:disable-next-line: no-default-export
 export default routes
