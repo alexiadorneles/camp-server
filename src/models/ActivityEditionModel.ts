@@ -4,6 +4,7 @@ import { TimestampDependant } from '../types/Data'
 
 export interface ActivityEditionAttributes extends TimestampDependant {
 	idActivityEdition: number
+	idActivity: number
 	idEdition: number
 	nrPoints: number
 }
@@ -14,6 +15,7 @@ export interface ActivityEditionCreationAttributes
 export class ActivityEdition extends Model<ActivityEditionAttributes, ActivityEditionCreationAttributes>
 	implements ActivityEditionAttributes {
 	idActivityEdition: number
+	idActivity: number
 	idEdition: number
 	nrPoints: number
 
@@ -34,6 +36,10 @@ ActivityEdition.init(
 			allowNull: false,
 		},
 		idEdition: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		idActivity: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},

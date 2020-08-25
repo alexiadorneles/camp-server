@@ -1,5 +1,5 @@
-import { QueryInterface, DataTypes } from 'sequelize'
-import { ActivityEdition } from '../../models/ActivityEditionModel'
+import { DataTypes, QueryInterface } from 'sequelize'
+import { ActivityEdition } from '../../models'
 
 export = {
 	up: (queryInterface: QueryInterface, Sequelize: any) => {
@@ -8,6 +8,10 @@ export = {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
+				allowNull: false,
+			},
+			idActivity: {
+				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
 			idEdition: {
