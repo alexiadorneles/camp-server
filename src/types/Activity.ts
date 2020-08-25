@@ -12,3 +12,8 @@ export enum Level {
 	MEDIUM = 'MEDIUM',
 	HARD = 'HARD',
 }
+
+export interface ActivityConfig {
+	tpActivity: ActivityType
+	nrPoints: number
+}

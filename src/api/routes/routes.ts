@@ -40,8 +40,9 @@ function generateEditionRoutes(): void {
 }
 
 function generateActivityRoutes(): void {
-	const controller = new ActivityController()
+	const controller = new ActivityController(editionService)
 	routes.post('/activities/generate', controller.generateFromCSV)
+	routes.post('/activities/config', controller.configureForCurrentEdition)
 }
 
 function generateRoundRoutes(): void {
