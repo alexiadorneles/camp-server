@@ -10,12 +10,12 @@ export = {
 				autoIncrement: true,
 				allowNull: false,
 			},
-			idActivity: {
+			idEdition: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
-			idEdition: {
-				type: DataTypes.INTEGER,
+			tpActivity: {
+				type: DataTypes.STRING,
 				allowNull: false,
 			},
 			nrPoints: {

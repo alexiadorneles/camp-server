@@ -1,10 +1,11 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import database from '../database'
 import { TimestampDependant } from '../types/Data'
+import { ActivityType } from '../types/Activity'
 
 export interface ActivityEditionAttributes extends TimestampDependant {
 	idActivityEdition: number
-	idActivity: number
+	tpActivity: ActivityType
 	idEdition: number
 	nrPoints: number
 }
@@ -15,8 +16,8 @@ export interface ActivityEditionCreationAttributes
 export class ActivityEdition extends Model<ActivityEditionAttributes, ActivityEditionCreationAttributes>
 	implements ActivityEditionAttributes {
 	idActivityEdition: number
-	idActivity: number
 	idEdition: number
+	tpActivity: ActivityType
 	nrPoints: number
 
 	// timestamps!
@@ -39,8 +40,8 @@ ActivityEdition.init(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		idActivity: {
-			type: DataTypes.INTEGER,
+		tpActivity: {
+			type: DataTypes.STRING,
 			allowNull: false,
 		},
 		nrPoints: {
