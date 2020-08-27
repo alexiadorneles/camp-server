@@ -27,6 +27,7 @@ export interface CamperAttributes extends TimestampDependant {
 	dsDescription: string
 	dsImageURL: string
 	dsEmail: string
+	blRegisterCompleted: boolean
 	cabin?: CabinAttributes
 }
 
@@ -46,6 +47,7 @@ export class Camper extends Model<CamperAttributes, CamperCreationAttributes> im
 	public dsImageURL!: string
 	public idGoogle: string
 	public dsEmail: string
+	blRegisterCompleted: boolean
 
 	// timestamps!
 	public readonly createdAt!: Date
@@ -115,6 +117,10 @@ Camper.init(
 		},
 		tpState: {
 			type: DataTypes.STRING,
+		},
+		blRegisterCompleted: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
 		},
 		createdAt: {
 			type: DataTypes.DATE,
