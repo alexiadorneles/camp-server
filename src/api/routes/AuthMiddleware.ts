@@ -13,6 +13,7 @@ export async function authMiddleware(req: Request, res: Response, next: Function
 			return
 		}
 
+		req.params.signedInUser = payload.idCamper as any
 		next()
 	} catch (error) {
 		res.status(401).json({ error })
