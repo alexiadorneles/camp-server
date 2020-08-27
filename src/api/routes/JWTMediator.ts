@@ -16,4 +16,8 @@ export class JWTMediator {
 	public static verify(token: string): JWTPayload {
 		return jwt.verify(token, SECRET) as JWTPayload
 	}
+
+	public static decode(token: string): JWTPayload {
+		return jwt.decode(token) as JWTPayload
+	}
 }

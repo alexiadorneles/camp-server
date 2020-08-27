@@ -10,6 +10,24 @@ import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/JWTMediator'
 
 export class CamperController {
+	constructor() {
+		this.create = this.create.bind(this)
+		this.loginOrRegister = this.loginOrRegister.bind(this)
+	}
+
+	public async loginOrRegister(req: Request, res: Response): Promise<void> {
+		const { idGoogle } = req.body
+		const camper = await Camper.findOne({ where: { idGoogle } })
+
+		if (!camper) {
+			this.create(req, res)
+			return
+		}
+
+		const token = JWTMediator.sign({ idCamper: Number(camper.idCamper), password: '' })
+		res.json({ camper, token })
+	}
+
 	public async create(req: Request, res: Response): Promise<void> {
 		const camperAttributes = req.body
 		try {
@@ -23,9 +41,7 @@ export class CamperController {
 
 	public async login(req: Request, res: Response): Promise<void> {
 		const [hashType, hash] = req.headers.authorization.split(' ')
-		const [idCamper, id] = Buffer.from(hash, 'base64')
-			.toString()
-			.split(':')
+		const { idCamper } = JWTMediator.decode(hash)
 		try {
 			const camper = await Camper.findByPk(idCamper)
 			if (!camper) {
