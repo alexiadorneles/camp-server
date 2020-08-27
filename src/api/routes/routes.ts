@@ -8,6 +8,7 @@ import { RoundController } from '../controllers/RoundController'
 import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
 import { authMiddleware } from './AuthMiddleware'
+import { ownerMiddleware } from './OwnerMiddleware'
 
 const routes = express.Router()
 
@@ -23,7 +24,7 @@ function generateCabinRoutes(): void {
 function generateCabinRequestRoutes(): void {
 	const controller = new CabinRequestController(editionService)
 	routes.post('/cabin-requests', authMiddleware, controller.create)
-	routes.get('/cabin-requests/check/:idCamper', authMiddleware, controller.camperHasRequestedCabin)
+	routes.get('/cabin-requests/check/:idCamper', authMiddleware, ownerMiddleware, controller.camperHasRequestedCabin)
 	routes.get('/cabin-requests/count', authMiddleware, controller.countCabinRequests)
 }
 
@@ -33,11 +34,11 @@ function generateCamperRequestRoutes(): void {
 	routes.post('/campers/', controller.create)
 	routes.get('/login', controller.login)
 	// OTHER METHODS
-	routes.get('/campers/:idCamper', authMiddleware, controller.findOne)
-	routes.put('/campers/:idCamper', authMiddleware, controller.update)
+	routes.get('/campers/:idCamper', authMiddleware, ownerMiddleware, controller.findOne)
+	routes.put('/campers/:idCamper', authMiddleware, ownerMiddleware, controller.update)
 	routes.put('/campers/:idCamper/cabin', authMiddleware, controller.setCabin)
-	routes.post('/campers/:idCamper/answer', authMiddleware, controller.answerActivity)
-	routes.post('/campers/:idCamper/answer-timed-out', authMiddleware, controller.answerTimedOut)
+	routes.post('/campers/:idCamper/answer', authMiddleware, ownerMiddleware, controller.answerActivity)
+	routes.post('/campers/:idCamper/answer-timed-out', authMiddleware, ownerMiddleware, controller.answerTimedOut)
 }
 
 function generateEditionRoutes(): void {
@@ -54,8 +55,8 @@ function generateActivityRoutes(): void {
 function generateRoundRoutes(): void {
 	const controller = new RoundController(editionService, activityService)
 	routes.post('/rounds/generate', authMiddleware, controller.generateRoundFromConfig)
-	routes.get('/rounds/campers/:idCamper', authMiddleware, controller.loadRoundForCamper)
-	routes.put('/rounds/finish/:idRound', authMiddleware, controller.finish)
+	routes.get('/rounds/campers/:idCamper', authMiddleware, ownerMiddleware, controller.loadRoundForCamper)
+	routes.put('/rounds/finish/:idRound', authMiddleware, ownerMiddleware, controller.finish)
 }
 
 function generateRankingRoutes(): void {
