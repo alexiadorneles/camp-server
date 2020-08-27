@@ -31,6 +31,7 @@ function generateCamperRequestRoutes(): void {
 	routes.get('/campers/:idCamper', controller.findOne)
 	routes.put('/campers/:idCamper', controller.update)
 	routes.post('/campers/', controller.create)
+	routes.get('/login', controller.login)
 	routes.put('/campers/:idCamper/cabin', controller.setCabin)
 	routes.post('/campers/:idCamper/answer', controller.answerActivity)
 	routes.post('/campers/:idCamper/answer-timed-out', controller.answerTimedOut)

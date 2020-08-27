@@ -11,13 +11,32 @@ import { JWTMediator } from '../routes/JWTMediator'
 
 export class CamperController {
 	public async create(req: Request, res: Response): Promise<void> {
-		const camper = req.body
+		const camperAttributes = req.body
 		try {
-			const created = await Camper.create(camper)
-			const token = JWTMediator.sign({ idCamper: created.idCamper, password: '' })
-			res.json({ created, token })
+			const camper = await Camper.create(camperAttributes)
+			const token = JWTMediator.sign({ idCamper: camper.idCamper, password: '' })
+			res.json({ camper, token })
 		} catch (error) {
 			res.status(400).json({ error })
+		}
+	}
+
+	public async login(req: Request, res: Response): Promise<void> {
+		const [hashType, hash] = req.headers.authorization.split(' ')
+		const [idCamper, id] = Buffer.from(hash, 'base64')
+			.toString()
+			.split(':')
+		try {
+			const camper = await Camper.findByPk(idCamper)
+			if (!camper) {
+				res.status(401).json({ error: 'User not found' })
+				return
+			}
+
+			const token = JWTMediator.sign({ idCamper, password: '' })
+			res.json({ camper, token })
+		} catch (error) {
+			res.status(401).json({ error })
 		}
 	}
 
