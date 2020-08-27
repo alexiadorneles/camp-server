@@ -33,7 +33,7 @@ export class CamperController {
 				return
 			}
 
-			const token = JWTMediator.sign({ idCamper, password: '' })
+			const token = JWTMediator.sign({ idCamper: Number(idCamper), password: '' })
 			res.json({ camper, token })
 		} catch (error) {
 			res.status(401).json({ error })
