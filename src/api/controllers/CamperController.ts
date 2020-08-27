@@ -1,14 +1,26 @@
 import { Request, Response } from 'express'
 import {
 	Camper,
+	CamperActivityAttributes,
 	CamperActivityCreationAttributes,
 	CamperAttributes,
 	CamperCreationAttributes,
-	CamperActivityAttributes,
 } from '../../models'
 import { Country } from '../../types/Places'
+import { JWTMediator } from '../routes/JWTMediator'
 
 export class CamperController {
+	public async create(req: Request, res: Response): Promise<void> {
+		const camper = req.body
+		try {
+			const created = await Camper.create(camper)
+			const token = JWTMediator.sign({ idCamper: created.idCamper, password: '' })
+			res.json({ created, token })
+		} catch (error) {
+			res.status(400).json({ error })
+		}
+	}
+
 	public async findOne(req: Request, res: Response): Promise<void> {
 		const { idCamper } = req.params
 		const camper = await Camper.findByPk(idCamper)
