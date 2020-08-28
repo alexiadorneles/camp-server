@@ -56,6 +56,29 @@ export class CamperController {
 		}
 	}
 
+	public async completeRegister(req: Request, res: Response): Promise<void> {
+		const idCamper = Number(req.params.signedInUser)
+		const camper = req.body as Partial<CamperAttributes>
+		const [rows, data] = await Camper.update(
+			{ ...camper, blRegisterCompleted: true },
+			{
+				where: { idCamper },
+				fields: [
+					'nrDiscordID',
+					'dsInstagramNick',
+					'dtBirth',
+					'tpState',
+					'tpCountry',
+					'dsPronouns',
+					'dsDescription',
+					'blRegisterCompleted',
+				],
+			},
+		)
+
+		res.json(data ? data : rows)
+	}
+
 	public async findOne(req: Request, res: Response): Promise<void> {
 		const { idCamper } = req.params
 		const camper = await Camper.findByPk(idCamper)
@@ -66,17 +89,12 @@ export class CamperController {
 	}
 
 	public async update(req: Request, res: Response): Promise<void> {
+		const idCamper = req.params.signedInUser
 		const requestBody = req.body as CamperCreationAttributes
 		if (requestBody.tpCountry !== Country.BRAZIL) {
 			requestBody.tpState = null
 		}
-
-		const [rows, data] = await Camper.update(requestBody, {
-			where: {
-				idCamper: requestBody.idCamper,
-			},
-		})
-
+		const [rows, data] = await Camper.update(requestBody, { where: { idCamper } })
 		res.json(data ? data[0] : rows)
 	}
 
