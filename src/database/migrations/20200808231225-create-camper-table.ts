@@ -13,6 +13,16 @@ export = {
 			idCabin: {
 				type: DataTypes.INTEGER,
 			},
+			idGoogle: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			dsEmail: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
 			dsDescription: {
 				type: DataTypes.STRING,
 			},
@@ -31,7 +41,6 @@ export = {
 			},
 			dtBirth: {
 				type: DataTypes.DATE,
-				allowNull: false,
 			},
 			nrDiscordID: {
 				type: DataTypes.INTEGER,
@@ -41,6 +50,10 @@ export = {
 			},
 			tpState: {
 				type: DataTypes.STRING,
+			},
+			blRegisterCompleted: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false,
 			},
 			createdAt: {
 				type: DataTypes.DATE,

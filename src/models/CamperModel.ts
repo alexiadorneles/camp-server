@@ -17,6 +17,7 @@ export interface CamperAttributes extends TimestampDependant {
 	idCamper: number
 	idCabin: number
 	dsName: string
+	idGoogle: string
 	nrDiscordID: number
 	dsInstagramNick: string
 	dtBirth: Date
@@ -25,6 +26,8 @@ export interface CamperAttributes extends TimestampDependant {
 	dsPronouns: string
 	dsDescription: string
 	dsImageURL: string
+	dsEmail: string
+	blRegisterCompleted: boolean
 	cabin?: CabinAttributes
 }
 
@@ -42,6 +45,9 @@ export class Camper extends Model<CamperAttributes, CamperCreationAttributes> im
 	public dsPronouns!: string
 	public dsDescription!: string
 	public dsImageURL!: string
+	public idGoogle: string
+	public dsEmail: string
+	blRegisterCompleted: boolean
 
 	// timestamps!
 	public readonly createdAt!: Date
@@ -71,6 +77,16 @@ Camper.init(
 		idCabin: {
 			type: DataTypes.INTEGER,
 		},
+		idGoogle: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+		},
+		dsEmail: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+		},
 		dsDescription: {
 			type: DataTypes.STRING,
 		},
@@ -92,7 +108,6 @@ Camper.init(
 		},
 		dtBirth: {
 			type: DataTypes.DATE,
-			allowNull: false,
 		},
 		nrDiscordID: {
 			type: DataTypes.INTEGER,
@@ -102,6 +117,10 @@ Camper.init(
 		},
 		tpState: {
 			type: DataTypes.STRING,
+		},
+		blRegisterCompleted: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
 		},
 		createdAt: {
 			type: DataTypes.DATE,

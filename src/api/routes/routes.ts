@@ -7,6 +7,8 @@ import { RankingController } from '../controllers/RankingController'
 import { RoundController } from '../controllers/RoundController'
 import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
+import { authMiddleware } from './AuthMiddleware'
+import { ownerMiddleware } from './OwnerMiddleware'
 
 const routes = express.Router()
 
@@ -21,41 +23,45 @@ function generateCabinRoutes(): void {
 
 function generateCabinRequestRoutes(): void {
 	const controller = new CabinRequestController(editionService)
-	routes.post('/cabin-requests', controller.create)
-	routes.get('/cabin-requests/check/:idCamper', controller.camperHasRequestedCabin)
-	routes.get('/cabin-requests/count', controller.countCabinRequests)
+	routes.post('/cabin-requests', authMiddleware, controller.create)
+	routes.get('/cabin-requests/check/:idCamper', authMiddleware, ownerMiddleware, controller.camperHasRequestedCabin)
+	routes.get('/cabin-requests/count', authMiddleware, controller.countCabinRequests)
 }
 
 function generateCamperRequestRoutes(): void {
 	const controller = new CamperController()
-	routes.get('/campers/:idCamper', controller.findOne)
-	routes.put('/campers/:idCamper', controller.update)
-	routes.put('/campers/:idCamper/cabin', controller.setCabin)
-	routes.post('/campers/:idCamper/answer', controller.answerActivity)
-	routes.post('/campers/:idCamper/answer-timed-out', controller.answerTimedOut)
+	// LOGIN AND SIGNING
+	routes.post('/campers/', controller.loginOrRegister)
+	routes.get('/login', controller.login)
+	// OTHER METHODS
+	routes.get('/campers/:idCamper', authMiddleware, ownerMiddleware, controller.findOne)
+	routes.put('/campers/:idCamper', authMiddleware, ownerMiddleware, controller.update)
+	routes.put('/campers/:idCamper/cabin', authMiddleware, controller.setCabin)
+	routes.post('/campers/:idCamper/answer', authMiddleware, ownerMiddleware, controller.answerActivity)
+	routes.post('/campers/:idCamper/answer-timed-out', authMiddleware, ownerMiddleware, controller.answerTimedOut)
 }
 
 function generateEditionRoutes(): void {
 	const controller = new EditionController(editionService)
-	routes.get('/editions/current', controller.findCurrent)
+	routes.get('/editions/current', authMiddleware, controller.findCurrent)
 }
 
 function generateActivityRoutes(): void {
 	const controller = new ActivityController(editionService)
-	routes.post('/activities/generate', controller.generateFromCSV)
-	routes.post('/activities/config', controller.configureForCurrentEdition)
+	routes.post('/activities/generate', authMiddleware, controller.generateFromCSV)
+	routes.post('/activities/config', authMiddleware, controller.configureForCurrentEdition)
 }
 
 function generateRoundRoutes(): void {
 	const controller = new RoundController(editionService, activityService)
-	routes.post('/rounds/generate', controller.generateRoundFromConfig)
-	routes.get('/rounds/campers/:idCamper', controller.loadRoundForCamper)
-	routes.put('/rounds/finish/:idRound', controller.finish)
+	routes.post('/rounds/generate', authMiddleware, controller.generateRoundFromConfig)
+	routes.get('/rounds/campers/:idCamper', authMiddleware, ownerMiddleware, controller.loadRoundForCamper)
+	routes.put('/rounds/finish/:idRound', authMiddleware, ownerMiddleware, controller.finish)
 }
 
 function generateRankingRoutes(): void {
 	const controller = new RankingController(editionService)
-	routes.post('/rankings/', controller.generateRanking)
+	routes.post('/rankings/', authMiddleware, controller.generateRanking)
 }
 
 generateCabinRoutes()
