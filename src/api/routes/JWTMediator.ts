@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 
 const SECRET = 'bG9vayBpIGRpZG4ndCB3YW50IHRvIGJlIGEgaGFsZiBibG9vZA=='
 export interface JWTPayload {
+	idGoogleAdmin?: string
 	idCamper: number
 	password: string
 }
