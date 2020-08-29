@@ -29,5 +29,3 @@ export async function adminMiddleware(req: Request, res: Response, next: Functio
 		res.status(403).json({ error })
 	}
 }
-
-// 116076790618527276238
