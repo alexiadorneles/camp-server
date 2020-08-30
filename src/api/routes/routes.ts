@@ -30,7 +30,7 @@ function generateCabinRequestRoutes(): void {
 	routes.get('/cabin-requests/count', authMiddleware, controller.countCabinRequests)
 }
 
-function generateCamperRequestRoutes(): void {
+function generateCamperRoutes(): void {
 	const controller = new CamperController()
 	// LOGIN AND SIGNING
 	routes.post('/campers/', controller.loginOrRegister)
@@ -38,7 +38,7 @@ function generateCamperRequestRoutes(): void {
 	// OTHER METHODS
 	routes.put('/campers/complete-register', authMiddleware, ownerMiddleware, controller.completeRegister)
 	routes.put('/campers/', authMiddleware, ownerMiddleware, controller.update)
-	routes.get('/campers/:idCamper', authMiddleware, ownerMiddleware, controller.findOne)
+	routes.get('/campers/profile', authMiddleware, controller.findOne)
 	routes.put('/campers/:idCamper/cabin', authMiddleware, controller.setCabin)
 	routes.post('/campers/:idCamper/answer', authMiddleware, ownerMiddleware, controller.answerActivity)
 	routes.post('/campers/:idCamper/answer-timed-out', authMiddleware, ownerMiddleware, controller.answerTimedOut)
@@ -69,7 +69,7 @@ function generateRankingRoutes(): void {
 
 generateCabinRoutes()
 generateCabinRequestRoutes()
-generateCamperRequestRoutes()
+generateCamperRoutes()
 generateEditionRoutes()
 generateActivityRoutes()
 generateRoundRoutes()
