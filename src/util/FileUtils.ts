@@ -14,10 +14,26 @@ export interface ActivityCSV {
 	optionCorrect: string
 }
 
+export interface DiscordCabinMap {
+	discordID: string
+	cabinNumber: string
+}
+
 export namespace FileUtils {
 	export function readActivitiesCSV(): Promise<ActivityCSV[]> {
 		const url = pathToFileURL('src/input/activities.csv')
 		const results: ActivityCSV[] = []
+		return new Promise((resolve, reject) => {
+			fs.createReadStream(url)
+				.pipe(csv())
+				.on('data', data => results.push(data))
+				.on('end', () => resolve(results))
+		})
+	}
+
+	export function readDiscordIDsCSV(): Promise<DiscordCabinMap[]> {
+		const url = pathToFileURL('src/input/discord.csv')
+		const results: DiscordCabinMap[] = []
 		return new Promise((resolve, reject) => {
 			fs.createReadStream(url)
 				.pipe(csv())

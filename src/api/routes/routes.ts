@@ -80,6 +80,7 @@ function generateADMRoutes(): void {
 	routes.get('/admins/', controller.login)
 	routes.get('/admins/test', adminMiddleware, controller.listCabinRequests)
 	routes.post('/admins/end-request', adminMiddleware, controller.setCamperInCabin)
+	routes.post('/admins/populate-first-edition', adminMiddleware, controller.addCampersToFirstEdition)
 }
 
 generateADMRoutes()

@@ -1,15 +1,37 @@
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express'
 import _ from 'lodash'
-import { Includeable } from 'sequelize/types'
+import { Includeable, Op } from 'sequelize'
 import { Cabin, CabinRequest, Camper, CamperEdition, CamperEditionAttributes, Status } from '../../models'
 import { Admin } from '../../models/AdminModel'
 import { JWTMediator } from '../routes/JWTMediator'
 import { EditionService } from '../services'
+import { FileUtils } from '../../util/FileUtils'
 
 export class AdminController {
 	constructor(private editionService: EditionService) {
 		this.listCabinRequests = this.listCabinRequests.bind(this)
+	}
+
+	public async addCampersToFirstEdition(req: Request, res: Response): Promise<void> {
+		const discordData = await FileUtils.readDiscordIDsCSV()
+		const ids = discordData.map(obj => obj.discordID).map(Number)
+		const campersFirstEdition = await Camper.findAll({ where: { nrDiscordID: { [Op.in]: ids } } })
+		const created = await Promise.all(
+			campersFirstEdition.map(camper => {
+				const lineForCamper = discordData.find(data => Number(data.discordID) == camper.nrDiscordID)
+				if (lineForCamper.cabinNumber) {
+					return CamperEdition.create({
+						idEdition: 1,
+						idCamper: camper.idCamper,
+						idCabin: lineForCamper.cabinNumber,
+					})
+				}
+				Promise.resolve(null)
+			}),
+		)
+
+		res.json(created.filter(Boolean))
 	}
 
 	public async login(req: Request, res: Response): Promise<void> {
