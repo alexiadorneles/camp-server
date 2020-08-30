@@ -6,8 +6,8 @@ import { Admin } from '../../models/AdminModel'
 export async function adminMiddleware(req: Request, res: Response, next: Function): Promise<void> {
 	const [, token] = req.headers.authorization.split(' ')
 	try {
-		const { idGoogleAdmin, password } = await JWTMediator.verify(token)
-		if (!idGoogleAdmin || !password) {
+		const { idGoogleAdmin } = await JWTMediator.verify(token)
+		if (!idGoogleAdmin) {
 			res.status(403).json('Nice try')
 			return
 		}
@@ -18,14 +18,8 @@ export async function adminMiddleware(req: Request, res: Response, next: Functio
 			return
 		}
 
-		const correctPassword = await bcrypt.compare(password, adm.password)
-		if (!correctPassword) {
-			res.status(403).json(`Incorrect Password`)
-			return
-		}
-
 		next()
 	} catch (error) {
-		res.status(403).json({ error })
+		res.status(401).json({ error })
 	}
 }
