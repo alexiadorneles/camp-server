@@ -37,12 +37,12 @@ Cabin.associate = function(): void {
 }
 
 Edition.associate = function(): void {
-	Edition.hasMany(CabinRequest)
+	Edition.hasMany(CabinRequest, { foreignKey: 'idEdition' })
 }
 
 CabinRequest.associate = function(): void {
-	CabinRequest.hasOne(Edition, { foreignKey: 'idEdition' })
-	CabinRequest.hasOne(Camper, { foreignKey: 'idCamper' })
+	CabinRequest.hasOne(Edition, { foreignKey: 'idEdition', as: 'edition' })
+	CabinRequest.hasOne(Camper, { foreignKey: 'idCamper', as: 'camper', sourceKey: 'idCamper' })
 	CabinRequest.hasOne(Cabin, { foreignKey: 'idCabin', as: 'firstOptionCabin' })
 	CabinRequest.hasOne(Cabin, { foreignKey: 'idCabin', as: 'secondOptionCabin' })
 	CabinRequest.hasOne(Cabin, { foreignKey: 'idCabin', as: 'thirdOptionCabin' })
