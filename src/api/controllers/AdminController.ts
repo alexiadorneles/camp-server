@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express'
 import _ from 'lodash'
-import { Includeable, Op } from 'sequelize'
-import { Cabin, CabinRequest, Camper, CamperEdition, CamperEditionAttributes, Status } from '../../models'
+import { Includeable, Op, where } from 'sequelize'
+import { Cabin, CabinRequest, Camper, CamperEdition, CamperEditionAttributes, Status, Edition } from '../../models'
 import { Admin } from '../../models/AdminModel'
 import { JWTMediator } from '../routes/JWTMediator'
 import { EditionService } from '../services'
@@ -11,6 +11,20 @@ import { FileUtils } from '../../util/FileUtils'
 export class AdminController {
 	constructor(private editionService: EditionService) {
 		this.listCabinRequests = this.listCabinRequests.bind(this)
+		this.endEdition = this.endEdition.bind(this)
+	}
+
+	public async initEdition(req: Request, res: Response): Promise<void> {
+		const edition = req.body
+		const data = await Edition.create(edition)
+		res.json(data)
+	}
+
+	public async endEdition(req: Request, res: Response): Promise<void> {
+		const { idEdition } = await this.editionService.findCurrent()
+		const data = await Edition.update({ dtEnd: new Date() }, { where: { idEdition } })
+		await Camper.update({ idCabin: null }, { where: { idCabin: { [Op.not]: null } } })
+		res.json(data)
 	}
 
 	public async addCampersToFirstEdition(req: Request, res: Response): Promise<void> {
@@ -66,7 +80,20 @@ export class AdminController {
 			include: { model: Camper, as: 'camper' } as Includeable,
 		})
 		const cabinRequests = requests.map(req => this.populateCabin(req, cabins))
-		const groupedRequests = _.groupBy(cabinRequests, 'idFirstOptionCabin')
+		for (const request of cabinRequests) {
+			const idCamper = request.idCamper!
+			request.isFirstEdition = Boolean(await CamperEdition.findOne({ where: { idCamper, idEdition: 1 } }))
+		}
+
+		const sorted = cabinRequests
+			.sort(function(x, y) {
+				// true values first
+				return x === y ? 0 : x ? -1 : 1
+				// false values first
+				// return (x === y)? 0 : x? 1 : -1;
+			})
+			.reverse()
+		const groupedRequests = _.groupBy(sorted, 'idFirstOptionCabin')
 		res.json(groupedRequests)
 	}
 

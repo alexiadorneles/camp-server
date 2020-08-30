@@ -19,6 +19,7 @@ export interface CabinRequestAttributes extends TimestampDependant {
 	firstOptionCabin?: Cabin
 	secondOptionCabin?: Cabin
 	thirdOptionCabin?: Cabin
+	isFirstEdition?: boolean
 }
 
 export interface CabinRequestCreationAttributes
@@ -36,6 +37,7 @@ export class CabinRequest extends Model<CabinRequestAttributes, CabinRequestCrea
 	firstOptionCabin?: Cabin
 	secondOptionCabin?: Cabin
 	thirdOptionCabin?: Cabin
+	isFirstEdition?: boolean
 
 	// timestamps!
 	public readonly createdAt!: Date

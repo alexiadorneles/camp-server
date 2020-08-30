@@ -9,7 +9,7 @@ export class EditionController {
 	public async findCurrent(req: Request, res: Response): Promise<any> {
 		const edition = await this.editionService.findCurrent()
 		if (!edition) {
-			return res.status(400).json({ error: 'No current edition' })
+			return res.status(400).json({ error: 'Nenhuma edição do acampamento está acontecendo agora' })
 		}
 		res.json(edition)
 	}

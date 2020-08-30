@@ -51,20 +51,20 @@ function generateEditionRoutes(): void {
 
 function generateActivityRoutes(): void {
 	const controller = new ActivityController(editionService)
-	routes.post('/activities/generate', authMiddleware, controller.generateFromCSV)
-	routes.post('/activities/config', authMiddleware, controller.configureForCurrentEdition)
+	routes.post('/activities/generate', adminMiddleware, controller.generateFromCSV)
+	routes.post('/activities/config', adminMiddleware, controller.configureForCurrentEdition)
 }
 
 function generateRoundRoutes(): void {
 	const controller = new RoundController(editionService, activityService)
-	routes.post('/rounds/generate', authMiddleware, controller.generateRoundFromConfig)
+	routes.post('/rounds/generate', adminMiddleware, controller.generateRoundFromConfig)
 	routes.get('/rounds/campers/:idCamper', authMiddleware, ownerMiddleware, controller.loadRoundForCamper)
 	routes.put('/rounds/finish/:idRound', authMiddleware, ownerMiddleware, controller.finish)
 }
 
 function generateRankingRoutes(): void {
 	const controller = new RankingController(editionService)
-	routes.post('/rankings/', authMiddleware, controller.generateRanking)
+	routes.post('/rankings/', adminMiddleware, controller.generateRanking)
 }
 
 generateCabinRoutes()
@@ -81,6 +81,8 @@ function generateADMRoutes(): void {
 	routes.get('/admins/test', adminMiddleware, controller.listCabinRequests)
 	routes.post('/admins/end-request', adminMiddleware, controller.setCamperInCabin)
 	routes.post('/admins/populate-first-edition', adminMiddleware, controller.addCampersToFirstEdition)
+	routes.post('/admins/start-edition', adminMiddleware, controller.initEdition)
+	routes.put('/admins/end-edition', adminMiddleware, controller.endEdition)
 }
 
 generateADMRoutes()
