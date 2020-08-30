@@ -1,12 +1,14 @@
 import express from 'express'
 import { CabinController, CabinRequestController } from '../controllers'
 import { ActivityController } from '../controllers/ActivityController'
+import { AdminController } from '../controllers/AdminController'
 import { CamperController } from '../controllers/CamperController'
 import { EditionController } from '../controllers/EditionController'
 import { RankingController } from '../controllers/RankingController'
 import { RoundController } from '../controllers/RoundController'
 import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
+import { adminMiddleware } from './AdminMiddleware'
 import { authMiddleware } from './AuthMiddleware'
 import { ownerMiddleware } from './OwnerMiddleware'
 
@@ -72,6 +74,15 @@ generateEditionRoutes()
 generateActivityRoutes()
 generateRoundRoutes()
 generateRankingRoutes()
+
+function generateADMRoutes(): void {
+	const controller = new AdminController(editionService)
+	routes.get('/admins/', controller.login)
+	routes.get('/admins/test', adminMiddleware, controller.listCabinRequests)
+	routes.post('/admins/end-request', adminMiddleware, controller.setCamperInCabin)
+}
+
+generateADMRoutes()
 
 // tslint:disable-next-line: no-default-export
 export default routes
