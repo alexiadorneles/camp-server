@@ -7,8 +7,8 @@
 		"build": "node node_modules/typescript/bin/tsc",
 		"build:watch": "tsc -w",
 		"dev": "nodemon build/index",
-		"prestart": "npm i && node node_modules/.bin/sequelize db:migrate",
-		"start": "npm run build && node build/index",
+		"prestart": "npm i && npm run build && node node_modules/.bin/sequelize db:migrate",
+		"start": "node build/index",
 		"test": "mocha -r ts-node/register src/test/**/*.test.ts"
 	},
 	"author": "alexiadorneles",
