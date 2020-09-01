@@ -26,5 +26,5 @@ export function configureAPI(): void {
 	app.use(cors(corsOptions))
 	app.use(routes)
 
-	app.listen(80)
+	app.listen(5050)
 }
