@@ -34,6 +34,6 @@ export = {
 	},
 
 	down: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.dropTable('cabin')
+		return queryInterface.dropTable(Cabin.tableName)
 	},
 }

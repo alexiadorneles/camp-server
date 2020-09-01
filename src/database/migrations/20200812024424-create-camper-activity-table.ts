@@ -41,6 +41,6 @@ export = {
 	},
 
 	down: (queryInterface: QueryInterface, Sequelize: any) => {
-		return queryInterface.dropTable('CamperActivities')
+		return queryInterface.dropTable(CamperActivity.tableName)
 	},
 }

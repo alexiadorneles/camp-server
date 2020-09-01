@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize'
-import { CabinCreationAttributes } from '../../models'
+import { CabinCreationAttributes, Cabin } from '../../models'
 import { Divinity } from '../../types/Mythology'
 
 export = {
@@ -91,7 +91,7 @@ export = {
 					'https://cdnb.artstation.com/p/assets/images/images/012/833/145/small/elinor-riley-cabin-12-concept.jpg?1536746941',
 			},
 		]
-		return queryInterface.bulkInsert('cabins', cabins)
+		return queryInterface.bulkInsert(Cabin.tableName, cabins)
 	},
 
 	down: (queryInterface: QueryInterface, Sequelize: any) => {},
