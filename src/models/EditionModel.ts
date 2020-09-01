@@ -29,7 +29,7 @@ export class Edition extends Model<EditionAttributes, EditionCreationAttributes>
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'edition'
+	public static tableName = 'Edition'
 
 	public static associations: {}
 	static associate: () => void

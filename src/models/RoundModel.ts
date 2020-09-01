@@ -28,7 +28,7 @@ export class Round extends Model<RoundAttributes, RoundCreationAttributes> imple
 
 	public addActivity!: BelongsToManyAddAssociationMixin<Activity, number>
 
-	public static tableName = 'rounds'
+	public static tableName = 'Rounds'
 
 	public static associations: {}
 	static associate: () => void

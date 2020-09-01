@@ -24,7 +24,7 @@ export class ActivityEdition extends Model<ActivityEditionAttributes, ActivityEd
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'activityEditions'
+	public static tableName = 'ActivityEditions'
 	static associate: () => void
 }
 

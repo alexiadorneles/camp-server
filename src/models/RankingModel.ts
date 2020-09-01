@@ -23,7 +23,7 @@ export class Ranking extends Model<RankingAttributes, RankingCreationAttributes>
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'rankings'
+	public static tableName = 'Rankings'
 
 	public static associations: {}
 	static associate: () => void

@@ -25,7 +25,7 @@ export class Cabin extends Model<CabinAttributes, CabinCreationAttributes> imple
 
 	public getCampers: HasManyAddAssociationMixin<Camper, number>
 
-	public static tableName = 'cabins'
+	public static tableName = 'Cabins'
 
 	public static associations: {
 		campers: Association<Cabin, Camper>

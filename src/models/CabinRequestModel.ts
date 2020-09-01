@@ -43,7 +43,7 @@ export class CabinRequest extends Model<CabinRequestAttributes, CabinRequestCrea
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'cabinRequest'
+	public static tableName = 'CabinRequest'
 
 	public static associations: {}
 	static associate: () => void

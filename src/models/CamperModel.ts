@@ -57,7 +57,7 @@ export class Camper extends Model<CamperAttributes, CamperCreationAttributes> im
 	public createCabin!: HasOneCreateAssociationMixin<Cabin>
 	public createCamperActivity!: HasManyCreateAssociationMixin<CamperActivity>
 
-	public static tableName = 'campers'
+	public static tableName = 'Campers'
 
 	public static associations: {
 		cabin: Association<Camper, Cabin>

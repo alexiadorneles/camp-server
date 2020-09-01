@@ -36,7 +36,7 @@ export class CamperEdition extends Model<CamperEditionAttributes, CamperEditionC
 	public getCabin!: HasOneGetAssociationMixin<Cabin>
 	public setCabin!: HasOneSetAssociationMixin<Cabin, number>
 
-	public static tableName = 'camperEditions'
+	public static tableName = 'CamperEditions'
 
 	public static associations: {
 		cabin: Association<CamperEdition, Cabin>

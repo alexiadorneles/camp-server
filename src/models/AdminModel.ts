@@ -24,7 +24,7 @@ export class Admin extends Model<AdminAttributes, AdminCreationAttributes> imple
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'admins'
+	public static tableName = 'Admins'
 
 	static associate: () => void
 }

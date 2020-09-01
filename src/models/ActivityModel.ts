@@ -34,7 +34,7 @@ export class Activity extends Model<ActivityAttributes, ActivityCreationAttribut
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'activities'
+	public static tableName = 'Activities'
 
 	public static associations: {
 		options: Association<Activity, ActivityOption>

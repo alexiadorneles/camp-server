@@ -26,7 +26,7 @@ export class CamperActivity extends Model<CamperActivityAttributes, CamperActivi
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
-	public static tableName = 'camperActivities'
+	public static tableName = 'CamperActivities'
 
 	public static associations: {}
 	static associate: () => void
