@@ -4,7 +4,7 @@
 	"description": "App to greek mythology games",
 	"main": "index.js",
 	"scripts": {
-		"build": "tsc",
+		"build": "node node_modules/typescript/bin/tsc",
 		"build:watch": "tsc -w",
 		"dev": "nodemon build/index",
 		"start": "npm run build && node build/index",
