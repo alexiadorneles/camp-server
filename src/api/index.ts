@@ -26,5 +26,5 @@ export function configureAPI(): void {
 	app.use(cors(corsOptions))
 	app.use(routes)
 
-	app.listen(5050)
+	app.listen(process.env.PORT || 3000, () => console.log('Escutando!'))
 }
