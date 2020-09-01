@@ -7,4 +7,5 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const api_1 = require("./api");
 api_1.configureAPI();
+console.log('Camp server listening in port');
 //# sourceMappingURL=index.js.map

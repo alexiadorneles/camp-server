@@ -4,9 +4,10 @@
 	"description": "App to greek mythology games",
 	"main": "index.js",
 	"scripts": {
-		"build": "node node_modules/typescript/bin/tsc",
+		"build": "tsc",
 		"build:watch": "tsc -w",
 		"dev": "nodemon build/index",
+		"start": "npm run build && node build/index",
 		"test": "mocha -r ts-node/register src/test/**/*.test.ts"
 	},
 	"author": "alexiadorneles",
