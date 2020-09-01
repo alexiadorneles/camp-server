@@ -7,7 +7,8 @@
 		"build": "node node_modules/typescript/bin/tsc",
 		"build:watch": "tsc -w",
 		"dev": "nodemon build/index",
-		"start": "npm run build && node build/index",
+		"postinstall": "grunt",
+		"start": "node build/index",
 		"test": "mocha -r ts-node/register src/test/**/*.test.ts"
 	},
 	"author": "alexiadorneles",
