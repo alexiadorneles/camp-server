@@ -14,8 +14,8 @@ const corsOptions = {
 		if (whitelist.indexOf(origin) !== -1) {
 			callback(null, true)
 		} else {
-			// callback(null, true)
-			callback(new Error('Not allowed by CORS'))
+			callback(null, true)
+			// callback(new Error('Not allowed by CORS'))
 		}
 	},
 }
@@ -24,6 +24,7 @@ export function configureAPI(): void {
 	app.use(express.json())
 	// app.use(cors({ origin: [ADMIN_PANEL_URL, FRONTEND_URL] }))
 	app.use(cors(corsOptions))
+	// app.use(cors())
 	app.use(routes)
 
 	app.listen(process.env.PORT || 3000, () => console.log('Escutando!'))
