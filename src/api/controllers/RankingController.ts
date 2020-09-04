@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { Op, WhereOptions } from 'sequelize'
-import { Activity, Cabin, Camper, CamperActivity } from '../../models'
+import { Activity, Cabin, Camper, CamperActivity, Round } from '../../models'
 import { ActivityEdition, ActivityEditionAttributes } from '../../models/ActivityEditionModel'
 import { Ranking } from '../../models/RankingModel'
 import { EditionService } from '../services'
@@ -15,6 +15,7 @@ export class RankingController {
 		this.generateRanking = this.generateRanking.bind(this)
 	}
 	public async generateRanking(req: Request, res: Response): Promise<void> {
+		await this.endAllRounds()
 		const cabins = await Cabin.findAll()
 		const { idEdition } = await this.editionService.findCurrent()
 		const activityEdition = await ActivityEdition.findAll({ where: { idEdition } })
@@ -31,6 +32,10 @@ export class RankingController {
 		}
 
 		res.json(toBeReturned.sort((a, b) => b.nrPoints - a.nrPoints))
+	}
+
+	private async endAllRounds() {
+		return Round.update({ blFinished: true }, { where: { blFinished: false } })
 	}
 
 	private persistRankingForCabin(
