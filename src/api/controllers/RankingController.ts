@@ -13,6 +13,7 @@ interface CountResult {
 export class RankingController {
 	constructor(private editionService: EditionService) {
 		this.generateRanking = this.generateRanking.bind(this)
+		this.calculateRanking = this.calculateRanking.bind(this)
 	}
 	public async generateRanking(req: Request, res: Response): Promise<void> {
 		await this.endAllRounds()
@@ -34,8 +35,29 @@ export class RankingController {
 		res.json(toBeReturned.sort((a, b) => b.nrPoints - a.nrPoints))
 	}
 
-	private async endAllRounds() {
-		return Round.update({ blFinished: true }, { where: { blFinished: false } })
+	public async calculateRanking(req: Request, res: Response): Promise<void> {
+		const cabins = await Cabin.findAll()
+		const { idEdition } = await this.editionService.findCurrent()
+		const activityEdition = await ActivityEdition.findAll({ where: { idEdition } })
+		const toBeReturned: Partial<Ranking>[] = []
+
+		for (const { idCabin } of cabins) {
+			const campersOfThisCabin = await Camper.findAll({ where: { idCabin }, attributes: ['idCamper'] })
+			const correctAnswers = await this.countUserCorrectAnswers(idEdition, campersOfThisCabin)
+			const loadedActivities = await this.loadActivities(correctAnswers)
+			const nrPoints = correctAnswers.reduce(this.countPoints(loadedActivities, activityEdition), 0)
+			toBeReturned.push({ idCabin, nrPoints, createdAt: new Date() })
+		}
+
+		res.json(toBeReturned.sort((a, b) => b.nrPoints - a.nrPoints))
+	}
+
+	public async endAllRounds(req?: Request, res?: Response) {
+		const result = Round.update({ blFinished: true }, { where: { blFinished: false } })
+		if (res) {
+			res.json(result)
+		}
+		return result
 	}
 
 	private persistRankingForCabin(
@@ -76,11 +98,7 @@ export class RankingController {
 		})
 	}
 
-	private countUserCorrectAnswers(
-		idEdition: number,
-		campers: Camper[],
-		lastRanking: Ranking | null,
-	): Promise<CountResult[]> {
+	private countUserCorrectAnswers(idEdition: number, campers: Camper[], lastRanking?: Ranking): Promise<CountResult[]> {
 		const where: WhereOptions<ActivityEditionAttributes> = {
 			idEdition,
 			idCamper: {

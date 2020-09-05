@@ -12,4 +12,8 @@ export default {
 	define: {
 		timestamps: true,
 	},
+	dialectOptions: {
+		useUTC: false,
+	},
+	timezone: '-03:00',
 }

@@ -64,7 +64,9 @@ function generateRoundRoutes(): void {
 
 function generateRankingRoutes(): void {
 	const controller = new RankingController(editionService)
-	routes.post('/rankings/', adminMiddleware, controller.generateRanking)
+	// routes.post('/rankings/', adminMiddleware, controller.generateRanking)
+	routes.get('/rankings/', adminMiddleware, controller.calculateRanking)
+	routes.put('/rankings/end-route', adminMiddleware, controller.endAllRounds)
 }
 
 generateCabinRoutes()
