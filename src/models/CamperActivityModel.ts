@@ -4,6 +4,7 @@ import { TimestampDependant } from '../types/Data'
 
 export interface CamperActivityAttributes extends TimestampDependant {
 	idCamperActivity: number
+	// idRound: number
 	idCamper: number
 	idActivity: number
 	idActivityOption: number
@@ -17,6 +18,7 @@ export interface CamperActivityCreationAttributes
 export class CamperActivity extends Model<CamperActivityAttributes, CamperActivityCreationAttributes>
 	implements CamperActivityAttributes {
 	idEdition: number
+	// idRound: number
 	idCamperActivity: number
 	idCamper: number
 	idActivity: number
@@ -40,6 +42,10 @@ CamperActivity.init(
 			primaryKey: true,
 			autoIncrement: true,
 		},
+		// idRound: {
+		// 	type: DataTypes.INTEGER,
+		// 	allowNull: true,
+		// },
 		idCamper: {
 			type: DataTypes.INTEGER,
 			allowNull: false,

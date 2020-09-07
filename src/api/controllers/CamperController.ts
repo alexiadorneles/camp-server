@@ -118,7 +118,7 @@ export class CamperController {
 	}
 
 	public async answerTimedOut(req: Request, res: Response): Promise<void> {
-		const { idActivity, idEdition } = req.body
+		const { idActivity, idEdition, idRound } = req.body
 		const { idCamper } = req.params
 		const camper = await Camper.findByPk(idCamper)
 		if (!camper) {
@@ -127,6 +127,7 @@ export class CamperController {
 
 		const camperActivity: Partial<CamperActivityAttributes> = {
 			blCorrect: false,
+			// idRound,
 			idActivity,
 			idCamper: Number(idCamper),
 			idActivityOption: null,

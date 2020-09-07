@@ -79,7 +79,17 @@ export class RoundController {
 	}
 
 	public async finish(req: Request, res: Response): Promise<void> {
-		const { idRound } = req.params
+		const { idRound, signedInUser } = req.params
+		if (!idRound) {
+			const openRound = await Round.findOne({ where: { idCamper: signedInUser, blFinished: false } })
+			const [rows, data] = await Round.update(
+				{ blFinished: true, dtEnd: new Date() },
+				{ where: { idRound: openRound.idRound } },
+			)
+			res.json(data ? data : rows)
+			return
+		}
+
 		const [rows, data] = await Round.update({ blFinished: true, dtEnd: new Date() }, { where: { idRound } })
 		res.json(data ? data : rows)
 	}
