@@ -85,14 +85,7 @@ export class AdminController {
 			request.isFirstEdition = Boolean(await CamperEdition.findOne({ where: { idCamper, idEdition: 1 } }))
 		}
 
-		const sorted = cabinRequests
-			.sort(function(x, y) {
-				// true values first
-				return x === y ? 0 : x ? -1 : 1
-				// false values first
-				// return (x === y)? 0 : x? 1 : -1;
-			})
-			.reverse()
+		const sorted = cabinRequests.sort((request, request2) => request.createdAt.getTime() - request2.createdAt.getTime())
 		const groupedRequests = _.groupBy(sorted, 'idFirstOptionCabin')
 		res.json(groupedRequests)
 	}
