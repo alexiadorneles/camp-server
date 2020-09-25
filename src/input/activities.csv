@@ -5,7 +5,7 @@ dsQuestion,tpLevel,tpActivity,option1,option2,option3,option4,optionCorrect
 "Meu truque é fazer você ver o que mais quer, porém cuidado é necessário. O motivo é porque drasticamente será enganado. Quem sou eu?",HARD,Quem Sou Eu?,Héstia,Annabeth,Afrodite,Hécate,4
 "Do meu fenômeno óptico que leva as mensagens dos deuses, semideuses e até mesmo titãs, em troca de uma boa oferta, me mantenho ocupada. Quem sou eu?  ",MEDIUM,Quem Sou Eu?,Íris,Fleecy,Afrodite,Hazel,1
 Qual o nome do avô de Piper?,MEDIUM,Quiz,Fred,Ed,Tom,Tristan,3
-Qual o/a primeiro(a) deus a aparecer no livro A Batalha do Labirinto,MEDIUM,Quiz,Hera,Atena,Juno,Hefesto,3
+Qual o/a primeiro(a) deus a aparecer no livro A Batalha do Labirinto,MEDIUM,Quiz,Hera,Atena,Jano,Hefesto,3
 "Com Percy, Contracorrente é uma caneta esferográfica que se transforma em espada. Qual era a sua forma original?",HARD,Quiz,Um brinco,Um pingente de cabelo,Um bracelete,Um colar,2
 Qual o nome de um conjunto de pedras característicos do Acampamento Meio Sangue?,HARD,Quiz,Braço de Hercules,Punho de Hades,Calcanhar de Aquiles,Punho de Zeus,4
 "Para quem foi a profecia dos livros O Ladrão de Raios, Mar de Monstros, Maldição de Titã e A Batalha do Labirinto, respectivamente?",EASY,Quiz,"Percy, Clarisse, Zoe, Annabeth","Percy, Thalia, Zoe Annabeth","Percy, Percy, Thalia, Grover","Annabeth, Grover, Zoe, Percy",1
@@ -34,3 +34,63 @@ Eu finalmente sinto como se tivesse um lar. Mas você é um herói. Você será 
 "E não tenho que ver o futuro para lhe dizer o que fazer agora, tenho?	",EASY,Quem disse?,Annabeth,Apolo,Rachel,Artemis,3
 Você me deve pelo menos três dias de descanso na enfermaria. Começando agora,HARD,Quem disse?,Apolo,Annabeth,Percy,Will,4
 Ser um herói não significa que você é invencível. Significa apenas que você é corajoso o suficiente para se levantar e fazer o que é necessário,HARD,Quem disse?,Annabeth,Atena,Piper,Percy,3
+"Juno diz que reuniu uma valorosa tripulação de semideuses. Provem. Divirtam-me, heróis do Olimpo.",HARD,Quem disse?,Gaia,Plutão,Baco,Marte,3
+Não sou ajudante de ninguém,HARD,Quem disse?,Annabeth,Nico,Piper,Leo,1
+Quem é o Espada Dourada que aparece em A Marca de Atena?,MEDIUM,Quiz,Hercules,Jason,Crisaor,Oto,3
+Quem dá ideia a Annabeth da armadilha para a tecelã?,HARD,Quiz,Percy,Piper,Jason,Frank,4
+"No início de O Heroi Perdido, qual chalé pensava estar amaldiçoado?",EASY,Quiz,9,7,1,5,1
+De onde Percy conhecia Reyna?,EASY,Quiz,De uma missão em New York,Da ilha de Circe,Do monte olimpo,Do acampamento meio sangue,2
+Quem é O Último Olimpiano?,EASY,Quiz,Poseidon,Atena,Hestia,Hecate,3
+Qual o nome da mortal que ajudou Teseu a se orientar pelo labirinto?,EASY,Quiz,Ariane,Ariadne,Annabeth,Anna,2
+Os companheiros do Espada Dourado no navio tinham medo de ser transformados em que e por quem?,MEDIUM,Quiz,"Em águias, por Júpier","Em golfinhos, por Poseidon","Em corujas, por Atena","Em golfinhos, por Dioniso",4
+"Antes de ter seu pai revelado, de quem Frank achava que era filho?",MEDIUM,Quiz,Netuno,Mercúrio,Apolo,Marte,3
+"Em o Ultimo Olimpiano, no final da batalha de Manhattan, um(a) semideus(a) fica preso por uma estátua. Quem é essa pessoa?",HARD,Quiz,Thalia,Grover,Ethan,Annabeth,1
+Qual o carro o padrasto de Percy possui?,HARD,Quiz,Etios,Civic,Focus,Prius,4
+Qual dos 3 grandes nasceu primeiro?,EASY,Quiz,Zeus,Hades,Poseidon,Nasceram todos ao mesmo tempo,2
+Qual herói mitológico montou primeiro o Pegaso?,HARD,Quiz,Héracles,Jasão,Teseu,Belerofonte,4
+Quem foi o primeiro dono da égide?,EASY,Quiz,Poseidon,Ares,Zeus,Atena,3
+"Qual primeiro monstro que Percy enfrentou, nos livros?",MEDIUM,Quiz,Minotauro,Hidra,Fúria,Górgona,3
+Como os semideuses chamavam as Fúrias?,MEDIUM,Quiz,Benfeitoras,Fúrias,Benevoltas,Benevolentes,4
+Sra Dodds era professora de qual disciplina?,HARD,Quiz,Iniciação à Gramática,Iniciação à Álgebra,Iniciação Científica,Iniciação à Geometria,2
+Quantos anos Luke Castellan possui em O Ladrão de Raios?,EASY,Quiz,12,15,16,19,4
+Como a avó de Frank costumava chamá-lo?,MEDIUM,Quiz,Fai,Frank,Franky,Fey,1
+Qual titã Jason matou com as próprias mãos?,HARD,Quiz,Cronos,Hiperíon,Crios,Helio,3
+Qual deus era representado na estátua conhecida como O Colosso de Rodes?,HARD,Quiz,Zeus,Poseidon,Apolo,Helio,4
+"Para alguns eu estava morto, mas especificamente para um, eu abençoei sua jornada até mim para testemunhar o final da minha vivência. Quem sou eu?",MEDIUM,Quem Sou Eu?,Centímanos ,Pan,Grover,Urano,2
+"Um ranço enorme por mim muitas pessoas tem, não adianta eu negar. Mas a única coisa que não podem dizer é que meus planos não são ´´lindamentes sucedidos´´. Quem sou eu? ",EASY,Quem Sou Eu?,Annabeth,Atena,Hera,Gaia,3
+"Nascida do caos, essa mamãe da vida não tem nada de maternal. Quem sou eu?",HARD,Quem Sou Eu?,Gaia,Hera,Deméter,Atena,1
+"Para os dubladores brasileiros eu tenho aquela leve pegada Zé Ramalho na forma humana, mas em forma celestial eu não sou nem um pouco agradável. Aquele que ousa pegar a minha riqueza, é até o seu fim amaldiçoado. Quem sou eu?",HARD,Quem Sou Eu?,Ares,Hades,Zeus,Hefesto,2
+"Eu sou muito legal, fiel, companheiro e no final você vai me dar um cubo de açúcar né, chefe?",EASY,Quem Sou Eu?,Grover,Tyson,Sra. O'Leary,Blackjack,4
+"O pior sentimento irradio para o Homem, e por isso, a minha força sempre foi a fúria, não o juízo. Quem eu sou?",MEDIUM,Quem Sou Eu?,Hades,Zeus,Poseidon,Ares,4
+"Através do truque de Hécate consigo ver, mas foi com moletons grandes e esfarrapados e jeans manchados de tinta, que descobri o propósito da minha vida. Quem eu sou?",MEDIUM,Quem Sou Eu?,May Castellan,Rachel Dare,Sally Jackson,Annabeth Chase,2
+"As vezes falo o que não devo, e acabo metendo meus amigos em confusão junto comigo. Não é atoa que sou odiado por alguns deuses gregos, e para não bastar, os romanos entram nessa lista também.",HARD,Quem Sou Eu?,Percy Jackson,Octavian,Luke Castellan,Jason Grace,1
+"Qual o seu defeito mortal?
+- Não admitir que estou errada.
+- Orgulho.
+- Não, eu só não consigo admitir que estou errada… Na verdade eu sempre tenho razão, nunca tô errada.",EASY,Quem Sou Eu?,Piper,Hazel,Annabeth,Reyna,3
+"Decidam-se, traí ou não traí? Quem eu sou?",MEDIUM,Quem Sou Eu?,Bob,Luke,Nico,Grover,2
+"Sou mais velho do que pareço, arraso com as náiades e as dríades (só não deixa minha namorada saber) e sou béééem legal. Quem eu sou?",EASY,Quem Sou Eu?,Frank,Percy,Tyson,Grover,4
+"Assumi o chalé depois que a traidora morreu. Aí veio aquela outrazinha roubando meu espaço, e até imitando meu poder. Posso até ter renunciado, mas nunca vou esquecer o que ela fez. Quem sou eu? ",MEDIUM,Quem Sou Eu?,"Piper Mclean
+",Drew Tanaka,Silena Beauregard,Lacy,2
+Fui a(o) única(o) a receber uma benção em meio a batalha de Manhattan. Quem sou eu?,MEDIUM,Quem Sou Eu?,Annabeth,Silena,Clarisse,Percy,3
+"Qual deus amaldiçoou o Oráculo de Delfos, que o Oráculo não poderia ter outro receptor mesmo que este receptor morresse?",MEDIUM,Quiz,Hades,Zeus,Apolo,Ares,1
+Qual peça de Aracne chamou a atenção de Annabeth por conter um momento de sua vida?,HARD,Quiz,"Ela, Thalia e Luke se encontrando pela primeira vez",Ela e Percy navegando no Mar de Monstros,Ela e Percy em seu primeiro beijo,Ela e Percy em seu beijo embaixo d'água,4
+"Nome do dragão em que Leo, Piper e Jason voaram para salvar Juno?",EASY,Quiz,Festa,Festus,Drogon,Draco,2
+Qual dia é sagrado para Juno?,HARD,Quiz,1o de Junho,1o de Agosto,1o de Julho,1o de Outubro,3
+Qual o dia de aniversário do Jason?,HARD,Quiz,Calendas de Julho,Calendas de Junho,Nonas de Junho,Nonas de Julho,1
+"Qual o nome do monstro que poderia destruir o Olimpo, se fosse morto?",MEDIUM,Quiz,Minotauro,Medusa,Ofiotauro,Pégaso,3
+"Qual o nome da feiticeira que anda em uma carruagem guiada por dragões do Sol, neta do titã hélio?",HARD,Quiz,Medusa,Medeia,Ariadne,Circe,2
+Qual o nome do Monstro que guardava a cela do centimano Briareu?,HARD,Quiz,Campe,Empousa,Górgona,Equidna,1
+"Nome do bosque profético, que fica atualmente na floresta do acampamento meio sangue, que pertencia a Titã Reia?",MEDIUM,Quiz,Bosque Duna,Floresta de Reia,Jardins Suspensos,Bosque de Dodona,4
+Quem foi o gigante pacífico que ajudou Annabeth e Percy no Tártaro? Ele é antagônico a qual deus?,HARD,Quiz,"Alcioneu, o anti Ares","Oto, o anti Hermes","Damásen, o anti Hermes","Damásen, o anti Ares",4
+"Quem foi a loba que treinou Jason quando criança, assim que ele saiu de casa?",EASY,Quiz,Lupa,Luba,Juno,Diana,1
+"A cornucópia de Piper foi arrancada de um deus do rio a pedido de Hércules, que Deus é esse?",MEDIUM,Quiz,Orfeu,Nereu,Aqueloo,O próprio Hercules,3
+Nome do cavalo de Hazel que ajudou na derrota de Alcioneu?,EASY,Quiz,Pégaso,Blackjack,Arco Íris,Arion,4
+"Quem foi o(a) deus(a) menor a qual Apolo tinha uma queda, deus(a) esse(a) seguidor(a) de Ártemis e que sempre fazia Apolo de bobo?",HARD,Quiz,Orion,Perséfone,Britomartis,Jacinto,3
+Quem é a mãe do deus Arion?,HARD,Quiz,Hera,Hécate,Afrodite,Deméter,4
+Qual objeto de Jason se transforma em uma arma?,EASY,Quiz,Anel,Moeda,Caneta,Bracelete,2
+Qual o nome do primeiro espírito da tempestade que os semideuses encontram em O Herói Perdido?,HARD,Quiz,Duncan,Dylan,Denis,Donald,2
+"Como Piper, Leo e Jason conseguem escapar da mansão do rei Midas?",MEDIUM,Quiz,Jason luta contra o filho de Midas,Piper usa seu charme,Midas os deixa ir,Leo coloca fogo na csa,1
+Qual dos heróis é responsável pela morte de Encélado?,MEDIUM,Quiz,Percy,Annabeth,Hazel,Jason,4
+Qual nome latino para o mar das terras antigas e qual oceano é esse?,MEDIUM,Quiz,"Mare Nostrum, Pacífico","Mare Nostrum, Mediterraneo","Nostrum Mare, Mediterraneo","Nostrum Mare, Pacífico",2
+Qual o primeiro nome da mãe de Percy?,EASY,Quiz,Sandra,Sally,Sammy,Sarah,2
