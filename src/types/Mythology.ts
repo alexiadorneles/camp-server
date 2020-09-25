@@ -12,4 +12,9 @@ export enum Divinity {
 	HERMES = 'Hermes',
 	DIONYSUS = 'Dionísio',
 	HADES = 'Hades',
+	IRIS = 'Íris',
+	HYPNOS = 'Hipnos',
+	NEMESIS = 'Nêmesis',
+	NIKE = 'Nike',
+	HEBE = 'Hebe',
 }
