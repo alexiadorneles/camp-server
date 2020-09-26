@@ -22,12 +22,6 @@ export = {
 			dsImageURL: 'https://i.pinimg.com/originals/59/a2/b6/59a2b63507e3e4f46ff8c573bfc4c18c.jpg',
 		}
 
-		const nike: Partial<CabinAttributes> = {
-			dsName: 'Chalé 17 - Nike',
-			tpDivinityRelated: Divinity.NIKE,
-			dsImageURL: 'https://pm1.narvii.com/6298/5eec14f0eab56665889bb5517468de2ae181641a_00.jpg',
-		}
-
 		const hebe: Partial<CabinAttributes> = {
 			dsName: 'Chalé 18 - Hebe',
 			tpDivinityRelated: Divinity.HEBE,
