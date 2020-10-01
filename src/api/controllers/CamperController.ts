@@ -5,14 +5,18 @@ import {
 	CamperActivityCreationAttributes,
 	CamperAttributes,
 	CamperCreationAttributes,
+	CamperEdition,
+	CamperEditionAttributes,
 } from '../../models'
 import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/JWTMediator'
+import { EditionService } from '../services'
 
 export class CamperController {
-	constructor() {
+	constructor(private editionService: EditionService) {
 		this.create = this.create.bind(this)
 		this.loginOrRegister = this.loginOrRegister.bind(this)
+		this.setCabin = this.setCabin.bind(this)
 	}
 
 	public async loginOrRegister(req: Request, res: Response): Promise<void> {
@@ -100,9 +104,16 @@ export class CamperController {
 
 	public async setCabin(req: Request, res: Response): Promise<void> {
 		const { idCabin } = req.body as Partial<CamperAttributes>
-		const { idCamper } = req.params
-		const [rows, data] = await Camper.update({ idCabin }, { where: { idCamper } })
-		res.json(data ? data[0] : rows)
+		const idCamper = Number(req.params.idCamper)
+		await Camper.update({ idCabin }, { where: { idCamper } })
+		const [camperEdition] = await this.createCamperEdition(idCabin, idCamper)
+		res.json(camperEdition)
+	}
+
+	private async createCamperEdition(idCabin: number, idCamper: number): Promise<[CamperEdition, boolean]> {
+		const { idEdition } = await this.editionService.findCurrent()
+		const where: Partial<CamperEditionAttributes> = { idCabin, idCamper, idEdition }
+		return CamperEdition.findOrCreate({ where })
 	}
 
 	public async answerActivity(req: Request, res: Response): Promise<void> {

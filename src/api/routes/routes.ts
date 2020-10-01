@@ -31,7 +31,7 @@ function generateCabinRequestRoutes(): void {
 }
 
 function generateCamperRoutes(): void {
-	const controller = new CamperController()
+	const controller = new CamperController(editionService)
 	// LOGIN AND SIGNING
 	routes.post('/campers/', controller.loginOrRegister)
 	routes.get('/login', controller.login)
