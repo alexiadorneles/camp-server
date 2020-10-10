@@ -26,6 +26,9 @@ export class Round extends Model<RoundAttributes, RoundCreationAttributes> imple
 	public readonly createdAt!: Date
 	public readonly updatedAt!: Date
 
+	public activities: Activity[]
+	public dataValues: Round
+
 	public addActivity!: BelongsToManyAddAssociationMixin<Activity, number>
 
 	public static tableName = 'Rounds'

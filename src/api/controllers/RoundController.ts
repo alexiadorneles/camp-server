@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import _ from 'lodash'
-import { Includeable } from 'sequelize'
-import { Camper, CamperEdition, Round, Activity, ActivityOption } from '../../models'
+import { Includeable, Op } from 'sequelize'
+import { Camper, CamperEdition, Round, Activity, ActivityOption, CamperActivity } from '../../models'
 import { RoundConfig } from '../../types/RoundConfig'
 import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
@@ -75,7 +75,12 @@ export class RoundController {
 			],
 		})
 
-		res.json(round)
+		const activitiesIds = round.activities.map(activity => activity.idActivity)
+		const answers = await CamperActivity.findAll({ where: { idCamper, idActivity: { [Op.in]: activitiesIds } } })
+		const answeredActivities = answers.map(answer => answer.idActivity)
+		const newActivities = round.activities.filter(activity => !answeredActivities.includes(activity.idActivity))
+		delete round.dataValues.activities
+		res.json({ activities: newActivities, ...round.dataValues })
 	}
 
 	public async finish(req: Request, res: Response): Promise<void> {

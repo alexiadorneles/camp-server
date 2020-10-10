@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { ActivityBuilder } from '../../builder/ActivityBuilder'
 import { IndexedObject } from '../../database/associations'
-import { ActivityEdition } from '../../models'
+import { ActivityEdition, CamperActivity, CamperActivityCreationAttributes } from '../../models'
 import { Activity } from '../../models/ActivityModel'
 import { ActivityConfig, ActivityType } from '../../types/Activity'
 import { FileUtils } from '../../util/FileUtils'
@@ -11,6 +11,7 @@ export class ActivityController {
 	constructor(private editionService: EditionService) {
 		this.generateFromCSV = this.generateFromCSV.bind(this)
 		this.configureForCurrentEdition = this.configureForCurrentEdition.bind(this)
+		this.endCurrentActivity = this.endCurrentActivity.bind(this)
 	}
 	public async generateFromCSV(req: Request, res: Response): Promise<void> {
 		const csv = await FileUtils.readActivitiesCSV()
@@ -44,5 +45,20 @@ export class ActivityController {
 		const { idEdition } = await this.editionService.findCurrent()
 		const records = await ActivityEdition.bulkCreate(config.map(ac => ({ ...ac, idEdition })))
 		res.json(records)
+	}
+
+	public async endCurrentActivity(req: Request, res: Response): Promise<void> {
+		const { idEdition } = await this.editionService.findCurrent()
+		const idCamper = Number(req.params.signedInUser)
+		const idActivity = Number(req.params.idActivity)
+		const camperActivity: CamperActivityCreationAttributes = {
+			idCamper,
+			idActivity,
+			idEdition,
+			idActivityOption: null,
+			blCorrect: false,
+		}
+		const result = CamperActivity.create(camperActivity)
+		res.json(result)
 	}
 }

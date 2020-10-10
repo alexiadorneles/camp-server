@@ -53,6 +53,7 @@ function generateActivityRoutes(): void {
 	const controller = new ActivityController(editionService)
 	routes.post('/activities/generate', adminMiddleware, controller.generateFromCSV)
 	routes.post('/activities/config', adminMiddleware, controller.configureForCurrentEdition)
+	routes.put('/activities/end-current/:idActivity', authMiddleware, controller.endCurrentActivity)
 }
 
 function generateRoundRoutes(): void {
