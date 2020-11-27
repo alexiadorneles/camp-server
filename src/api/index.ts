@@ -11,7 +11,7 @@ const app = express()
 const whitelist = [ADMIN_PANEL_URL, FRONTEND_URL]
 const corsOptions = {
 	origin: function(origin: string, callback: Function): void {
-		if (whitelist.indexOf(origin) !== -1) {
+		if (!origin || whitelist.indexOf(origin) !== -1) {
 			callback(null, true)
 		} else {
 			console.log('-----------------')
