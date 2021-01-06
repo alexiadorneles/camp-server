@@ -17,4 +17,6 @@ export enum Divinity {
 	NEMESIS = 'Nêmesis',
 	NIKE = 'Nike',
 	HEBE = 'Hebe',
+	TYCHE = 'Tique',
+	HECATE = 'Hécate'
 }
