@@ -6,12 +6,13 @@ import {
 	Model,
 	Optional,
 } from 'sequelize'
-import database from '../database'
+import database from '../database/index'
 import { TimestampDependant } from '../types/Data'
 import { Cabin, CabinAttributes } from './CabinModel'
 
 export interface CamperEditionAttributes extends TimestampDependant {
 	idCamperEdition: number
+	isLeader: boolean
 	idCamper: number
 	idEdition: number
 	idCabin: number
@@ -23,6 +24,7 @@ export interface CamperEditionCreationAttributes
 
 export class CamperEdition extends Model<CamperEditionAttributes, CamperEditionCreationAttributes>
 	implements CamperEditionAttributes {
+	isLeader: boolean
 	idCamperEdition: number
 	idCamper: number
 	idEdition: number
@@ -71,6 +73,10 @@ CamperEdition.init(
 		updatedAt: {
 			type: DataTypes.DATE,
 			defaultValue: new Date(),
+		},
+		isLeader: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
 		},
 	},
 	{
