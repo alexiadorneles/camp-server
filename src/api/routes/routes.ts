@@ -58,6 +58,7 @@ function generateActivityRoutes(): void {
 
 function generateRoundRoutes(): void {
 	const controller = new RoundController(editionService, activityService)
+	routes.post('/rounds/random/:quantity', adminMiddleware, controller.generateRandomByNumber)
 	routes.post('/rounds/generate', adminMiddleware, controller.generateRoundFromConfig)
 	routes.get('/rounds/campers/:idCamper', authMiddleware, ownerMiddleware, controller.loadRoundForCamper)
 	routes.put('/rounds/finish/:idRound', authMiddleware, ownerMiddleware, controller.finish)

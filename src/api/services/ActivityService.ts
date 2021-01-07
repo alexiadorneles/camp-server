@@ -3,6 +3,15 @@ import { Activity, CamperActivity } from '../../models'
 import { ActivityConfig } from '../../types/RoundConfig'
 
 export class ActivityService {
+	public async findRandomUnanswered(idCamper: number, quantity: number): Promise<Activity[]> {
+		const campersActivities = await CamperActivity.findAll({ where: { idCamper } })
+		const activitiesIds = campersActivities.map(ca => ca.idActivity)
+		return Activity.findAll({
+			where: { idActivity: { [Op.notIn]: activitiesIds } },
+			limit: quantity,
+		})
+	}
+
 	public async findRandomWhere({ nrQuantity, tpLevel, type }: ActivityConfig, idCamper: number): Promise<Activity[]> {
 		const campersActivities = await CamperActivity.findAll({ where: { idCamper } })
 		const activitiesIds = campersActivities.map(ca => ca.idActivity)

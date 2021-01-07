@@ -12,6 +12,31 @@ export class RoundController {
 		this.loadRoundForCamper = this.loadRoundForCamper.bind(this)
 	}
 
+	public generateRandomByNumber = async (req: Request, res: Response) => {
+		const { quantity } = req.params
+		const { idEdition } = await this.editionService.findCurrent()
+		const idsCampers = await this.getIdFromAllCampersInCurrentEdition(idEdition)
+
+		const rounds: Round[] = []
+
+		for (const idCamper of idsCampers) {
+			const activities = await this.activityService.findRandomUnanswered(idCamper, Number(quantity))
+			const createdRound = await this.createRound(idCamper, idEdition, activities)
+			rounds.push(createdRound)
+		}
+
+		res.json(rounds)
+	}
+
+	private async getIdFromAllCampersInCurrentEdition(idEdition: number) {
+		const allCampersFromThisEdition = await CamperEdition.findAll({
+			where: { idEdition },
+			attributes: ['idCamper'],
+		})
+		const idsCampers = allCampersFromThisEdition.map(ce => ce.idCamper)
+		return idsCampers
+	}
+
 	public async generateRoundFromConfig(req: Request, res: Response): Promise<void> {
 		const config = req.body as RoundConfig
 		const { idEdition } = await this.editionService.findCurrent()
