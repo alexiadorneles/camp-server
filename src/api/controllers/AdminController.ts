@@ -12,12 +12,19 @@ export class AdminController {
 	constructor(private editionService: EditionService) {
 		this.listCabinRequests = this.listCabinRequests.bind(this)
 		this.endEdition = this.endEdition.bind(this)
+		this.initEdition = this.initEdition.bind(this)
+	}
+
+	public async createNewEdition(req: Request, res: Response): Promise<void> {
+		const edition = req.body as Edition
+		const data = await Edition.create(edition)
+		res.json(data)
 	}
 
 	public async initEdition(req: Request, res: Response): Promise<void> {
-		const edition = req.body
-		const data = await Edition.create(edition)
-		res.json(data)
+		const { idEdition } = await this.editionService.findCurrent()
+		await Edition.update({ dtBegin: new Date() }, { where: { idEdition } })
+		res.json({})
 	}
 
 	public async endEdition(req: Request, res: Response): Promise<void> {

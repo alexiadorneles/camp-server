@@ -46,7 +46,7 @@ function generateCamperRoutes(): void {
 
 function generateEditionRoutes(): void {
 	const controller = new EditionController(editionService)
-	routes.get('/editions/current', authMiddleware, controller.findCurrent)
+	routes.get('/editions/current', controller.findCurrent)
 }
 
 function generateActivityRoutes(): void {
@@ -58,7 +58,7 @@ function generateActivityRoutes(): void {
 
 function generateRoundRoutes(): void {
 	const controller = new RoundController(editionService, activityService)
-	routes.post('/rounds/random/:quantity', adminMiddleware, controller.generateRandomByNumber)
+	routes.get('/rounds/random/:quantity', adminMiddleware, controller.generateRandomByNumber)
 	routes.post('/rounds/generate', adminMiddleware, controller.generateRoundFromConfig)
 	routes.get('/rounds/campers/:idCamper', authMiddleware, ownerMiddleware, controller.loadRoundForCamper)
 	routes.put('/rounds/finish/:idRound', authMiddleware, ownerMiddleware, controller.finish)
@@ -83,9 +83,10 @@ function generateADMRoutes(): void {
 	const controller = new AdminController(editionService)
 	routes.get('/admins/', controller.login)
 	routes.get('/admins/test', adminMiddleware, controller.listCabinRequests)
+	routes.put('/admins/init-edition/', adminMiddleware, controller.initEdition)
 	routes.post('/admins/end-request', adminMiddleware, controller.setCamperInCabin)
 	routes.post('/admins/populate-first-edition', adminMiddleware, controller.addCampersToFirstEdition)
-	routes.post('/admins/start-edition', adminMiddleware, controller.initEdition)
+	routes.post('/admins/start-edition', adminMiddleware, controller.createNewEdition)
 	routes.put('/admins/end-edition', adminMiddleware, controller.endEdition)
 }
 
