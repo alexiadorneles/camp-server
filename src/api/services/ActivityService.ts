@@ -1,4 +1,4 @@
-import { Op } from 'sequelize'
+import { Op, Sequelize } from 'sequelize'
 import { Activity, CamperActivity } from '../../models'
 import { ActivityConfig } from '../../types/RoundConfig'
 
@@ -9,6 +9,7 @@ export class ActivityService {
 		const activities = await Activity.findAll({
 			where: { idActivity: { [Op.notIn]: activitiesIds } },
 			limit: quantity,
+			order: Sequelize.literal('rand()'),
 		})
 
 		if (activities.length < quantity) {
@@ -52,6 +53,7 @@ export class ActivityService {
 		const missing = await Activity.findAll({
 			where: { idActivity: { [Op.in]: activitiesOldestAnswer.map(a => a.idActivity) } },
 			limit: numberOfMissing,
+			order: Sequelize.literal('rand()'),
 		})
 
 		return [...activities, ...missing]
