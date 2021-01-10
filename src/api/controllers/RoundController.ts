@@ -61,8 +61,8 @@ export class RoundController {
 	}
 
 	public async loadRoundForCamper(req: Request, res: Response): Promise<void> {
-		const { idCamper } = req.params
-		const round = await Round.findOne({
+		const idCamper = Number(req.params.idCamper)
+		const round: Round | undefined = await Round.findOne({
 			where: {
 				idCamper,
 				blFinished: false,
@@ -81,15 +81,20 @@ export class RoundController {
 				} as Includeable,
 			],
 		})
-		const { idEdition } = await this.editionService.findCurrent()
-		const activitiesIds = round.activities.map(activity => activity.idActivity)
-		const answers = await CamperActivity.findAll({
-			where: { idCamper, idEdition, idActivity: { [Op.in]: activitiesIds } },
-		})
-		const answeredActivities = answers.map(answer => answer.idActivity)
-		const newActivities = round.activities.filter(activity => !answeredActivities.includes(activity.idActivity))
-		delete round.dataValues.activities
-		res.json({ activities: newActivities, ...round.dataValues })
+		if (round) {
+			const { idEdition } = await this.editionService.findCurrent()
+			const activitiesIds = round.activities.map(activity => activity.idActivity)
+			const answers = await CamperActivity.findAll({
+				where: { idCamper, idEdition, idActivity: { [Op.in]: activitiesIds } },
+			})
+			const answeredActivities = answers.map(answer => answer.idActivity)
+			const newActivities = round.activities.filter(activity => !answeredActivities.includes(activity.idActivity))
+			delete round.dataValues.activities
+			res.json({ activities: newActivities, ...round.dataValues })
+			return
+		}
+
+		res.json(null)
 	}
 
 	public async finish(req: Request, res: Response): Promise<void> {

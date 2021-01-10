@@ -13,6 +13,14 @@ export class AdminController {
 		this.listCabinRequests = this.listCabinRequests.bind(this)
 		this.endEdition = this.endEdition.bind(this)
 		this.initEdition = this.initEdition.bind(this)
+		this.updateEditionWithParticipants = this.updateEditionWithParticipants.bind(this)
+	}
+
+	public async updateEditionWithParticipants(req: Request, res: Response): Promise<void> {
+		const { idEdition } = await this.editionService.findCurrent()
+		const nrParticipants = await CamperEdition.count({ where: { idEdition } })
+		await Edition.update({ nrParticipants }, { where: { idEdition } })
+		res.json({ nrParticipants })
 	}
 
 	public async createNewEdition(req: Request, res: Response): Promise<void> {

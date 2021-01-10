@@ -88,6 +88,7 @@ function generateADMRoutes(): void {
 	routes.post('/admins/populate-first-edition', adminMiddleware, controller.addCampersToFirstEdition)
 	routes.post('/admins/start-edition', adminMiddleware, controller.createNewEdition)
 	routes.put('/admins/end-edition', adminMiddleware, controller.endEdition)
+	routes.put('/admins/participants-in-edition', adminMiddleware, controller.updateEditionWithParticipants)
 }
 
 generateADMRoutes()
