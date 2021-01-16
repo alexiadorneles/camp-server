@@ -9,7 +9,7 @@ import {
 	CamperEditionAttributes,
 } from '../../models'
 import { Country } from '../../types/Places'
-import { JWTMediator } from '../routes/JWTMediator'
+import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 
 export class CamperController {

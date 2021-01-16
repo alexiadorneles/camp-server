@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { JWTMediator } from './JWTMediator'
-import { Camper } from '../../models'
+import { Camper } from '../../../models'
 
 export async function authMiddleware(req: Request, res: Response, next: Function): Promise<void> {
 	const [, token] = req.headers.authorization.split(' ')

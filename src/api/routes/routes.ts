@@ -8,9 +8,9 @@ import { RankingController } from '../controllers/RankingController'
 import { RoundController } from '../controllers/RoundController'
 import { EditionService } from '../services'
 import { ActivityService } from '../services/ActivityService'
-import { adminMiddleware } from './AdminMiddleware'
-import { authMiddleware } from './AuthMiddleware'
-import { ownerMiddleware } from './OwnerMiddleware'
+import { adminMiddleware } from './middlewares/AdminMiddleware'
+import { authMiddleware } from './middlewares/AuthMiddleware'
+import { ownerMiddleware } from './middlewares/OwnerMiddleware'
 
 const routes = express.Router()
 

@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { Includeable, Op, where } from 'sequelize'
 import { Cabin, CabinRequest, Camper, CamperEdition, CamperEditionAttributes, Status, Edition } from '../../models'
 import { Admin } from '../../models/AdminModel'
-import { JWTMediator } from '../routes/JWTMediator'
+import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { FileUtils } from '../../util/FileUtils'
 

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express'
 import { JWTMediator } from './JWTMediator'
-import { Admin } from '../../models/AdminModel'
+import { Admin } from '../../../models/AdminModel'
 
 export async function adminMiddleware(req: Request, res: Response, next: Function): Promise<void> {
 	const [, token] = req.headers.authorization.split(' ')
