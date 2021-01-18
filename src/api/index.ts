@@ -3,6 +3,7 @@ import express from 'express'
 import '../database'
 import '../database/associations'
 import { CampRoutes } from './routes/camp.routes'
+import { DiscordRoutes } from './routes/discord.routes'
 
 const { FRONTEND_URL, ADMIN_PANEL_URL } = process.env
 
@@ -29,6 +30,7 @@ export function configureAPI(): void {
 	app.use(cors(corsOptions))
 	// app.use(cors())
 	CampRoutes.register(app)
+	DiscordRoutes.register(app)
 	// app.use(CAMP_ROUTES)
 	app.listen(process.env.PORT || 3000, () => console.log('Escutando!'))
 }
