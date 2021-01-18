@@ -22,5 +22,8 @@ export class DiscordAuthStrategyProvider implements StrategyProvider {
 		refreshToken: string,
 		profile: Strategy.Profile,
 		done: OAuth2Strategy.VerifyCallback,
-	) => {}
+	) => {
+		console.log(JSON.stringify(profile))
+		done(null, {}, {})
+	}
 }
