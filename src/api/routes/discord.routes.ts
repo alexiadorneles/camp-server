@@ -1,15 +1,16 @@
 import express, { Request, Response } from 'express'
 import session from 'express-session'
 import passport from 'passport'
+import { STRATEGY_PROVIDERS } from '../strategies/poviders'
 
-import '../strategies/discord.strategy'
+STRATEGY_PROVIDERS.forEach(provider => passport.use(provider.provide()))
 
-const discordRoutes = express.Router()
+const routes = express.Router()
 
-discordRoutes.get(
+routes.get(
 	'/redirect',
 	passport.authenticate('discord', {
-		failWithError: true,
+		failWithError: false,
 		successMessage: 'Sucesso!',
 		failureMessage: 'Erro!',
 	}),
@@ -18,7 +19,7 @@ discordRoutes.get(
 
 export namespace DiscordRoutes {
 	export function register(app: { use: Function }): void {
-		app.use('/discord', discordRoutes)
+		app.use('/discord', routes)
 		app.use(
 			'/discord',
 			session({
