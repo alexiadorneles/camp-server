@@ -18,7 +18,7 @@ export interface CamperAttributes extends TimestampDependant {
 	idCabin: number
 	dsName: string
 	idGoogle: string
-	nrDiscordID: number
+	dsDiscordID: string
 	dsInstagramNick: string
 	dtBirth: Date
 	tpState: string
@@ -37,7 +37,7 @@ export class Camper extends Model<CamperAttributes, CamperCreationAttributes> im
 	public idCamper!: number
 	public idCabin!: number
 	public dsName!: string
-	public nrDiscordID!: number
+	public dsDiscordID!: string
 	public dsInstagramNick!: string
 	public dtBirth!: Date
 	public tpState!: string
@@ -109,7 +109,7 @@ Camper.init(
 		dtBirth: {
 			type: DataTypes.DATE,
 		},
-		nrDiscordID: {
+		dsDiscordID: {
 			type: DataTypes.INTEGER,
 		},
 		tpCountry: {

@@ -68,7 +68,7 @@ export class CamperController {
 			{
 				where: { idCamper },
 				fields: [
-					'nrDiscordID',
+					'dsDiscordID',
 					'dsInstagramNick',
 					'dtBirth',
 					'tpState',

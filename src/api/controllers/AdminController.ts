@@ -45,10 +45,10 @@ export class AdminController {
 	public async addCampersToFirstEdition(req: Request, res: Response): Promise<void> {
 		const discordData = await FileUtils.readDiscordIDsCSV()
 		const ids = discordData.map(obj => obj.discordID).map(Number)
-		const campersFirstEdition = await Camper.findAll({ where: { nrDiscordID: { [Op.in]: ids } } })
+		const campersFirstEdition = await Camper.findAll({ where: { dsDiscordID: { [Op.in]: ids } } })
 		const created = await Promise.all(
 			campersFirstEdition.map(camper => {
-				const lineForCamper = discordData.find(data => Number(data.discordID) == camper.nrDiscordID)
+				const lineForCamper = discordData.find(data => data.discordID == camper.dsDiscordID)
 				if (lineForCamper.cabinNumber) {
 					return CamperEdition.create({
 						idEdition: 1,
