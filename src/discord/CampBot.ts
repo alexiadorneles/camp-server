@@ -1,7 +1,9 @@
 import { Client, Message } from 'discord.js'
 import { MessageHandler } from './MessageHandler'
+import { Divinity } from '../types/Mythology'
 
-const { DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID } = process.env
+const { DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID, DISCORD_ADMIN_ID } = process.env
+
 const CAMPER_NOT_FOUND_MESSAGE =
 	'Olá! Percebi que você tentou entrar para seu chalé no Discord do Acampamento. No entanto, parece que você não está registrado devidamente no site. Acesse https://acampamento.portalpercyjackson.com e verifique seu perfil, depois tente novamente'
 const CAMPER_ALREADY_IN_CABIN =
@@ -18,10 +20,31 @@ export class CampBot {
 	}
 
 	private onMessage = async (message: Message) => {
-		console.log('expected id ', DISCORD_CHANNEL_ID)
-		console.log('current id ', message.channel.id)
-		if (message.channel.id !== DISCORD_CHANNEL_ID || !message.content.includes('!camp')) return
+		if (message.author.bot) return
 
+		if (message.author.id === DISCORD_ADMIN_ID && message.content.includes('!clear')) {
+			return this.handleClearAllCabinRolesMessage(message)
+		}
+
+		if (message.channel.id === DISCORD_CHANNEL_ID && message.content.trim() === '!camp') {
+			return this.handleCabinRequestMessage(message)
+		}
+	}
+
+	private handleClearAllCabinRolesMessage = async (message: Message) => {
+		const campServer = this.client.guilds.cache.find(guild => guild.name === 'Acampamento')
+		const rolesNames = Object.values(Divinity)
+		const roles = campServer.roles.cache.filter(role => rolesNames.includes(role.name as Divinity))
+		try {
+			await Promise.all(campServer.members.cache.map(member => roles.map(r => member.roles.remove(r))))
+			message.author.send('Todos os usuários do Acampamento fora de seus chalés.')
+		} catch (err) {
+			message.author.send('Opa, deu algum problema.')
+			message.author.send(err.message)
+		}
+	}
+
+	private handleCabinRequestMessage = async (message: Message) => {
 		const messageHandler = new MessageHandler(message)
 
 		if (messageHandler.userAlreadyInCabin()) {
@@ -38,6 +61,6 @@ export class CampBot {
 	}
 
 	private onReady = () => {
-		console.log(this.client.guilds.cache.array()[0].memberCount)
+		console.log('Bot está pronto para começar!')
 	}
 }
