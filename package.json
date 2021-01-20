@@ -4,6 +4,7 @@
 	"description": "App to greek mythology games",
 	"main": "index.js",
 	"scripts": {
+		"deploy:umbler": "git checkout master && git merge main && git push && git push umbler master && git checkout main",
 		"build": "node node_modules/typescript/bin/tsc",
 		"build:watch": "tsc -w",
 		"dev": "nodemon build/index",
