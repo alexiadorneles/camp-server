@@ -12,7 +12,6 @@ export class DiscordAuthStrategyProvider implements StrategyProvider {
 				clientSecret: DISCORD_SECRET_KEY,
 				callbackURL: '/discord/redirect',
 				scope: ['identify', 'email', 'guilds'],
-				// state:
 			},
 			this.strategyCallback,
 		)
@@ -25,11 +24,6 @@ export class DiscordAuthStrategyProvider implements StrategyProvider {
 		profile: Strategy.Profile,
 		done: OAuth2Strategy.VerifyCallback,
 	) => {
-		console.log('CALLBACK ', params)
-		console.log('TOKEN ', accessToken)
-		console.log('REFRESH ', refreshToken)
-
-		// console.log(JSON.stringify(profile))
 		done(null, profile, {})
 	}
 }

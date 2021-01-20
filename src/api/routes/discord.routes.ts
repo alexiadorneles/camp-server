@@ -3,6 +3,10 @@ import express, { Request, Response } from 'express'
 import session from 'express-session'
 import passport from 'passport'
 import { STRATEGY_PROVIDERS } from '../strategies/poviders'
+import Strategy from 'passport-discord'
+import { Camper } from '../../models'
+
+const { FRONTEND_URL } = process.env
 
 STRATEGY_PROVIDERS.forEach(provider => passport.use(provider.provide()))
 
@@ -15,10 +19,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
 	done(null, user)
 })
-
-const getUrl = (req: Request) => {
-	return req.query && req.query.state
-}
 
 export namespace DiscordRoutes {
 	export function register(app: { use: Function }): void {
@@ -40,11 +40,15 @@ export namespace DiscordRoutes {
 			})(req, _, next)
 		})
 
-		routes.get('/login-success', (req: Request, res: Response) => {
-			const user = (req.session as any).passport.user
+		routes.get('/login-success', async (req: Request, res: Response) => {
+			const user = (req.session as any).passport.user as Strategy.Profile
 			const { idCamper } = JSON.parse(base64url.decode(req.query.state as string))
-			console.log('HERE IN SUCCESS', req.query)
-			res.json({ ok: true })
+			try {
+				await Camper.update({ dsDiscordID: user.id }, { where: { idCamper } })
+				res.redirect(FRONTEND_URL + '/secured/profile')
+			} catch (err) {
+				res.status(400).json({ text: 'Um erro aconteceu, comunique no Discord. Erro: ' + err.message })
+			}
 		})
 		app.use('/discord', routes)
 	}
