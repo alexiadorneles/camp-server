@@ -2,18 +2,19 @@ import { Router } from 'express'
 import { Middleware } from '../../../types/Middleware'
 import { CamperController } from '../../controllers/CamperController'
 import { EditionService } from '../../services/EditionService'
+import { CamperService } from '../../services/CamperService'
 
 export namespace CampersRouterBuilder {
 	export function build(
 		editionService: EditionService,
+		camperService: CamperService,
 		authMiddleware: Middleware,
 		ownerMiddleware: Middleware,
 	): Router {
 		const routes = Router()
-		const controller = new CamperController(editionService)
+		const controller = new CamperController(editionService, camperService)
 		routes.get('/login', controller.login)
 		routes.post('/', controller.loginOrRegister)
-		routes.put('/complete-register', authMiddleware, ownerMiddleware, controller.completeRegister)
 		routes.put('/', authMiddleware, ownerMiddleware, controller.update)
 		routes.get('/profile', authMiddleware, controller.findOne)
 		routes.put('/:idCamper/cabin', authMiddleware, controller.setCabin)

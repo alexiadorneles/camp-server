@@ -11,12 +11,14 @@ import {
 import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
+import { CamperService } from '../services/CamperService'
 
 export class CamperController {
-	constructor(private editionService: EditionService) {
+	constructor(private editionService: EditionService, private camperService: CamperService) {
 		this.create = this.create.bind(this)
 		this.loginOrRegister = this.loginOrRegister.bind(this)
 		this.setCabin = this.setCabin.bind(this)
+		this.update = this.update.bind(this)
 	}
 
 	public async loginOrRegister(req: Request, res: Response): Promise<void> {
@@ -60,29 +62,6 @@ export class CamperController {
 		}
 	}
 
-	public async completeRegister(req: Request, res: Response): Promise<void> {
-		const idCamper = Number(req.params.signedInUser)
-		const camper = req.body as Partial<CamperAttributes>
-		const [rows, data] = await Camper.update(
-			{ ...camper, blRegisterCompleted: true },
-			{
-				where: { idCamper },
-				fields: [
-					'dsDiscordID',
-					'dsInstagramNick',
-					'dtBirth',
-					'tpState',
-					'tpCountry',
-					'dsPronouns',
-					'dsDescription',
-					'blRegisterCompleted',
-				],
-			},
-		)
-
-		res.json(data ? data : rows)
-	}
-
 	public async findOne(req: Request, res: Response): Promise<void> {
 		const { signedInUser } = req.params
 		const camper = await Camper.findByPk(signedInUser)
@@ -93,13 +72,13 @@ export class CamperController {
 	}
 
 	public async update(req: Request, res: Response): Promise<void> {
-		const idCamper = req.params.signedInUser
-		const requestBody = req.body as CamperCreationAttributes
+		const idCamper = Number(req.params.signedInUser)
+		const requestBody = req.body as CamperAttributes
 		if (requestBody.tpCountry !== Country.BRAZIL) {
 			requestBody.tpState = null
 		}
-		const [rows, data] = await Camper.update(requestBody, { where: { idCamper } })
-		res.json(data ? data[0] : rows)
+		const updatedCamper = await this.camperService.update(requestBody, { idCamper })
+		res.json(updatedCamper)
 	}
 
 	public async setCabin(req: Request, res: Response): Promise<void> {

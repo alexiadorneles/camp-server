@@ -3,6 +3,7 @@ import { RequestHandler } from 'express-serve-static-core'
 import session from 'express-session'
 import passport from 'passport'
 import { DiscordController } from '../controllers/DiscordController'
+import { CamperService } from '../services/CamperService'
 import { STRATEGY_PROVIDERS } from '../strategies/poviders'
 
 STRATEGY_PROVIDERS.forEach(provider => passport.use(provider.provide()))
@@ -17,7 +18,8 @@ passport.deserializeUser((user, done) => {
 
 export namespace DiscordRoutes {
 	export function register(app: { use: Function }): void {
-		const controller = new DiscordController()
+		const camperService = new CamperService()
+		const controller = new DiscordController(camperService)
 		const routes = express.Router()
 		app.use('/discord', passport.initialize())
 		app.use('/discord', passport.session())
