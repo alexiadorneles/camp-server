@@ -29,7 +29,7 @@ export async function watchForMissionWinner(): Promise<void> {
 		challenges
 			.filter(c => c.idWinner === null)
 			.map(async challenge => {
-				const { questionTag, answer } = challenge
+				const { dsQuestionTag: questionTag, dsAnswer: answer } = challenge
 
 				// search for correct answers (max 100 every five mins)
 

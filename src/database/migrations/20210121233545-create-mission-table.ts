@@ -14,11 +14,14 @@ export = {
 				type: DataTypes.STRING,
 				allowNull: true,
 			},
-			answer: {
+			dsAnswer: {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			questionTag: {
+			dsQuestionTag: {
+				type: DataTypes.STRING,
+			},
+			tpActivity: {
 				type: DataTypes.STRING,
 			},
 			createdAt: {

@@ -5,8 +5,9 @@ import { TimestampDependant } from '../types/Data'
 export interface MissionAttributes extends TimestampDependant {
 	idMission: number
 	idWinner: string
-	questionTag: string
-	answer: string
+	dsQuestionTag: string
+	tpActivity: string
+	dsAnswer: string
 }
 
 export interface MissionCreationAttributes
@@ -15,8 +16,9 @@ export interface MissionCreationAttributes
 export class Mission extends Model<MissionAttributes, MissionCreationAttributes> implements MissionAttributes {
 	idMission!: number
 	idWinner!: string
-	questionTag!: string
-	answer!: string
+	dsQuestionTag!: string
+	dsAnswer!: string
+	tpActivity!: string
 
 	// timestamps!
 	public readonly createdAt!: Date
@@ -40,11 +42,14 @@ Mission.init(
 			type: DataTypes.STRING,
 			allowNull: true,
 		},
-		answer: {
+		dsAnswer: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		questionTag: {
+		dsQuestionTag: {
+			type: DataTypes.STRING,
+		},
+		tpActivity: {
 			type: DataTypes.STRING,
 		},
 		createdAt: {
