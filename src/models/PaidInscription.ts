@@ -5,7 +5,7 @@ import { TimestampDependant } from '../types/Data'
 export interface PaidInscriptionAttributes extends TimestampDependant {
 	idPaidInscription: number
 	dsEmail: string
-	idCabin: string
+	idCabin: number
 	idEdition: string
 	blActivated: string
 }
@@ -16,7 +16,7 @@ export interface PaidInscriptionCreationAttributes
 export class PaidInscription extends Model<PaidInscriptionAttributes, PaidInscriptionCreationAttributes>
 	implements PaidInscriptionAttributes {
 	idPaidInscription: number
-	idCabin: string
+	idCabin: number
 	idEdition: string
 	dsEmail: string
 	blActivated: string
@@ -40,11 +40,11 @@ PaidInscription.init(
 			allowNull: false,
 		},
 		idCabin: {
-			type: DataTypes.STRING,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		idEdition: {
-			type: DataTypes.STRING,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 		dsEmail: {

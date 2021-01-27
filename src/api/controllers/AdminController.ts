@@ -8,6 +8,7 @@ import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { FileUtils } from '../../util/FileUtils'
 import { MissionAttributes, Mission } from '../../models/MissionModel'
+import { PaidInscriptionAttributes, PaidInscription } from '../../models/PaidInscription'
 
 export class AdminController {
 	constructor(private editionService: EditionService) {
@@ -15,6 +16,14 @@ export class AdminController {
 		this.endEdition = this.endEdition.bind(this)
 		this.initEdition = this.initEdition.bind(this)
 		this.updateEditionWithParticipants = this.updateEditionWithParticipants.bind(this)
+		this.createPaidInscription = this.createPaidInscription.bind(this)
+	}
+
+	public async createPaidInscription(req: Request, res: Response): Promise<void> {
+		const { idEdition } = await this.editionService.findCurrent()
+		const { dsEmail, idCabin } = req.body as PaidInscriptionAttributes
+		const result = await PaidInscription.create({ dsEmail, idCabin, idEdition, blActivated: false })
+		res.json(result)
 	}
 
 	public async createActivityTwitter(req: Request, res: Response): Promise<void> {
