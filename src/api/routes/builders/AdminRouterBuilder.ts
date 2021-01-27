@@ -15,6 +15,7 @@ export namespace AdminRouterBuilder {
 		routes.post('/start-edition', adminMiddleware, controller.createNewEdition)
 		routes.put('/end-edition', adminMiddleware, controller.endEdition)
 		routes.put('/participants-in-edition', adminMiddleware, controller.updateEditionWithParticipants)
+		routes.put('/twitter-activity', adminMiddleware, controller.createActivityTwitter)
 		return routes
 	}
 }

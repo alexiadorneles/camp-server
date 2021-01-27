@@ -7,6 +7,7 @@ import { Admin } from '../../models/AdminModel'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { FileUtils } from '../../util/FileUtils'
+import { MissionAttributes, Mission } from '../../models/MissionModel'
 
 export class AdminController {
 	constructor(private editionService: EditionService) {
@@ -14,6 +15,12 @@ export class AdminController {
 		this.endEdition = this.endEdition.bind(this)
 		this.initEdition = this.initEdition.bind(this)
 		this.updateEditionWithParticipants = this.updateEditionWithParticipants.bind(this)
+	}
+
+	public async createActivityTwitter(req: Request, res: Response): Promise<void> {
+		const { dsAnswer, dsQuestionTag, tpActivity } = req.body as MissionAttributes
+		const created = await Mission.create({ dsAnswer, dsQuestionTag, tpActivity })
+		res.json(created)
 	}
 
 	public async updateEditionWithParticipants(req: Request, res: Response): Promise<void> {
