@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { Middleware } from '../../../types/Middleware'
 import { CamperController } from '../../controllers/CamperController'
-import { EditionService } from '../../services/EditionService'
 import { CamperService } from '../../services/CamperService'
+import { EditionService } from '../../services/EditionService'
 
 export namespace CampersRouterBuilder {
 	export function build(
@@ -20,6 +20,7 @@ export namespace CampersRouterBuilder {
 		routes.put('/:idCamper/cabin', authMiddleware, controller.setCabin)
 		routes.post('/:idCamper/answer', authMiddleware, ownerMiddleware, controller.answerActivity)
 		routes.post('/:idCamper/answer-timed-out', authMiddleware, ownerMiddleware, controller.answerTimedOut)
+		routes.post('/activatePaidInscription', controller.activatePaidInscription)
 		return routes
 	}
 }

@@ -4,10 +4,10 @@ import {
 	CamperActivityAttributes,
 	CamperActivityCreationAttributes,
 	CamperAttributes,
-	CamperCreationAttributes,
 	CamperEdition,
 	CamperEditionAttributes,
 } from '../../models'
+import { PaidInscription } from '../../models/PaidInscription'
 import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
@@ -19,6 +19,15 @@ export class CamperController {
 		this.loginOrRegister = this.loginOrRegister.bind(this)
 		this.setCabin = this.setCabin.bind(this)
 		this.update = this.update.bind(this)
+	}
+
+	public async activatePaidInscription(req: Request, res: Response): Promise<void> {
+		const { code } = req.body
+		const { idCabin, idPaidInscription, dsEmail } = await PaidInscription.findOne({ where: { dsCode: code } })
+		const { idCamper } = await Camper.findOne({ where: { dsEmail } })
+		await this.addCamperInCabin(idCamper, idCabin)
+		await PaidInscription.update({ blActivated: true }, { where: { idPaidInscription } })
+		res.status(201).json({ success: true })
 	}
 
 	public async loginOrRegister(req: Request, res: Response): Promise<void> {
@@ -84,9 +93,14 @@ export class CamperController {
 	public async setCabin(req: Request, res: Response): Promise<void> {
 		const { idCabin } = req.body as Partial<CamperAttributes>
 		const idCamper = Number(req.params.idCamper)
+		const camperEdition = await this.addCamperInCabin(idCamper, idCabin)
+		res.json(camperEdition)
+	}
+
+	private async addCamperInCabin(idCamper: number, idCabin: number): Promise<CamperEdition> {
 		await Camper.update({ idCabin }, { where: { idCamper } })
 		const [camperEdition] = await this.createCamperEdition(idCabin, idCamper)
-		res.json(camperEdition)
+		return camperEdition
 	}
 
 	private async createCamperEdition(idCabin: number, idCamper: number): Promise<[CamperEdition, boolean]> {
