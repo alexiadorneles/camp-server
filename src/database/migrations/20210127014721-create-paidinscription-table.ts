@@ -22,6 +22,10 @@ export = {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			dsCode: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 			blActivated: {
 				type: DataTypes.BOOLEAN,
 			},

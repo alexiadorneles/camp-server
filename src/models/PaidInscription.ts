@@ -4,9 +4,10 @@ import { TimestampDependant } from '../types/Data'
 
 export interface PaidInscriptionAttributes extends TimestampDependant {
 	idPaidInscription: number
-	dsEmail: string
 	idCabin: number
 	idEdition: string
+	dsEmail: string
+	dsCode: string
 	blActivated: string
 }
 
@@ -19,6 +20,7 @@ export class PaidInscription extends Model<PaidInscriptionAttributes, PaidInscri
 	idCabin: number
 	idEdition: string
 	dsEmail: string
+	dsCode: string
 	blActivated: string
 
 	// timestamps!
@@ -48,6 +50,10 @@ PaidInscription.init(
 			allowNull: false,
 		},
 		dsEmail: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		dsCode: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},

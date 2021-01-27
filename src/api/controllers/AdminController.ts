@@ -1,14 +1,18 @@
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express'
 import _ from 'lodash'
-import { Includeable, Op, where } from 'sequelize'
-import { Cabin, CabinRequest, Camper, CamperEdition, CamperEditionAttributes, Status, Edition } from '../../models'
+import seedrandom from 'seedrandom'
+import { Includeable, Op } from 'sequelize'
+import { Cabin, CabinRequest, Camper, CamperEdition, CamperEditionAttributes, Edition, Status } from '../../models'
 import { Admin } from '../../models/AdminModel'
+import { Mission, MissionAttributes } from '../../models/MissionModel'
+import { PaidInscription, PaidInscriptionAttributes } from '../../models/PaidInscription'
+import { FileUtils } from '../../util/FileUtils'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
-import { FileUtils } from '../../util/FileUtils'
-import { MissionAttributes, Mission } from '../../models/MissionModel'
-import { PaidInscriptionAttributes, PaidInscription } from '../../models/PaidInscription'
+import CryptoJS from 'crypto-js'
+
+const { ENCRYPTION_KEY } = process.env
 
 export class AdminController {
 	constructor(private editionService: EditionService) {
@@ -22,7 +26,8 @@ export class AdminController {
 	public async createPaidInscription(req: Request, res: Response): Promise<void> {
 		const { idEdition } = await this.editionService.findCurrent()
 		const { dsEmail, idCabin } = req.body as PaidInscriptionAttributes
-		const result = await PaidInscription.create({ dsEmail, idCabin, idEdition, blActivated: false })
+		const dsCode = CryptoJS.AES.encrypt(`${idEdition}${idCabin}${dsEmail}`, ENCRYPTION_KEY).toString()
+		const result = await PaidInscription.create({ dsEmail, idCabin, idEdition, dsCode, blActivated: false })
 		res.json(result)
 	}
 
