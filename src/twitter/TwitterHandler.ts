@@ -1,6 +1,6 @@
+import { Op } from 'sequelize'
 import { TwitterClient } from 'twitter-api-client'
 import { Mission } from '../models/MissionModel'
-import { Op } from 'sequelize'
 
 const twitterClient = new TwitterClient({
 	apiKey: process.env.api_key,
@@ -29,12 +29,12 @@ export async function watchForMissionWinner(): Promise<void> {
 		challenges
 			.filter(c => c.idWinner === null)
 			.map(async challenge => {
-				const { dsQuestionTag: questionTag, dsAnswer: answer } = challenge
+				const { dsQuestionTag, dsAnswer } = challenge
 
 				// search for correct answers (max 100 every five mins)
 
 				const search = await twitterClient.tweets.search({
-					q: `${answer} (${questionTag}) (to:${TT_ACCOUNT})`,
+					q: `${dsAnswer} (${dsQuestionTag}) (to:${TT_ACCOUNT})`,
 					result_type: 'recent',
 				})
 
@@ -72,7 +72,7 @@ export async function watchForMissionWinner(): Promise<void> {
 						console.error(JSON.stringify(err))
 					}
 				} else {
-					console.log(`no winner for ${questionTag} yet...`)
+					console.log(`no winner for ${dsQuestionTag} yet...`)
 				}
 			}),
 	)
