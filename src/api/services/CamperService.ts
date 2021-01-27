@@ -1,6 +1,10 @@
 import { Camper, CamperAttributes } from '../../models'
 
 export class CamperService {
+	public async findByEmail(dsEmail: string): Promise<Camper> {
+		return Camper.findOne({ where: { dsEmail } })
+	}
+
 	public async update(data: Partial<CamperAttributes>, whereClause: Partial<CamperAttributes>): Promise<Camper> {
 		await Camper.update({ ...data }, { where: whereClause })
 		const updatedCamper = await Camper.findOne({ where: whereClause })

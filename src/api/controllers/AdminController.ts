@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
+import CryptoJS from 'crypto-js'
 import { Request, Response } from 'express'
 import _ from 'lodash'
-import seedrandom from 'seedrandom'
 import { Includeable, Op } from 'sequelize'
 import { Cabin, CabinRequest, Camper, CamperEdition, CamperEditionAttributes, Edition, Status } from '../../models'
 import { Admin } from '../../models/AdminModel'
@@ -10,12 +10,12 @@ import { PaidInscription, PaidInscriptionAttributes } from '../../models/PaidIns
 import { FileUtils } from '../../util/FileUtils'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
-import CryptoJS from 'crypto-js'
+import { CamperService } from '../services/CamperService'
 
 const { ENCRYPTION_KEY } = process.env
 
 export class AdminController {
-	constructor(private editionService: EditionService) {
+	constructor(private editionService: EditionService, private camperService: CamperService) {
 		this.listCabinRequests = this.listCabinRequests.bind(this)
 		this.endEdition = this.endEdition.bind(this)
 		this.initEdition = this.initEdition.bind(this)
@@ -24,8 +24,13 @@ export class AdminController {
 	}
 
 	public async createPaidInscription(req: Request, res: Response): Promise<void> {
-		const { idEdition } = await this.editionService.findCurrent()
 		const { dsEmail, idCabin } = req.body as PaidInscriptionAttributes
+		const camper = await this.camperService.findByEmail(dsEmail)
+		if (!camper) {
+			res.status(404).json({ error: 'Não há campista registrado com o email ' + dsEmail })
+			return
+		}
+		const { idEdition } = await this.editionService.findCurrent()
 		const dsCode = CryptoJS.AES.encrypt(`${idEdition}${idCabin}${dsEmail}`, ENCRYPTION_KEY).toString()
 		const result = await PaidInscription.create({ dsEmail, idCabin, idEdition, dsCode, blActivated: false })
 		res.json(result)

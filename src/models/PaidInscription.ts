@@ -8,7 +8,7 @@ export interface PaidInscriptionAttributes extends TimestampDependant {
 	idEdition: string
 	dsEmail: string
 	dsCode: string
-	blActivated: string
+	blActivated: boolean
 }
 
 export interface PaidInscriptionCreationAttributes
@@ -21,7 +21,7 @@ export class PaidInscription extends Model<PaidInscriptionAttributes, PaidInscri
 	idEdition: string
 	dsEmail: string
 	dsCode: string
-	blActivated: string
+	blActivated: boolean
 
 	// timestamps!
 	public readonly createdAt!: Date

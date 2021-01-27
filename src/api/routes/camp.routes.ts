@@ -22,7 +22,7 @@ export namespace CampRoutes {
 		app.use('/cabins', CabinRouterBuilder.build())
 		app.use('/cabin-requests', CabinRequestsRouterBuilder.build(editionService, authMiddleware, ownerMiddleware))
 		app.use('/campers', CampersRouterBuilder.build(editionService, camperService, authMiddleware, ownerMiddleware))
-		app.use('/admins', AdminRouterBuilder.build(editionService, adminMiddleware))
+		app.use('/admins', AdminRouterBuilder.build(editionService, camperService, adminMiddleware))
 		app.use('/activities', ActivityRouterBuilder.build(editionService, authMiddleware, adminMiddleware))
 		app.use(
 			'/rounds',
