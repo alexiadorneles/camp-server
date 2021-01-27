@@ -19,6 +19,7 @@ export class CamperController {
 		this.loginOrRegister = this.loginOrRegister.bind(this)
 		this.setCabin = this.setCabin.bind(this)
 		this.update = this.update.bind(this)
+		this.activatePaidInscription = this.activatePaidInscription.bind(this)
 	}
 
 	public async activatePaidInscription(req: Request, res: Response): Promise<void> {

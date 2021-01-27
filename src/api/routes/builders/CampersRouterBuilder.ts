@@ -20,7 +20,7 @@ export namespace CampersRouterBuilder {
 		routes.put('/:idCamper/cabin', authMiddleware, controller.setCabin)
 		routes.post('/:idCamper/answer', authMiddleware, ownerMiddleware, controller.answerActivity)
 		routes.post('/:idCamper/answer-timed-out', authMiddleware, ownerMiddleware, controller.answerTimedOut)
-		routes.post('/activatePaidInscription', controller.activatePaidInscription)
+		routes.post('/activate-paid-inscription', controller.activatePaidInscription)
 		return routes
 	}
 }
