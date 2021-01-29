@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import {
 	Camper,
+	CamperActivity,
 	CamperActivityAttributes,
 	CamperActivityCreationAttributes,
 	CamperAttributes,
@@ -12,6 +13,7 @@ import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
+import { Op } from 'sequelize'
 
 export class CamperController {
 	constructor(private editionService: EditionService, private camperService: CamperService) {
@@ -20,6 +22,23 @@ export class CamperController {
 		this.setCabin = this.setCabin.bind(this)
 		this.update = this.update.bind(this)
 		this.activatePaidInscription = this.activatePaidInscription.bind(this)
+	}
+
+	public async statisticsByDate(req: Request, res: Response): Promise<void> {
+		const { date, idCamper } = req.body
+		const [year, month, day] = date.split('-')
+		const parsedDate = new Date(year, Number(month) - 1, day)
+		const endOfDay = new Date(year, Number(month) - 1, day, 23, 59, 59, 59)
+		const answeredActivitiesOnDate = await CamperActivity.findAll({
+			where: { idCamper, updatedAt: { [Op.between]: [parsedDate, endOfDay] } },
+		})
+		const corrects = answeredActivitiesOnDate.filter(ca => ca.blCorrect)
+		const percentage = (corrects.length * 100) / answeredActivitiesOnDate.length || 0
+		res.json({
+			count: answeredActivitiesOnDate.length,
+			corrects: corrects.length,
+			correctPercentage: percentage.toFixed(0) + '%',
+		})
 	}
 
 	public async activatePaidInscription(req: Request, res: Response): Promise<void> {
