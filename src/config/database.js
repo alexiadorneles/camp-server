@@ -12,7 +12,8 @@ module.exports = {
 		timestamps: true,
 	},
 	dialectOptions: {
-		useUTC: false,
+		dateStrings: true,
+		typeCast: true,
 	},
 	timezone: '-03:00',
 }
