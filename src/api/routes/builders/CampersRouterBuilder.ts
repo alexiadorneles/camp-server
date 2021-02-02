@@ -22,6 +22,7 @@ export namespace CampersRouterBuilder {
 		routes.post('/:idCamper/answer-timed-out', authMiddleware, ownerMiddleware, controller.answerTimedOut)
 		routes.post('/activate-paid-inscription', controller.activatePaidInscription)
 		routes.post('/statistics', controller.statisticsByDate)
+		routes.get('/priority-inscription', authMiddleware, ownerMiddleware, controller.validatePriorityInscription)
 		return routes
 	}
 }

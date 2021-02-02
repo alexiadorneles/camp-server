@@ -14,14 +14,25 @@ import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
 import { Op } from 'sequelize'
+const { PRIORITY_EMAILS } = process.env
 
 export class CamperController {
+	private priorityEmails: string[]
+
 	constructor(private editionService: EditionService, private camperService: CamperService) {
+		this.priorityEmails = JSON.parse(PRIORITY_EMAILS).map((email: string) => email.trim().toLowerCase())
 		this.create = this.create.bind(this)
 		this.loginOrRegister = this.loginOrRegister.bind(this)
 		this.setCabin = this.setCabin.bind(this)
 		this.update = this.update.bind(this)
 		this.activatePaidInscription = this.activatePaidInscription.bind(this)
+		this.validatePriorityInscription = this.validatePriorityInscription.bind(this)
+	}
+
+	public async validatePriorityInscription(req: Request, res: Response): Promise<void> {
+		const { signedInUser } = req.params
+		const { dsEmail } = await Camper.findOne({ where: { idCamper: Number(signedInUser) } })
+		res.json(this.priorityEmails.includes(dsEmail))
 	}
 
 	public async statisticsByDate(req: Request, res: Response): Promise<void> {
