@@ -5,10 +5,11 @@
 	"main": "index.js",
 	"scripts": {
 		"deploy:umbler": "git checkout master && git merge main && git push && git push umbler master && git checkout main",
+		"postinstall": "npm run build",
 		"build": "node node_modules/typescript/bin/tsc",
 		"build:watch": "tsc -w",
 		"dev": "nodemon build/index",
-		"prestart": "npm i && npm run build && node node_modules/.bin/sequelize db:migrate",
+		"prestart": "node node_modules/.bin/sequelize db:migrate",
 		"start": "node build/index",
 		"test": "mocha -r ts-node/register src/test/**/*.test.ts"
 	},
