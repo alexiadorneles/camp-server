@@ -54,7 +54,12 @@ export class CamperController {
 
 	public async activatePaidInscription(req: Request, res: Response): Promise<void> {
 		const { code } = req.body
-		const { idCabin, idPaidInscription, dsEmail } = await PaidInscription.findOne({ where: { dsCode: code } })
+		const inscription = await PaidInscription.findOne({ where: { dsCode: code } })
+		if (!inscription) {
+			res.status(400).json({ error: 'Código não encontrado' })
+		}
+
+		const { idCabin, idPaidInscription, dsEmail } = inscription
 		const { idCamper } = await Camper.findOne({ where: { dsEmail } })
 		await this.addCamperInCabin(idCamper, idCabin)
 		await PaidInscription.update({ blActivated: true }, { where: { idPaidInscription } })
