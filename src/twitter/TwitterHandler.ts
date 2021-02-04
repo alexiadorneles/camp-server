@@ -12,12 +12,7 @@ const twitterClient = new TwitterClient({
 const TT_ACCOUNT = process.env.tt_account
 
 // different congratulation messages
-const congratulations = [
-	'UaU temos um vencer(a)! Parabéns!!',
-	'Segundo fontes... Você acertou!!',
-	'Aha! Achei a resposta certa, bom trabalho!!',
-	'Atenção todos... Temos um ganhador(a)!',
-]
+const congratulations = ['Parabéns! Você concluiu a 3a Missão. Quais serão as consequências de sua vitória?']
 
 export async function watchForMissionWinner(): Promise<void> {
 	console.log('Watching for winner...')
@@ -37,6 +32,7 @@ export async function watchForMissionWinner(): Promise<void> {
 					q: `${dsAnswer} (${dsQuestionTag}) (to:${TT_ACCOUNT})`,
 					result_type: 'recent',
 				})
+				console.log('Query is::: ', `${dsAnswer}(${dsQuestionTag}) (to:${TT_ACCOUNT})`)
 
 				// get relevant info and order by time of tweet (oldest to newest)
 				const data = search.statuses
