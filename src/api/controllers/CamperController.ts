@@ -1,4 +1,6 @@
 import { Request, Response } from 'express'
+import _ from 'lodash'
+import { Op } from 'sequelize'
 import {
 	Camper,
 	CamperActivity,
@@ -13,14 +15,15 @@ import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
-import { Op } from 'sequelize'
-const { PRIORITY_EMAILS } = process.env
+const { PRIORITY_EMAILS_1, PRIORITY_EMAILS_2, PRIORITY_EMAILS_3, PRIORITY_EMAILS_4 } = process.env
 
 export class CamperController {
 	private priorityEmails: string[]
 
 	constructor(private editionService: EditionService, private camperService: CamperService) {
-		this.priorityEmails = JSON.parse(PRIORITY_EMAILS).map((email: string) => email.trim().toLowerCase())
+		const emailsStrings = [PRIORITY_EMAILS_1, PRIORITY_EMAILS_2, PRIORITY_EMAILS_3, PRIORITY_EMAILS_4]
+		const emails = emailsStrings.map(string => JSON.parse(string))
+		this.priorityEmails = _.flatten(emails).map((email: string) => email.trim().toLowerCase())
 		this.create = this.create.bind(this)
 		this.loginOrRegister = this.loginOrRegister.bind(this)
 		this.setCabin = this.setCabin.bind(this)
