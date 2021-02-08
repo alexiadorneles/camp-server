@@ -9,12 +9,14 @@ import {
 	CamperAttributes,
 	CamperEdition,
 	CamperEditionAttributes,
+	Cabin,
 } from '../../models'
 import { PaidInscription } from '../../models/PaidInscription'
 import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
+import { INCLUDE_CAMPER } from '../../database/associations'
 const { PRIORITY_EMAILS_1, PRIORITY_EMAILS_2, PRIORITY_EMAILS_3, PRIORITY_EMAILS_4 } = process.env
 
 export class CamperController {
@@ -132,6 +134,12 @@ export class CamperController {
 	public async setCabin(req: Request, res: Response): Promise<void> {
 		const { idCabin } = req.body as Partial<CamperAttributes>
 		const idCamper = Number(req.params.idCamper)
+		const cabinWithCampers = await Cabin.findOne({ include: INCLUDE_CAMPER, where: { idCabin } })
+		const { nrCabinLimit } = await this.editionService.findCurrent()
+		if ((cabinWithCampers as any).campers!.length >= nrCabinLimit) {
+			res.status(400).json({ error: `O chalé está ${idCabin} lotado. Por favor escolha outro` })
+			return
+		}
 		const camperEdition = await this.addCamperInCabin(idCamper, idCabin)
 		res.json(camperEdition)
 	}
