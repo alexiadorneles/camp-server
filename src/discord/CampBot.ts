@@ -38,8 +38,9 @@ export class CampBot {
 		const roles = campServer.roles.cache.filter(role => rolesNames.includes(role.name as Divinity))
 		console.log('Roles: ', roles.size)
 		try {
-			console.log('Os membros são ', campServer.members.cache.size)
+			const members = await campServer.members.fetch()
 			await Promise.all(campServer.members.cache.map(member => roles.map(r => member.roles.remove(r))))
+			console.log('Os membros são ', members.size)
 			message.author.send('Todos os usuários do Acampamento fora de seus chalés.')
 		} catch (err) {
 			message.author.send('Opa, deu algum problema.')
