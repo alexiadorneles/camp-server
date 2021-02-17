@@ -34,8 +34,11 @@ export class CampBot {
 	private handleClearAllCabinRolesMessage = async (message: Message) => {
 		const campServer = this.client.guilds.cache.find(guild => guild.name === 'Acampamento')
 		const rolesNames = Object.values(Divinity)
+		console.log('Começou a limpar as roles!')
 		const roles = campServer.roles.cache.filter(role => rolesNames.includes(role.name as Divinity))
+		console.log('Roles: ', roles)
 		try {
+			console.log('Os membros são ', campServer.members.cache.size)
 			await Promise.all(campServer.members.cache.map(member => roles.map(r => member.roles.remove(r))))
 			message.author.send('Todos os usuários do Acampamento fora de seus chalés.')
 		} catch (err) {
