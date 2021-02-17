@@ -42,13 +42,8 @@ export class CampBot {
 			const members = await campServer.members.fetch()
 			await Promise.all(
 				members.map(member => {
-					console.log(
-						'Removendo roles do user ',
-						member.displayName,
-						' roles: ',
-						divinityRoles.size,
-					)
-					return divinityRoles.map(r => member.roles.remove(r))
+					console.log('Removendo roles do user ', member.displayName, ' roles: ', divinityRoles.size)
+					return member.roles.remove(divinityRoles)
 				}),
 			)
 			console.log('Os membros são ', members.size)
