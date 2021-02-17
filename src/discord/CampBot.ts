@@ -35,8 +35,9 @@ export class CampBot {
 		const campServer = this.client.guilds.cache.find(guild => guild.name === 'Acampamento')
 		const rolesNames = Object.values(Divinity)
 		console.log('Começou a limpar as roles!')
-		const roles = campServer.roles.cache.filter(role => rolesNames.includes(role.name as Divinity))
-		console.log('Roles: ', roles.size)
+		const roles = await campServer.roles.fetch()
+		const divinityRoles = roles.cache.filter(role => rolesNames.includes(role.name as Divinity))
+		console.log('Roles: ', divinityRoles.size)
 		try {
 			const members = await campServer.members.fetch()
 			await Promise.all(
@@ -45,9 +46,9 @@ export class CampBot {
 						'Removendo roles do user ',
 						member.displayName,
 						' roles: ',
-						roles.map(r2 => r2.name),
+						divinityRoles.size,
 					)
-					return roles.map(r => member.roles.remove(r))
+					return divinityRoles.map(r => member.roles.remove(r))
 				}),
 			)
 			console.log('Os membros são ', members.size)
