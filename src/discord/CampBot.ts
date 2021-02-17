@@ -39,7 +39,17 @@ export class CampBot {
 		console.log('Roles: ', roles.size)
 		try {
 			const members = await campServer.members.fetch()
-			await Promise.all(members.map(member => roles.map(r => member.roles.remove(r))))
+			await Promise.all(
+				members.map(member => {
+					console.log(
+						'Removendo roles do user ',
+						member.displayName,
+						' roles: ',
+						roles.map(r2 => r2.name),
+					)
+					return roles.map(r => member.roles.remove(r))
+				}),
+			)
 			console.log('Os membros são ', members.size)
 			message.author.send('Todos os usuários do Acampamento fora de seus chalés.')
 		} catch (err) {
