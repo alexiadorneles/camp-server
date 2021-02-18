@@ -40,12 +40,23 @@ export class CampBot {
 		console.log('Roles: ', divinityRoles.size)
 		try {
 			const members = await campServer.members.fetch()
-			await Promise.all(
-				members.map(member => {
-					console.log('Removendo roles do user ', member.displayName, ' roles: ', divinityRoles.size)
-					return member.roles.remove(divinityRoles)
-				}),
-			)
+			const membersWithRole = members.filter(member => {
+				const userRoles = member.roles.cache.array()
+				return divinityRoles.some(divinityRole => userRoles.includes(divinityRole))
+			})
+
+			const membersArray = membersWithRole.array()
+			for (const member of membersArray) {
+				console.log('Removendo roles do user ', member.displayName, ' roles: ', divinityRoles.size)
+				await member.roles.remove(divinityRoles)
+			}
+
+			// await Promise.all(
+			// 	membersWithRole.map(member => {
+			// 		return member.roles.remove(divinityRoles)
+			// 	}),
+			// )
+			
 			console.log('Os membros são ', members.size)
 			message.author.send('Todos os usuários do Acampamento fora de seus chalés.')
 		} catch (err) {
