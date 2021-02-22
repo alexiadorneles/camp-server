@@ -17,15 +17,12 @@ import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
 import { INCLUDE_CAMPER } from '../../database/associations'
-const { PRIORITY_EMAILS_1, PRIORITY_EMAILS_2, PRIORITY_EMAILS_3, PRIORITY_EMAILS_4 } = process.env
 
 export class CamperController {
-	private priorityEmails: string[]
+	private priorityEmails: string[] = []
 
 	constructor(private editionService: EditionService, private camperService: CamperService) {
-		const emailsStrings = [PRIORITY_EMAILS_1, PRIORITY_EMAILS_2, PRIORITY_EMAILS_3, PRIORITY_EMAILS_4]
-		const emails = emailsStrings.map(string => JSON.parse(string))
-		this.priorityEmails = _.flatten(emails).map((email: string) => email.trim().toLowerCase())
+		this.setPriorityEmails()
 		this.create = this.create.bind(this)
 		this.loginOrRegister = this.loginOrRegister.bind(this)
 		this.setCabin = this.setCabin.bind(this)
@@ -187,5 +184,12 @@ export class CamperController {
 
 		const created = await camper.createCamperActivity(camperActivity)
 		res.json(created)
+	}
+	private async setPriorityEmails(): Promise<void> {
+		const { idEdition } = await this.editionService.findCurrent()
+		const campersIDsFromPastEdition = await CamperEdition.findAll({ where: { idEdition: idEdition - 1 }, attributes: ['idCamper'] })
+		const campersFromPastEdition = await Camper.findAll({ where: { idCamper: { [Op.in]: campersIDsFromPastEdition.map(c => c.idCamper) } }, attributes: ['dsEmail'] })
+		this.priorityEmails = campersFromPastEdition.map(c => c.dsEmail)
+		console.log('Emails de prioridade setados! ', this.priorityEmails.length)
 	}
 }
