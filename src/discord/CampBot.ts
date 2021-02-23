@@ -87,7 +87,7 @@ export class CampBot {
           return `Chalé ${divinity} - ${members.length} membros`
         }
       )
-      await message.channel.send(responseMessage)
+      await message.channel.send(responseMessage.join('\n'))
     } catch (err) {
       message.author.send('Opa, deu algum problema.')
       message.author.send(err.message)
