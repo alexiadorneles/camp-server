@@ -163,13 +163,15 @@ export class CampBot {
       rolesNames.includes(role.name as Divinity)
     )
 
-    const roleUserGroup = _.groupBy(members.array(), (member: GuildMember) =>
-      divinityRoles.find((divinityRole) =>
+    const roleUserGroup = _.groupBy(members.array(), (member: GuildMember) => {
+      const role = divinityRoles.find((divinityRole) =>
         member.roles.cache.array().includes(divinityRole)
       )
-    )
+      return role?.name
+    })
 
     const roleUserSortedByCabinID = Object.entries(roleUserGroup)
+      .filter(([d]) => Boolean(d) && d !== 'undefined')
       .map(([d, m]) => [OLYMPIAN_TO_CABIN_NUMBER[d as Divinity], m])
       .sort(([a]: [number], [b]: [number]) => a - b)
     return roleUserSortedByCabinID
