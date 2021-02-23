@@ -163,7 +163,7 @@ export class CampBot {
       rolesNames.includes(role.name as Divinity)
     )
 
-    const roleUserGroup = _.groupBy(members, (member: GuildMember) =>
+    const roleUserGroup = _.groupBy(members.array(), (member: GuildMember) =>
       divinityRoles.find((divinityRole) =>
         member.roles.cache.array().includes(divinityRole)
       )
