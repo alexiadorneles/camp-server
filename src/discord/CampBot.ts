@@ -12,7 +12,6 @@ import {
   OLYMPIAN_TO_CABIN_NUMBER,
 } from '../types/Mythology'
 import _ from 'lodash'
-import { Camper } from 'models'
 import { CamperService } from 'api/services/CamperService'
 
 const { DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID, DISCORD_ADMIN_ID } = process.env
@@ -74,8 +73,12 @@ export class CampBot {
     message.author.send(idsFromMembersOfServer.length + ' membros no discord')
     // filtrar dos campistas os que não tem discordID no server
     const campersNotInServer = campersOfThisEdition.filter(camper => !idsFromMembersOfServer.includes(camper.dsDiscordID))
+    const notInServerEmails = campersNotInServer.map(camper => camper.dsEmail)
     message.author.send('Cadastrados no site que não estão no server do acampamento: ' )
-    message.author.send(JSON.stringify(campersNotInServer.map(camper => camper.dsEmail).join(', ')))
+    const chunkedEmails = _.chunk(notInServerEmails, 50)
+    chunkedEmails.forEach(emails => {
+      message.author.send(chunkedEmails.join(', '))
+    })
 
     const messageHandler = new MessageHandler(message)
     const usersFromServerNotInCabin = membersFromServer.filter(member => !messageHandler.userAlreadyInCabin(member))
