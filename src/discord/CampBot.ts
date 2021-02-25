@@ -75,14 +75,14 @@ export class CampBot {
     // filtrar dos campistas os que não tem discordID no server
     const campersNotInServer = campersOfThisEdition.filter(camper => !idsFromMembersOfServer.includes(camper.dsDiscordID))
     message.author.send('Cadastrados no site que não estão no server do acampamento: ' )
-    message.author.send(campersNotInServer.map(camper => camper.dsEmail).join(', '))
+    message.author.send(JSON.stringify(campersNotInServer.map(camper => camper.dsEmail).join(', ')))
 
     const messageHandler = new MessageHandler(message)
     const usersFromServerNotInCabin = membersFromServer.filter(member => !messageHandler.userAlreadyInCabin(member))
     const usersFromServerNotInCabinIDs = usersFromServerNotInCabin.map(member => member.id)
     const campersInServer = campersOfThisEdition.filter(camper => usersFromServerNotInCabinIDs.includes(camper.dsDiscordID))
     message.author.send('Estão no servidor mas não estão em seus chalés: ')
-    message.author.send(campersInServer.map(camper => camper.dsEmail).join(', '))
+    message.author.send(JSON.stringify(campersInServer.map(camper => camper.dsEmail).join(', ')))
   }
 
   private handleCountCabinMessage = async (message: Message) => {
