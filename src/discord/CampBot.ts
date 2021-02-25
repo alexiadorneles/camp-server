@@ -67,9 +67,11 @@ export class CampBot {
   private handleEmailsRequestMessage = async (message: Message) => {
     // pegar lista de campistas da edição atual (email e discordID)
     const campersOfThisEdition = await this.camperService.findWhereIdCabinIsNotNull()
+    message.author.send(campersOfThisEdition.length + ' campistas cadastrados no site')
     // pegar lista de membros do servidor
     const membersFromServer = await this.getServerMembers()
     const idsFromMembersOfServer = membersFromServer.map(member => member.id)
+    message.author.send(idsFromMembersOfServer.length + ' membros no discord')
     // filtrar dos campistas os que não tem discordID no server
     const campersNotInServer = campersOfThisEdition.filter(camper => !idsFromMembersOfServer.includes(camper.dsDiscordID))
     message.author.send('Cadastrados no site que não estão no server do acampamento: ' )
