@@ -75,7 +75,7 @@ export class CampBot {
     const campersNotInServer = campersOfThisEdition.filter(camper => !idsFromMembersOfServer.includes(camper.dsDiscordID))
     const notInServerEmails = campersNotInServer.map(camper => camper.dsEmail)
     message.author.send('Cadastrados no site que não estão no server do acampamento: ' )
-    const chunkedEmails = _.chunk(notInServerEmails, 50)
+    const chunkedEmails = _.chunk(notInServerEmails, 10)
     chunkedEmails.forEach(emails => {
       message.author.send(chunkedEmails.join(', '))
     })
