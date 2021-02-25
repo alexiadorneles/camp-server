@@ -1,4 +1,4 @@
-import { CamperService } from 'api/services/CamperService'
+import { CamperService } from './api/services/CamperService'
 import dotenv from 'dotenv'
 import { configureAPI } from './api'
 import { CampBot } from './discord/CampBot'
