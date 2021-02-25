@@ -1,8 +1,13 @@
+import { Op } from 'sequelize'
 import { Camper, CamperAttributes } from '../../models'
 
 export class CamperService {
 	public async findByEmail(dsEmail: string): Promise<Camper> {
 		return Camper.findOne({ where: { dsEmail } })
+	}
+
+	public async findWhereIdCabinIsNotNull(): Promise<Camper[]>	{
+		return Camper.findAll({ where: { idCabin: {[Op.not]: null } } })
 	}
 
 	public async update(data: Partial<CamperAttributes>, whereClause: Partial<CamperAttributes>): Promise<Camper> {

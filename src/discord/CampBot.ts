@@ -12,6 +12,8 @@ import {
   OLYMPIAN_TO_CABIN_NUMBER,
 } from '../types/Mythology'
 import _ from 'lodash'
+import { Camper } from 'models'
+import { CamperService } from 'api/services/CamperService'
 
 const { DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID, DISCORD_ADMIN_ID } = process.env
 
@@ -23,7 +25,7 @@ const CAMPER_ALREADY_IN_CABIN =
 export class CampBot {
   private client: Client
 
-  constructor() {
+  constructor(private camperService: CamperService) {
     this.client = new Client()
     this.client.on('ready', this.onReady)
     this.client.on('message', this.onMessage)
@@ -53,7 +55,33 @@ export class CampBot {
     ) {
       return this.handleCountCabinMessage(message)
     }
+
+    if (
+      message.author.id === DISCORD_ADMIN_ID &&
+      message.content.trim().startsWith('!emails')
+    ) {
+      return this.handleEmailsRequestMessage(message)
+    }
   };
+
+  private handleEmailsRequestMessage = async (message: Message) => {
+    // pegar lista de campistas da edição atual (email e discordID)
+    const campersOfThisEdition = await this.camperService.findWhereIdCabinIsNotNull()
+    // pegar lista de membros do servidor
+    const membersFromServer = await this.getServerMembers()
+    const idsFromMembersOfServer = membersFromServer.map(member => member.id)
+    // filtrar dos campistas os que não tem discordID no server
+    const campersNotInServer = campersOfThisEdition.filter(camper => !idsFromMembersOfServer.includes(camper.dsDiscordID))
+    message.author.send('Cadastrados no site que não estão no server do acampamento: ' )
+    message.author.send(campersNotInServer.map(camper => camper.dsEmail).join(', '))
+
+    const messageHandler = new MessageHandler(message)
+    const usersFromServerNotInCabin = membersFromServer.filter(member => !messageHandler.userAlreadyInCabin(member))
+    const usersFromServerNotInCabinIDs = usersFromServerNotInCabin.map(member => member.id)
+    const campersInServer = campersOfThisEdition.filter(camper => usersFromServerNotInCabinIDs.includes(camper.dsDiscordID))
+    message.author.send('Estão no servidor mas não estão em seus chalés: ')
+    message.author.send(campersInServer.map(camper => camper.dsEmail).join(', '))
+  }
 
   private handleCountCabinMessage = async (message: Message) => {
     try {
@@ -191,5 +219,12 @@ export class CampBot {
       return userRoles.includes(roleRelated)
     })
     return membersWithRole
+  }
+
+  private getServerMembers() {
+    const campServer = this.client.guilds.cache.find(
+      (guild) => guild.name === 'Acampamento'
+    )
+    return campServer.members.fetch()
   }
 }

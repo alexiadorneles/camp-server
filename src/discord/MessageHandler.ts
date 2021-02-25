@@ -31,8 +31,8 @@ export class MessageHandler {
 		return Camper.findOne({ where: { dsDiscordID }, attributes: ['idCabin', 'dsDiscordID'] })
 	}
 
-	public userAlreadyInCabin(): boolean {
-		const userRoles = this.message.member.roles.cache.array()
+	public userAlreadyInCabin(member = this.message.member): boolean {
+		const userRoles = member.roles.cache.array()
 		const roles = Object.values(Divinity)
 		return userRoles.some(role => roles.includes(role.name as Divinity))
 	}
