@@ -79,6 +79,7 @@ export class CampBot {
     chunkedEmails.forEach(emails => {
       message.author.send(chunkedEmails.join(', '))
     })
+    message.author.send('------------------------------------------')
 
     const messageHandler = new MessageHandler(message)
     const usersFromServerNotInCabin = membersFromServer.filter(member => !messageHandler.userAlreadyInCabin(member))
