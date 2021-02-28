@@ -86,7 +86,7 @@ export class CampBot {
     const usersFromServerNotInCabinIDs = usersFromServerNotInCabin.map(member => member.id)
     const campersInServer = campersOfThisEdition.filter(camper => usersFromServerNotInCabinIDs.includes(camper.dsDiscordID))
     message.author.send('Estão no servidor mas não estão em seus chalés: ')
-    message.author.send(JSON.stringify(campersInServer.map(camper => camper.dsEmail).join(', ')))
+    message.author.send(JSON.stringify(campersInServer.map(camper => `<@${camper.dsDiscordID}>`).join(', ')))
   }
 
   private handleCountCabinMessage = async (message: Message) => {
