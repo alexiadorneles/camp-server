@@ -17,6 +17,10 @@ import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
 import { INCLUDE_CAMPER } from '../../database/associations'
+import { GoogleParametersBuilder } from '../../builder/GoogleParametersBuilder'
+import { GoogleScope } from 'types/Google'
+
+const { GOOGLE_KEY, BASE_URL } = process.env
 
 export class CamperController {
 	private priorityEmails: string[] = []
@@ -92,21 +96,17 @@ export class CamperController {
 		}
 	}
 
-	public async login(req: Request, res: Response): Promise<void> {
-		const [hashType, hash] = req.headers.authorization.split(' ')
-		const { idCamper } = JWTMediator.decode(hash)
-		try {
-			const camper = await Camper.findByPk(idCamper)
-			if (!camper) {
-				res.status(401).json({ error: 'User not found' })
-				return
-			}
-
-			const token = JWTMediator.sign({ idCamper: Number(idCamper), password: '' })
-			res.json({ camper, token })
-		} catch (error) {
-			res.status(401).json({ error })
-		}
+	public async login(_: Request, res: Response): Promise<void> {
+		res.send(
+			new GoogleParametersBuilder('https://accounts.google.com/o/oauth2/v2/auth')
+				.withScope(GoogleScope.USER_INFO)
+				.withAccessType('offline')
+				.withIncludeGrantedScopes(true)
+				.withResponseType('code')
+				.withRedirectURL(`${BASE_URL}/google/auth`)
+				.withClientId(GOOGLE_KEY)
+				.build(),
+		)
 	}
 
 	public async findOne(req: Request, res: Response): Promise<void> {
@@ -187,8 +187,14 @@ export class CamperController {
 	}
 	private async setPriorityEmails(): Promise<void> {
 		const { idEdition } = await this.editionService.findCurrent()
-		const campersIDsFromPastEdition = await CamperEdition.findAll({ where: { idEdition: idEdition - 1 }, attributes: ['idCamper'] })
-		const campersFromPastEdition = await Camper.findAll({ where: { idCamper: { [Op.in]: campersIDsFromPastEdition.map(c => c.idCamper) } }, attributes: ['dsEmail'] })
+		const campersIDsFromPastEdition = await CamperEdition.findAll({
+			where: { idEdition: idEdition - 1 },
+			attributes: ['idCamper'],
+		})
+		const campersFromPastEdition = await Camper.findAll({
+			where: { idCamper: { [Op.in]: campersIDsFromPastEdition.map(c => c.idCamper) } },
+			attributes: ['dsEmail'],
+		})
 		this.priorityEmails = campersFromPastEdition.map(c => c.dsEmail)
 		// console.log('Emails de prioridade setados! ', this.priorityEmails.length)
 	}

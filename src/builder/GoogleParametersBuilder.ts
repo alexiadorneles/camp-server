@@ -72,7 +72,7 @@ export class GoogleParametersBuilder implements Builder<string> {
 	}
 
 	withResponseType(responseType: string) {
-		this.responseType = `include_granted_scopes=${responseType}`
+		this.responseType = `response_type=${responseType}`
 		return this
 	}
 }

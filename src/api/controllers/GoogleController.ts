@@ -7,7 +7,7 @@ import { GoogleParametersBuilder } from '../../builder/GoogleParametersBuilder'
 import { JWTMediator } from '../routes/middlewares'
 import { CamperService } from '../services/CamperService'
 
-const { GOOGLE_KEY, GOOGLE_SECRET, BASE_URL } = process.env
+const { GOOGLE_KEY, GOOGLE_SECRET, BASE_URL, FRONTEND_URL } = process.env
 
 export class GoogleController {
 	constructor(private camperService: CamperService) {}
@@ -26,7 +26,7 @@ export class GoogleController {
 			password: '',
 		})
 
-		res.json({ camper, token })
+		res.redirect(`${FRONTEND_URL}?idCamper=${camper.idCamper}&token=${token}`)
 	}
 
 	private createNewCamper = (user: GoogleUser) => {
