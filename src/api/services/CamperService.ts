@@ -1,13 +1,21 @@
 import { Op } from 'sequelize'
-import { Camper, CamperAttributes } from '../../models'
+import { Camper, CamperAttributes, CamperCreationAttributes } from '../../models'
 
 export class CamperService {
+	public async create(data: CamperCreationAttributes): Promise<Camper> {
+		return Camper.create(data)
+	}
+
 	public async findByEmail(dsEmail: string): Promise<Camper> {
 		return Camper.findOne({ where: { dsEmail } })
 	}
 
-	public async findWhereIdCabinIsNotNull(): Promise<Camper[]>	{
-		return Camper.findAll({ where: { idCabin: {[Op.not]: null } } })
+	public async findByGoogleId(idGoogle: string): Promise<Camper> {
+		return Camper.findOne({ where: { idGoogle } })
+	}
+
+	public async findWhereIdCabinIsNotNull(): Promise<Camper[]> {
+		return Camper.findAll({ where: { idCabin: { [Op.not]: null } } })
 	}
 
 	public async update(data: Partial<CamperAttributes>, whereClause: Partial<CamperAttributes>): Promise<Camper> {
