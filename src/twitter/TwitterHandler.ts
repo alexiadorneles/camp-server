@@ -2,14 +2,14 @@ import { Op } from 'sequelize'
 import { TwitterClient } from 'twitter-api-client'
 import { Mission } from '../models/MissionModel'
 
-const twitterClient = new TwitterClient({
-	apiKey: process.env.api_key,
-	apiSecret: process.env.api_secret,
-	accessToken: process.env.access_token,
-	accessTokenSecret: process.env.access_token_secret,
-})
+const { TWITTER_KEY, TWITTER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_TOKEN_SECRET, TWITTER_ACCOUNT } = process.env
 
-const TT_ACCOUNT = process.env.tt_account
+const twitterClient = new TwitterClient({
+	apiKey: TWITTER_KEY,
+	apiSecret: TWITTER_SECRET,
+	accessToken: TWITTER_ACCESS_TOKEN,
+	accessTokenSecret: TWITTER_TOKEN_SECRET,
+})
 
 // different congratulation messages
 const congratulations = ['Parabéns! Você concluiu a 3a Missão. Quais serão as consequências de sua vitória?']
@@ -29,10 +29,10 @@ export async function watchForMissionWinner(): Promise<void> {
 				// search for correct answers (max 100 every five mins)
 
 				const search = await twitterClient.tweets.search({
-					q: `${dsAnswer} (${dsQuestionTag}) (to:${TT_ACCOUNT})`,
+					q: `${dsAnswer} (${dsQuestionTag}) (to:${TWITTER_ACCOUNT})`,
 					result_type: 'recent',
 				})
-				console.log('Query is::: ', `${dsAnswer}(${dsQuestionTag}) (to:${TT_ACCOUNT})`)
+				console.log('Query is::: ', `${dsAnswer}(${dsQuestionTag}) (to:${TWITTER_ACCOUNT})`)
 
 				// get relevant info and order by time of tweet (oldest to newest)
 				const data = search.statuses

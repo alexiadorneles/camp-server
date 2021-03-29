@@ -15,7 +15,6 @@ import {
 } from '../../models'
 import { PaidInscription } from '../../models/PaidInscription'
 import { Country } from '../../types/Places'
-import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
 
