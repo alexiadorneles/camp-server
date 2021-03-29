@@ -190,6 +190,6 @@ export class CamperController {
 		const campersIDsFromPastEdition = await CamperEdition.findAll({ where: { idEdition: idEdition - 1 }, attributes: ['idCamper'] })
 		const campersFromPastEdition = await Camper.findAll({ where: { idCamper: { [Op.in]: campersIDsFromPastEdition.map(c => c.idCamper) } }, attributes: ['dsEmail'] })
 		this.priorityEmails = campersFromPastEdition.map(c => c.dsEmail)
-		console.log('Emails de prioridade setados! ', this.priorityEmails.length)
+		// console.log('Emails de prioridade setados! ', this.priorityEmails.length)
 	}
 }
