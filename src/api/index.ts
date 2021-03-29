@@ -4,13 +4,14 @@ import '../database'
 import '../database/associations'
 import { CampRoutes } from './routes/camp.routes'
 import { DiscordRoutes } from './routes/discord.routes'
+import { GoogleRoutes } from './routes/google.routes'
 
 const { FRONTEND_URL, ADMIN_PANEL_URL } = process.env
 
 const app = express()
 const whitelist = [ADMIN_PANEL_URL, FRONTEND_URL]
 const corsOptions = {
-	origin: function(origin: string, callback: Function): void {
+	origin: function (origin: string, callback: Function): void {
 		if (!origin || whitelist.indexOf(origin) !== -1) {
 			callback(null, true)
 		} else {

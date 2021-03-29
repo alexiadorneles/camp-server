@@ -14,7 +14,6 @@ export namespace CampersRouterBuilder {
 		const routes = Router()
 		const controller = new CamperController(editionService, camperService)
 		routes.get('/login', controller.login)
-		routes.post('/', controller.loginOrRegister)
 		routes.put('/', authMiddleware, ownerMiddleware, controller.update)
 		routes.get('/profile', authMiddleware, controller.findOne)
 		routes.put('/:idCamper/cabin', authMiddleware, controller.setCabin)
@@ -22,7 +21,6 @@ export namespace CampersRouterBuilder {
 		routes.post('/:idCamper/answer-timed-out', authMiddleware, ownerMiddleware, controller.answerTimedOut)
 		routes.post('/activate-paid-inscription', controller.activatePaidInscription)
 		routes.post('/statistics', controller.statisticsByDate)
-		routes.get('/priority-inscription', authMiddleware, ownerMiddleware, controller.validatePriorityInscription)
 		return routes
 	}
 }
