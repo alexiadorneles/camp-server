@@ -27,8 +27,8 @@ export namespace GoogleRoutes {
             .build()
         );
 
-        const { access_token, refresh_token, id_token } = response.data;
-        const [header, payload, signature] = id_token.split(".");
+        const { id_token } = response.data;
+        const [_, payload] = id_token.split(".");
         const user = JSON.parse(base64url.decode(payload)) as GoogleUser;
         console.dir(user);
       } catch (error) {
@@ -36,16 +36,7 @@ export namespace GoogleRoutes {
         res.send('<h1 style="color: red;"> Oops something went wrong </h1>');
       }
 
-      console.log("----------------------------------");
       res.send("<h1> Done! </h1>");
     });
-
-    routes.get("/token", async (req, res) => {
-      console.log("----------------------------------");
-      console.log("Body: ", req.body);
-      console.log("----------------------------------");
-      res.send("<h1> Token! </h1>");
-    });
-    app.use("/google", routes);
   }
 }
