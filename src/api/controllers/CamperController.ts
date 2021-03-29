@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import _, { Dictionary } from 'lodash'
 import { Op } from 'sequelize'
 import { GoogleScope } from 'types/Google'
 import { GoogleParametersBuilder } from '../../builder/GoogleParametersBuilder'
@@ -27,21 +28,62 @@ export class CamperController {
 		this.activatePaidInscription = this.activatePaidInscription.bind(this)
 	}
 
-	public async statisticsByDate(req: Request, res: Response): Promise<void> {
+	public statisticsByDate = async (req: Request, res: Response): Promise<void> => {
 		const { date, idCamper } = req.body
-		const [year, month, day] = date.split('-')
-		const parsedDate = new Date(year, Number(month) - 1, day)
-		const endOfDay = new Date(year, Number(month) - 1, day, 23, 59, 59, 59)
-		const answeredActivitiesOnDate = await CamperActivity.findAll({
-			where: { idCamper, updatedAt: { [Op.between]: [parsedDate, endOfDay] } },
-		})
-		const corrects = answeredActivitiesOnDate.filter(ca => ca.blCorrect)
-		const percentage = (corrects.length * 100) / answeredActivitiesOnDate.length || 0
+		const { answeredActivitiesOnDate, corrects, percentage } = await this.camperService.statisticByCamperAndDate(
+			date,
+			idCamper,
+		)
 		res.json({
 			count: answeredActivitiesOnDate.length,
 			corrects: corrects.length,
 			correctPercentage: percentage.toFixed(0) + '%',
 		})
+	}
+
+	public statisticsByCabin = async (req: Request, res: Response): Promise<void> => {
+		const { activities, thoseThatDidntAnswer } = await this.getAnsweredActivities(req.params)
+		const groupedAnswers = _.groupBy(activities, 'idCamper')
+		const data = Object.entries(groupedAnswers).map(([key, answers]) => {
+			const corrects = answers.filter(ca => ca.blCorrect).length
+			const percentage = (corrects * 100) / answers.length || 0
+			const camper = (answers[0] as any)?.camper
+			return {
+				camper,
+				corrects,
+				correctPercentage: percentage.toFixed(0) + '%',
+			}
+		})
+		res.json({ answered: data, notAnswered: thoseThatDidntAnswer })
+	}
+
+	private async getAnsweredActivities({ idCabin, date }: Dictionary<string>) {
+		const idCabinNumber = Number(idCabin)
+		const [year, month, day] = date.split('-').map(Number)
+		const parsedDate = new Date(year, month - 1, day)
+		const endOfDay = new Date(year, month - 1, day, 23, 59, 59, 59)
+
+		const campersOfCabin = await CamperEdition.findAll({
+			where: { idCabin: idCabinNumber },
+			attributes: ['idCamper'],
+		})
+		const camperIDs = campersOfCabin.map(camper => camper.idCamper)
+		const campers = await Camper.findAll({
+			where: { idCamper: { [Op.in]: camperIDs } },
+			attributes: ['idCamper', 'dsName', 'dsImageURL', 'dsEmail'],
+		})
+
+		const activities = await CamperActivity.findAll({
+			where: { idCamper: { [Op.in]: camperIDs }, updatedAt: { [Op.between]: [parsedDate, endOfDay] } },
+		})
+
+		activities.forEach(
+			(activity: any) => (activity.camper = campers.find(camper => camper.idCamper === activity.idCamper)),
+		)
+		return {
+			activities,
+			thoseThatDidntAnswer: campers.filter(camper => activities.some(a => a.idCamper! === camper.idCamper)),
+		}
 	}
 
 	public async activatePaidInscription(req: Request, res: Response): Promise<void> {
