@@ -15,6 +15,6 @@ export interface GoogleUser {
 	exp: number
 }
 
-export const enum GoogleScopes {
+export const enum GoogleScope {
 	USER_INFO = 'https://www.googleapis.com/auth/userinfo.profile',
 }
