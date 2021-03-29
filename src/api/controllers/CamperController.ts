@@ -1,7 +1,10 @@
 import { Request, Response } from 'express'
-import _ from 'lodash'
 import { Op } from 'sequelize'
+import { GoogleScope } from 'types/Google'
+import { GoogleParametersBuilder } from '../../builder/GoogleParametersBuilder'
+import { INCLUDE_CAMPER } from '../../database/associations'
 import {
+	Cabin,
 	Camper,
 	CamperActivity,
 	CamperActivityAttributes,
@@ -9,16 +12,12 @@ import {
 	CamperAttributes,
 	CamperEdition,
 	CamperEditionAttributes,
-	Cabin,
 } from '../../models'
 import { PaidInscription } from '../../models/PaidInscription'
 import { Country } from '../../types/Places'
 import { JWTMediator } from '../routes/middlewares/JWTMediator'
 import { EditionService } from '../services'
 import { CamperService } from '../services/CamperService'
-import { INCLUDE_CAMPER } from '../../database/associations'
-import { GoogleParametersBuilder } from '../../builder/GoogleParametersBuilder'
-import { GoogleScope } from 'types/Google'
 
 const { GOOGLE_KEY, BASE_URL } = process.env
 
@@ -26,19 +25,9 @@ export class CamperController {
 	private priorityEmails: string[] = []
 
 	constructor(private editionService: EditionService, private camperService: CamperService) {
-		this.setPriorityEmails()
-		this.create = this.create.bind(this)
-		this.loginOrRegister = this.loginOrRegister.bind(this)
 		this.setCabin = this.setCabin.bind(this)
 		this.update = this.update.bind(this)
 		this.activatePaidInscription = this.activatePaidInscription.bind(this)
-		this.validatePriorityInscription = this.validatePriorityInscription.bind(this)
-	}
-
-	public async validatePriorityInscription(req: Request, res: Response): Promise<void> {
-		const { signedInUser } = req.params
-		const { dsEmail } = await Camper.findOne({ where: { idCamper: Number(signedInUser) } })
-		res.json(this.priorityEmails.includes(dsEmail))
 	}
 
 	public async statisticsByDate(req: Request, res: Response): Promise<void> {
@@ -70,30 +59,6 @@ export class CamperController {
 		await this.addCamperInCabin(idCamper, idCabin)
 		await PaidInscription.update({ blActivated: true }, { where: { idPaidInscription } })
 		res.status(201).json({ success: true })
-	}
-
-	public async loginOrRegister(req: Request, res: Response): Promise<void> {
-		const { idGoogle } = req.body
-		const camper = await Camper.findOne({ where: { idGoogle } })
-
-		if (!camper) {
-			this.create(req, res)
-			return
-		}
-
-		const token = JWTMediator.sign({ idCamper: Number(camper.idCamper), password: '' })
-		res.json({ camper, token })
-	}
-
-	public async create(req: Request, res: Response): Promise<void> {
-		const camperAttributes = req.body
-		try {
-			const camper = await Camper.create(camperAttributes)
-			const token = JWTMediator.sign({ idCamper: camper.idCamper, password: '' })
-			res.json({ camper, token })
-		} catch (error) {
-			res.status(400).json({ error })
-		}
 	}
 
 	public async login(_: Request, res: Response): Promise<void> {

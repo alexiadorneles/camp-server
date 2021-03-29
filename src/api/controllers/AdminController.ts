@@ -68,27 +68,6 @@ export class AdminController {
 		res.json(data)
 	}
 
-	public async addCampersToFirstEdition(req: Request, res: Response): Promise<void> {
-		const discordData = await FileUtils.readDiscordIDsCSV()
-		const ids = discordData.map(obj => obj.discordID).map(Number)
-		const campersFirstEdition = await Camper.findAll({ where: { dsDiscordID: { [Op.in]: ids } } })
-		const created = await Promise.all(
-			campersFirstEdition.map(camper => {
-				const lineForCamper = discordData.find(data => data.discordID == camper.dsDiscordID)
-				if (lineForCamper.cabinNumber) {
-					return CamperEdition.create({
-						idEdition: 1,
-						idCamper: camper.idCamper,
-						idCabin: lineForCamper.cabinNumber,
-					})
-				}
-				Promise.resolve(null)
-			}),
-		)
-
-		res.json(created.filter(Boolean))
-	}
-
 	public async login(req: Request, res: Response): Promise<void> {
 		const [hashType, hash] = req.headers.authorization.split(' ')
 		const [idGoogle, password] = new Buffer(hash, 'base64').toString().split(':')

@@ -16,7 +16,6 @@ export namespace AdminRouterBuilder {
 		routes.get('/test', adminMiddleware, controller.listCabinRequests)
 		routes.put('/init-edition/', adminMiddleware, controller.initEdition)
 		routes.post('/end-request', adminMiddleware, controller.setCamperInCabin)
-		routes.post('/populate-first-edition', adminMiddleware, controller.addCampersToFirstEdition)
 		routes.post('/start-edition', adminMiddleware, controller.createNewEdition)
 		routes.put('/end-edition', adminMiddleware, controller.endEdition)
 		routes.put('/participants-in-edition', adminMiddleware, controller.updateEditionWithParticipants)

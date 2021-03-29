@@ -1,8 +1,7 @@
+import base64url from 'base64url'
 import { Request, Response } from 'express'
 import passport from 'passport'
 import Strategy from 'passport-discord'
-import base64url from 'base64url'
-import { Camper } from '../../models'
 import { CamperService } from '../services/CamperService'
 
 const { FRONTEND_URL } = process.env
