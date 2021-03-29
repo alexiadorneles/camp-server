@@ -22,8 +22,6 @@ import { CamperService } from '../services/CamperService'
 const { GOOGLE_KEY, BASE_URL } = process.env
 
 export class CamperController {
-	private priorityEmails: string[] = []
-
 	constructor(private editionService: EditionService, private camperService: CamperService) {
 		this.setCabin = this.setCabin.bind(this)
 		this.update = this.update.bind(this)
@@ -149,18 +147,5 @@ export class CamperController {
 
 		const created = await camper.createCamperActivity(camperActivity)
 		res.json(created)
-	}
-	private async setPriorityEmails(): Promise<void> {
-		const { idEdition } = await this.editionService.findCurrent()
-		const campersIDsFromPastEdition = await CamperEdition.findAll({
-			where: { idEdition: idEdition - 1 },
-			attributes: ['idCamper'],
-		})
-		const campersFromPastEdition = await Camper.findAll({
-			where: { idCamper: { [Op.in]: campersIDsFromPastEdition.map(c => c.idCamper) } },
-			attributes: ['dsEmail'],
-		})
-		this.priorityEmails = campersFromPastEdition.map(c => c.dsEmail)
-		// console.log('Emails de prioridade setados! ', this.priorityEmails.length)
 	}
 }
