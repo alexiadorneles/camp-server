@@ -26,11 +26,9 @@ const corsOptions = {
 
 export function configureAPI(): void {
 	app.use(express.json())
-	// app.use(cors({ origin: [ADMIN_PANEL_URL, FRONTEND_URL] }))
 	app.use(cors(corsOptions))
-	// app.use(cors())
 	CampRoutes.register(app)
 	DiscordRoutes.register(app)
-	// app.use(CAMP_ROUTES)
+	GoogleRoutes.register(app)
 	app.listen(process.env.PORT || 3000, () => console.log('Escutando!'))
 }
