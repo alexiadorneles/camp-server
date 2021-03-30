@@ -63,13 +63,14 @@ export class CamperController {
 	}
 
 	private async getAnsweredActivities({ idCabin, date }: Dictionary<string>) {
+		const { idEdition } = await this.editionService.findCurrent()
 		const idCabinNumber = Number(idCabin)
 		const [year, month, day] = date.split('-').map(Number)
 		const parsedDate = new Date(year, month - 1, day)
 		const endOfDay = new Date(year, month - 1, day, 23, 59, 59, 59)
 
 		const campersOfCabin = await CamperEdition.findAll({
-			where: { idCabin: idCabinNumber },
+			where: { idCabin: idCabinNumber, idEdition },
 			attributes: ['idCamper'],
 		})
 		const camperIDs = campersOfCabin.map(camper => camper.idCamper)
@@ -79,7 +80,7 @@ export class CamperController {
 		})
 
 		const activities = await CamperActivity.findAll({
-			where: { idCamper: { [Op.in]: camperIDs }, updatedAt: { [Op.between]: [parsedDate, endOfDay] } },
+			where: { idCamper: { [Op.in]: camperIDs }, idEdition, updatedAt: { [Op.between]: [parsedDate, endOfDay] } },
 		})
 
 		activities.forEach(
@@ -87,7 +88,7 @@ export class CamperController {
 		)
 		return {
 			activities,
-			thoseThatDidntAnswer: campers.filter(camper => activities.some(a => a.idCamper! === camper.idCamper)),
+			thoseThatDidntAnswer: campers.filter(camper => !activities.some(a => a.idCamper! === camper.idCamper)),
 		}
 	}
 
