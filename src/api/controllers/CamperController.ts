@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import _, { Dictionary } from 'lodash'
 import { Op } from 'sequelize'
 import { GoogleScope } from 'types/Google'
+import { Statitisc } from 'types/Statistic'
 import { GoogleParametersBuilder } from '../../builder/GoogleParametersBuilder'
 import { INCLUDE_CAMPER } from '../../database/associations'
 import {
@@ -44,17 +45,21 @@ export class CamperController {
 	public statisticsByCabin = async (req: Request, res: Response): Promise<void> => {
 		const { activities, thoseThatDidntAnswer } = await this.getAnsweredActivities(req.params)
 		const groupedAnswers = _.groupBy(activities, 'idCamper')
-		const data = Object.entries(groupedAnswers).map(([key, answers]) => {
+		const data: Statitisc[] = Object.entries(groupedAnswers).map(([key, answers]) => {
 			const corrects = answers.filter(ca => ca.blCorrect).length
 			const percentage = (corrects * 100) / answers.length || 0
-			const camper = (answers[0] as any)?.camper
+			const camper = (answers[0] as any)?.camper as Camper
 			return {
 				camper,
 				corrects,
-				correctPercentage: percentage.toFixed(0) + '%',
+				dsCorrectPercentage: percentage.toFixed(0) + '%',
+				nrCorrectPercentage: percentage,
 			}
 		})
-		res.json({ answered: data, notAnswered: thoseThatDidntAnswer })
+		res.json({
+			answered: data.sort((a, b) => b.nrCorrectPercentage - a.nrCorrectPercentage),
+			notAnswered: thoseThatDidntAnswer,
+		})
 	}
 
 	private async getAnsweredActivities({ idCabin, date }: Dictionary<string>) {
