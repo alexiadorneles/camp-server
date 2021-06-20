@@ -37,6 +37,7 @@ export class GoogleController {
 			dsName: user.name,
 			idGoogle: user.sub,
 		}
+		console.log('ABOUT TO CREATE A CAMPER::::', camper)
 		return this.camperService.create(camper)
 	}
 
