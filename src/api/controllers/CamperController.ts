@@ -109,7 +109,7 @@ export class CamperController {
 	public async login(_: Request, res: Response): Promise<void> {
 		res.send(
 			new GoogleParametersBuilder('https://accounts.google.com/o/oauth2/v2/auth')
-				.withScope(GoogleScope.USER_INFO)
+				.withScope(GoogleScope.USER_INFO, GoogleScope.USER_EMAIL)
 				.withAccessType('offline')
 				.withIncludeGrantedScopes(true)
 				.withResponseType('code')

@@ -56,8 +56,8 @@ export class GoogleParametersBuilder implements Builder<string> {
 		return this
 	}
 
-	withScope(scope: GoogleScope) {
-		this.scope = `scope=${scope}`
+	withScope(...scope: GoogleScope[]) {
+		this.scope = `scope=${scope.join(' ')}`
 		return this
 	}
 

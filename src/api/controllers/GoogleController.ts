@@ -53,7 +53,7 @@ export class GoogleController {
 				.withCode(code)
 				.withRedirectURL(`${BASE_URL}/google/auth`)
 				.withGrantType('authorization_code')
-				.withScope(GoogleScope.USER_EMAIL)
+				.withScope(GoogleScope.USER_INFO, GoogleScope.USER_EMAIL)
 				.build(),
 		)
 
