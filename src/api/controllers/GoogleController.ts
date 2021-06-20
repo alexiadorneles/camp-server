@@ -2,7 +2,7 @@ import axios from 'axios'
 import base64url from 'base64url'
 import { Request, Response } from 'express'
 import { CamperCreationAttributes } from 'models'
-import { GoogleUser } from 'types/Google'
+import { GoogleScope, GoogleUser } from 'types/Google'
 import { GoogleParametersBuilder } from '../../builder/GoogleParametersBuilder'
 import { JWTMediator } from '../routes/middlewares'
 import { CamperService } from '../services/CamperService'
@@ -53,8 +53,13 @@ export class GoogleController {
 				.withCode(code)
 				.withRedirectURL(`${BASE_URL}/google/auth`)
 				.withGrantType('authorization_code')
+				.withScope(GoogleScope.USER_EMAIL)
 				.build(),
 		)
+
+		console.log('--------------------------')
+		console.log('SCOPE FOR USER IS: ', response.data.scope)
+		console.log('--------------------------')
 
 		const { id_token } = response.data
 		const [_, payload] = id_token.split('.')
