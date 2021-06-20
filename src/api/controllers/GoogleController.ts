@@ -31,7 +31,9 @@ export class GoogleController {
 
 	private createNewCamper = (user: GoogleUser) => {
 		if (!user?.email) {
-			console.error('NO GOOGLE USER FOUND OR NO EMAIL!', user);
+			console.error('-------------------------------------')
+			console.error('NO GOOGLE USER FOUND OR NO EMAIL! User is:', JSON.stringify(user))
+			console.error('-------------------------------------')
 		}
 		const camper: CamperCreationAttributes = {
 			blRegisterCompleted: false,
@@ -40,7 +42,6 @@ export class GoogleController {
 			dsName: user.name,
 			idGoogle: user.sub,
 		}
-		console.log('ABOUT TO CREATE A CAMPER::::', user)
 		return this.camperService.create(camper)
 	}
 
