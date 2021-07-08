@@ -12,19 +12,18 @@ const twitterClient = new TwitterClient({
 })
 
 // different congratulation messages
-const congratulations = ['Parabéns! Você concluiu a 3a Missão. Quais serão as consequências de sua vitória?']
+const congratulations = ['Parabéns! Você acertou!']
 
 export async function watchForMissionWinner(): Promise<void> {
 	console.log('Watching for winner...')
-	const currentMission = await Mission.findOne({ where: { idWinner: { [Op.is]: null } } })
-	if (!currentMission) return
-	const challenges = [currentMission]
+	const challenges = await Mission.findAll({ where: { idWinner: { [Op.is]: null } } })
+	if (!challenges || !challenges.length) return
 
 	await Promise.all(
 		challenges
 			.filter(c => c.idWinner === null)
 			.map(async challenge => {
-				const { dsQuestionTag, dsAnswer } = challenge
+				const { dsQuestionTag, dsAnswer, idMission } = challenge
 
 				// search for correct answers (max 100 every five mins)
 
@@ -53,7 +52,7 @@ export async function watchForMissionWinner(): Promise<void> {
 					console.log('winner:', winner)
 					console.log('update winner_status')
 
-					await Mission.update({ idWinner: winner.id }, { where: { idMission: currentMission.idMission } })
+					await Mission.update({ idWinner: winner.id }, { where: { idMission } })
 
 					// TODO update winner_status prop on MYSql
 					// tweet to winner
