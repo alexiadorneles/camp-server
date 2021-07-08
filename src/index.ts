@@ -6,4 +6,4 @@ import { watchForMissionWinner } from './twitter/TwitterHandler'
 dotenv.config()
 configureAPI()
 new CampBot(new CamperService())
-setInterval(watchForMissionWinner, 10 * 1000)
+// setInterval(watchForMissionWinner, 10 * 1000)
